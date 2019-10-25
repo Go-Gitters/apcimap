@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<title>ERD</title>
 	<div class="container">
-<img src="images/erd-crime.jpg"
+<img src="images/erd.jpg">
 	</div>
 </head>
 <body>
