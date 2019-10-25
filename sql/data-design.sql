@@ -17,8 +17,11 @@ CREATE TABLE user (
 CREATE TABLE property (
    propertyUuid BINARY(16) NOT NULL,
    propertyClass CHAR(1) NOT NULL,
-   propertyGeoLocation DECIMAL(6,6),
-   propertySitusCity VARCHAR()
+   propertyLatitude DECIMAL(17,14),
+   propertyLongitude DECIMAL (17,14)
+   propertySitusCity VARCHAR(80),
+	propertySitusStreetAddress VARCHAR(134),
+	propertyValue DECIMAL(15,2)
 );
 
 CREATE TABLE crime (
