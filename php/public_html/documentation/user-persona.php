@@ -18,12 +18,12 @@ Jim still has the mac that he used in college a couple of years ago. He has adde
 <h3>Needs and Frustrations</h3>
 <p>Jim wants to get this information with minimal effort. He wants to casually browse the site for information, and does not want to be bothered with unnecessary extra steps or too much time searching.</p>
 <h3>Goals</h3>
-<p>Jim is curious about what crime is in his neighborhood, and how much the houses in his area are worth. He would like to use the site casually to look at how much houses cost so he can determine if it is really worth it to live in Albuquerque considering the crime level.</p>
+<p>Jim was sent this link from a friend who thought he may find it interesting. Jim is curious about what crime is in his neighborhood, and how much the houses in his area are worth.</p>
 <h2>Persona-Registered User</h2>
 <h3>Name: Sarah</h3>
 <h3>Age:35</h3>
 <h3>Career</h3>
-<p> Sarah is a women in her mid-30s who just accepted a job in Albuquerque, and will be moving to Albuquerque from Denver. Sarah is a registered nurse, and works in a hospital. </p>
+<p> Sarah is a woman in her mid-30s who just accepted a job in Albuquerque, and will be moving to Albuquerque from Denver. Sarah is a registered nurse, and works in a hospital. </p>
 <h3>Technology</h3>
 <p>Sarah uses a computer quite a bit at work, and occasionally uses a three year old desktop at home. Sarah uses an Iphone 8. She knows that this model is a bit outdated, but she still feels that it does what she needs it to. </p>
 <h3>Attitudes and Behavior</h3>
