@@ -9,9 +9,15 @@
 <body>
 <h1>Wireframes</h1>
 <h2>Mobile</h2>
-<img src="images/mobile-wireframe-small.png">
+<h3>Map</h3>
+<p><img src="images/mobile-map.png" style="height:600px"></p>
+<h3>About</h3>
+<p><img src="images/mobile-about.png" style="height:600px"></p>
 
-<h2>Web</h2>
-<img src="images/web-wireframe-small.png">
+<h2>Computer</h2>
+<h3>Map</h3>
+<p><img src="images/pc-map.png" style="width:600px"></p>
+<h3>Sign-in</h3>
+<p><img src="images/pc-sign-in.png" style="width:600px"></p>
 </body>
 </html>
