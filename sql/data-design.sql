@@ -17,15 +17,20 @@ CREATE TABLE user (
 CREATE TABLE property (
    propertyUuid BINARY(16) NOT NULL,
    propertyClass CHAR(1) NOT NULL,
-   propertyLatitude DECIMAL(17,14),
-   propertyLongitude DECIMAL (17,14)
-   propertySitusCity VARCHAR(80),
-	propertySitusStreetAddress VARCHAR(134),
-	propertyValue DECIMAL(15,2)
+   propertyLatitude DECIMAL(17,14) NOT NULL,
+   propertyLongitude DECIMAL (17,14) NOT NULL,
+   propertySitusCity VARCHAR(80) NOT NULL,
+	propertySitusStreetAddress VARCHAR(134) NOT NULL,
+	propertyValue DECIMAL(15,2) NOT NULL
 );
 
 CREATE TABLE crime (
-
+	crimeUuid BINARY(16) NOT NULL,
+	crimeAddress VARCHAR(134) NOT NULL,
+	crimeDate CHAR(13) NOT NULL,
+	crimeLatitude DECIMAL(17,14) NOT NULL,
+	crimeLongitude DECIMAL(17,14) NOT NULL,
+	crimeType VARCHAR(134) NOT NULL
 );
 
 CREATE TABLE star (
