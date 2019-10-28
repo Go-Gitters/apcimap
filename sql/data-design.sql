@@ -21,7 +21,8 @@ CREATE TABLE property (
    propertyLongitude DECIMAL (17,14) NOT NULL,
    propertySitusCity VARCHAR(80) NOT NULL,
 	propertySitusStreetAddress VARCHAR(134) NOT NULL,
-	propertyValue DECIMAL(15,2) NOT NULL
+	propertyValue DECIMAL(15,2) NOT NULL,
+	PRIMARY KEY (propertyUuid)
 );
 
 CREATE TABLE crime (
@@ -30,7 +31,8 @@ CREATE TABLE crime (
 	crimeDate CHAR(13) NOT NULL,
 	crimeLatitude DECIMAL(17,14) NOT NULL,
 	crimeLongitude DECIMAL(17,14) NOT NULL,
-	crimeType VARCHAR(134) NOT NULL
+	crimeType VARCHAR(134) NOT NULL,
+	PRIMARY KEY (crimeUuid)
 );
 
 CREATE TABLE star (
