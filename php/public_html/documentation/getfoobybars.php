@@ -12,6 +12,11 @@
 			<li>Username</li>
 		</ul>
 
+	<h1>Property</h1>
+	<ul>
+		<li>Box (N, E, S, W)</li>
+	</ul>
+
 </body>
 
 </html>
