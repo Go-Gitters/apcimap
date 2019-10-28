@@ -34,5 +34,11 @@ CREATE TABLE crime (
 );
 
 CREATE TABLE star (
-
+   starPropertyUuid BINARY(16) NOT NULL,
+   starUserUuid BINARY(16) NOT NULL,
+   INDEX(starPropertyUuid),
+   INDEX(starUserUuid),
+   FOREIGN KEY(starPropertyUuid) REFERENCES property(propertyUuid),
+   FOREIGN KEY(starUserUuid) REFERENCES user(userUuid),
+   PRIMARY KEY(starPropertyUuid, starUserUuid)
 );
