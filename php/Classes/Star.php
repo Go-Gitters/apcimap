@@ -19,10 +19,6 @@ use Ramsey\Uuid\Uuid;
 class Star implements \JsonSerializable {
 	use ValidateUuid;
 
-			/********************************************
-			 * Declare and document all state variables *
-			 ********************************************/
-
 			/*
 			 * Star Property UUID; this is the foreign key
 			 * @var Uuid $starPropertyUuid
@@ -56,54 +52,40 @@ class Star implements \JsonSerializable {
 					throw(new $exceptionType($exception->getMessage(), 0, $exception));
 				}
 			}
-
-
-		class Star {
-			//TODO write and document all state variables
-			/********************************************
-			 * Declare and document all state variables *
-			 ********************************************/
-			/*
-			 * TODO $propertyUuid
-			 */
-			/*
-			 * TODO $propertyCity
-			 */
-			/*
-			 * TODO $propertyLatitude
-			 */
-			/*
-			 * TODO $propertyLongitude
-			 */
-			/*
-			 * TODO $propertyStreetAddress
-			 */
-			/*
-			 * TODO $propertyValue
-			 */
-			/********************************************
-			 * TODO Constructor method                  *
-			 ********************************************/
 			/********************************************
 			 * TODO Getters and Setters                 *
 			 ********************************************/
-			/*
-			 * TODO $propertyUuid
-			 */
-			/*
-			 * TODO $propertyCity
-			 */
-			/*
-			 * TODO $propertyLatitude
-			 */
-			/*
-			 * TODO $propertyLongitude
-			 */
-			/*
-			 * TODO $propertyStreetAddress
-			 */
-			/*
-			 * TODO $propertyValue
+			 /**
+			 * accessor method for starPropertyUuid
+			 *
+			 * @return Uuid value of starPropertyUuid
+			 **/
+			public function getStarPropertyUuid(): Uuid {
+				return ($this->starPropertyUuid);
+			}
+
+			/**
+			 * mutator method for starPropertyUuid
+			 *
+			 * @param Uuid| string $newStarPropertyUuid new value of starred property UUID
+			 * @throws \RangeException if $newStarPropertyUuid is not positive
+			 * @throws \TypeError if $newStarPropertyUuid is not a uuid or string
+			 **/
+			public function setStarPropertyUuid($newStarPropertyUuid): void {
+				try {
+					$uuid = self::validateUuid($newStarPropertyUuid);
+				} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+					$exceptionType = get_class($exception);
+					throw(new $exceptionType($exception->getMessage(), 0, $exception));
+				}
+				// convert and store the starred property id
+				$this->starPropertyUuid = $uuid;
+			}
+
+
+	/*
+	 * TODO $starUserUuid
+	 */
 			 */
 			/********************************************
 			 * TODO GetFooByBars                        *
