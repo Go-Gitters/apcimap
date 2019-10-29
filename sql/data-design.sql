@@ -16,10 +16,10 @@ CREATE TABLE user (
 
 CREATE TABLE property (
 	propertyUuid          BINARY(16)     NOT NULL,
+	propertyCity          VARCHAR(80)    NOT NULL,
 	propertyClass         CHAR(1)        NOT NULL,
 	propertyLatitude      DECIMAL(9, 6)  NOT NULL,
 	propertyLongitude     DECIMAL(9, 6)  NOT NULL,
-	propertyCity          VARCHAR(80)    NOT NULL,
 	propertyStreetAddress VARCHAR(134)   NOT NULL,
 	propertyValue         DECIMAL(15, 2) NOT NULL,
 	PRIMARY KEY (propertyUuid)
