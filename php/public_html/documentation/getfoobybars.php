@@ -8,6 +8,7 @@
 <h1>Identifying Needed getFooByBar Methods</h1>
 <h2>User</h2>
 <ul>
+	<li>getUserByActivationToken</li>
 	<li>getUserByEmail</li>
 	<li>getUserByUserUuid</li>
 	<li>getUserByUsername</li>
