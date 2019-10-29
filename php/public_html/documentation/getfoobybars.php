@@ -8,7 +8,6 @@
 <h1>Identifying Needed getFooByBar Methods</h1>
 <h2>User</h2>
 <ul>
-	<li>getUserByActivationToken</li>
 	<li>getUserByEmail</li>
 	<li>getUserByUserUuid</li>
 	<li>getUserByUsername</li>
@@ -26,9 +25,9 @@
 </ul>
 <h2>Star</h2>
 <ul>
-	<li>getAllStarPropertyUuid</li>
-	<li>getAllStarUserUuid</li>
-	<li>getStarPropertyByUserUuid</li>
+	<li>getStarByPropertyUuid</li>
+	<li>getStarByUserUuid</li>
+	<li>getStarByPropertyUuidAndUserUuid</li>
 </ul>
 </body>
 </html>
