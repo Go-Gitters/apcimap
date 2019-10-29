@@ -45,7 +45,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \Exception if some other exception occurs
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
-	public function __construct($newUserUuid, string $newUserActivationToken, string $newUserEmail, string $newUserHash, string $newProfileHash, string $newUserUsername) {
+	public function __construct($newUserUuid, string $newUserActivationToken, string $newUserEmail, string $newUserHash, string $newUserUsername) {
 		try {
 			$this->setUserUuid($newUserUuid);
 			$this->setUserActivationToken($newProfileActivationToken);
@@ -63,14 +63,14 @@ class Profile implements \JsonSerializable {
 	 *
 	 * @return Uuid value of profile id (or null if new Profile)
 	 **/
-	public function getUserId(): Uuid {
+	public function getUserUuid(): Uuid {
 		return ($this->userUuid);
 	}
 	/**
-	 * mutator method for profile id
+	 * mutator method for user id
 	 *
-	 * @param  Uuid| string $newUserId value of new profile id
-	 * @throws \RangeException if $newUserId is not positive
+	 * @param  Uuid| string $newUserUuid value of new profile id
+	 * @throws \RangeException if $newUserUuid is not positive
 	 * @throws \TypeError if the user Id is not
 	 **/
 	public function setUserId($newUserUuid): void {
@@ -80,7 +80,7 @@ class Profile implements \JsonSerializable {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
-		// convert and store the profile id
+		// convert and store the user id
 		$this->userUuid = $uuid;
 	}
 	/**
@@ -130,22 +130,22 @@ class Profile implements \JsonSerializable {
 	 * @throws \RangeException if $newEmail is > 128 characters
 	 * @throws \TypeError if $newEmail is not a string
 	 **/
-	public function setProfileEmail(string $newProfileEmail): void {
+	public function setUserEmail(string $newUserEmail): void {
 		// verify the email is secure
-		$newProfileEmail = trim($newProfileEmail);
-		$newProfileEmail = filter_var($newProfileEmail, FILTER_VALIDATE_EMAIL);
+		$newUserEmail = trim($newUserEmail);
+		$newUserEmail = filter_var($newUserEmail, FILTER_VALIDATE_EMAIL);
 		if(empty($newProfileEmail) === true) {
 			throw(new \InvalidArgumentException("profile email is empty or insecure"));
 		}
 		// verify the email will fit in the database
-		if(strlen($newProfileEmail) > 128) {
-			throw(new \RangeException("profile email is too large"));
+		if(strlen($newUserEmail) > 128) {
+			throw(new \RangeException("user email is too large"));
 		}
 		// store the email
-		$this->profileEmail = $newProfileEmail;
+		$this->userEmail = $newUserEmail;
 	}
 	/**
-	 * accessor method for profileHash
+	 * accessor method for userHash
 	 *
 	 * @return string value of hash
 	 */
@@ -153,69 +153,48 @@ class Profile implements \JsonSerializable {
 		return $this->userHash;
 	}
 	/**
-	 * mutator method for profile hash password
+	 * mutator method for user hash password
 	 *
 	 * @param string $newUserHash
 	 * @throws \InvalidArgumentException if the hash is not secure
 	 * @throws \RangeException if the hash is not 97 characters
 	 * @throws \TypeError if profile hash is not a string
 	 */
-	public function setProfileHash(string $newProfileHash): void {
+	public function setUserHash(string $newUserHash): void {
 		//enforce that the hash is properly formatted
-		$newProfileHash = trim($newProfileHash);
-		if(empty($newProfileHash) === true) {
-			throw(new \InvalidArgumentException("profile password hash empty or insecure"));
+		$newUserHash = trim($newUserHash);
+		if(empty($newUserHash) === true) {
+			throw(new \InvalidArgumentException("user password hash empty or insecure"));
 		}
 		//enforce the hash is really an Argon hash
-		$profileHashInfo = password_get_info($newProfileHash);
-		if($profileHashInfo["algoName"] !== "argon2i") {
-			throw(new \InvalidArgumentException("profile hash is not a valid hash"));
+		$userHashInfo = password_get_info($newUserHash);
+		if($userHashInfo["algoName"] !== "argon2i") {
+			throw(new \InvalidArgumentException("user hash is not a valid hash"));
 		}
 		//enforce that the hash is exactly 97 characters.
-		if(strlen($newProfileHash) !== 97) {
-			throw(new \RangeException("profile hash must be 97 characters"));
+		if(strlen($newUserHash) !== 97) {
+			throw(new \RangeException("user hash must be 97 characters"));
 		}
 		//store the hash
-		$this->profileHash = $newProfileHash;
+		$this->userHash = $newUserHash;
+	}
+	/**Accessor method for userUsername
+	 * @return string value of username
+	**/
+	Public function getUserUsername(): string {
+	return $this->userUsername;
 	}
 	/**
-	 * accessor method for phone
+	 * mutator method for user username
 	 *
-	 * @return string value of phone or null
-	 **/
-	public function getProfilePhone(): ?string {
-		return ($this->profilePhone);
-	}
-	/**
-	 * mutator method for phone
-	 *
-	 * @param string $newProfilePhone new value of phone
-	 * @throws \InvalidArgumentException if $newPhone is not a string or insecure
-	 * @throws \RangeException if $newPhone is > 32 characters
-	 * @throws \TypeError if $newPhone is not a string
-	 **/
-	public function setProfilePhone(?string $newProfilePhone): void {
-		//if $profilePhone is null return it right away
-		if($newProfilePhone === null) {
-			$this->profilePhone = null;
-			return;
-		}
-		// verify the phone is secure
-		$newProfilePhone = trim($newProfilePhone);
-		$newProfilePhone = filter_var($newProfilePhone, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newProfilePhone) === true) {
-			throw(new \InvalidArgumentException("profile phone is empty or insecure"));
-		}
-		// verify the phone will fit in the database
-		if(strlen($newProfilePhone) > 32) {
-			throw(new \RangeException("profile phone is too large"));
-		}
-		// store the phone
-		$this->profilePhone = $newProfilePhone;
-	}
-	/**
+	 * @param string $newUserUsername
+	 * @throws \InvalidArgumentException  if the username is not a string or insecure
+	 * @throws \RangeException if the username is more than 128 characters
+	 * @throws \TypeError if the username is not a string
+	 */
+	
+	 /**
 	 * inserts this Profile into mySQL
-	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
