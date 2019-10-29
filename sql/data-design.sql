@@ -15,23 +15,23 @@ CREATE TABLE user (
 );
 
 CREATE TABLE property (
-	propertyUuid               BINARY(16)      NOT NULL,
-	propertyClass              CHAR(1)         NOT NULL,
-	propertyLatitude           DECIMAL(17, 14) NOT NULL,
-	propertyLongitude          DECIMAL(17, 14) NOT NULL,
-	propertySitusCity          VARCHAR(80)     NOT NULL,
-	propertySitusStreetAddress VARCHAR(134)    NOT NULL,
-	propertyValue              DECIMAL(15, 2)  NOT NULL,
+	propertyUuid          BINARY(16)     NOT NULL,
+	propertyCity          VARCHAR(80)    NOT NULL,
+	propertyClass         CHAR(1)        NOT NULL,
+	propertyLatitude      DECIMAL(9, 6)  NOT NULL,
+	propertyLongitude     DECIMAL(9, 6)  NOT NULL,
+	propertyStreetAddress VARCHAR(134)   NOT NULL,
+	propertyValue         DECIMAL(15, 2) NOT NULL,
 	PRIMARY KEY (propertyUuid)
 );
 
 CREATE TABLE crime (
-	crimeUuid      BINARY(16)      NOT NULL,
-	crimeAddress   VARCHAR(134)    NOT NULL,
-	crimeDate      CHAR(13)        NOT NULL,
-	crimeLatitude  DECIMAL(17, 14) NOT NULL,
-	crimeLongitude DECIMAL(17, 14) NOT NULL,
-	crimeType      VARCHAR(134)    NOT NULL,
+	crimeUuid      BINARY(16)    NOT NULL,
+	crimeAddress   VARCHAR(134)  NOT NULL,
+	crimeDate      CHAR(13)      NOT NULL,
+	crimeLatitude  DECIMAL(9, 6) NOT NULL,
+	crimeLongitude DECIMAL(9, 6) NOT NULL,
+	crimeType      VARCHAR(134)  NOT NULL,
 	PRIMARY KEY (crimeUuid)
 );
 

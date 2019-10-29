@@ -13,6 +13,8 @@
 <p><img src="images/mobile-map.png" style="height:600px"></p>
 <h3>About</h3>
 <p><img src="images/mobile-about.png" style="height:600px"></p>
+<h3>Star</h3>
+<p><img src="images/mobile-star.png" style="height:600px"></p>
 
 <h2>Computer</h2>
 <h3>Map</h3>
