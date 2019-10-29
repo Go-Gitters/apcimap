@@ -18,33 +18,13 @@ use Ramsey\Uuid\Uuid;
 class Star implements \JsonSerializable {
 	use ValidateUuid;
 	/**
-	 * id for this Author; this is the primary key
-	 * @var Uuid $authorId
+	 * Star Property UUID for this Star; this is the foreign key
+	 * @var Uuid $starPropertyUuid
 	 **/
-	private $authorId;
+	private $starPropertyUuid;
 	/**
-	 * token handed out to verify that the profile is valid and not malicious
-	 * @var string $authorActivationToken
+	 * Star User UUID for this Start; this is the foreign key
+	 * @var Uuid $starUserUuid
 	 **/
-	private $authorActivationToken;
-	/**
-	 * avatar URL for this person
-	 * @var string $authorAvatarUrl
-	 **/
-	private $authorAvatarUrl;
-	/**
-	 * email for this person; this is a unique index
-	 * @var string $profileEmail
-	 **/
-	private $authorEmail;
-	/**
-	 * hash for user password
-	 * @var string $authorHash
-	 **/
-	private $authorHash;
-	/**
-	 * username for user
-	 * @var string $authorUsername
-	 **/
-	private $authorUsername;
+	private $starUserUuid;
 
