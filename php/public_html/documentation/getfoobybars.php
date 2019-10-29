@@ -13,12 +13,12 @@
 		</ul>
 	<h2>Property</h2>
 	<ul>
-		<li>getPropertyByBox (N, E, S, W)</li>
+		<li>getAllProperty</li>
 		<li>getPropertyByUserUuid</li>
 		<li>getPropertyByUserUuidAndBox</li>
 	</ul>
 	<h2>Crime</h2>
 	<ul>
-		<li>getCrimeByBox (N, E, S, W)</li>
+		<li>getAllCrime</li>
 </body>
 </html>
