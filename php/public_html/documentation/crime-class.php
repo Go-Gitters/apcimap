@@ -1,8 +1,11 @@
 <?php
+
 namespace latencio23\crim;
 require_once("autoload.php");
 require_once(dirname(__DIR__, 1) . "/lib/vendor/autoload.php");
+
 use Ramsey\Uuid\Uuid;
+
 /**
  *Creating a crime profile
  */
@@ -25,17 +28,20 @@ class Crime {
 	/**This is the type of the crime committed **/
 	private $crimeType;
 	private $exception;
+
 	public function __construct($newCrimeId, $newCrimeAddress, $newCrimeDate, $newCrimeGeoLocation, $newCrimeType) {
 		try {
 			$this->setCrimeId($newCrimeId);
 			$this->setCrimeAddress($newCrimeAddress);
 			$this->setCrimeDate($newCrimeDate);
 			$this->setCrimeGeoLocation($newcrimeGeoLocation);
+			$this->crimeType($newCrimeType);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 	}
+
 	/**
 	 * accessor method for crime id
 	 *
@@ -44,10 +50,11 @@ class Crime {
 	public function getCrimeId(): Uuid {
 		return ($this->crimeId);
 	}
+
 	/**
 	 * mutator method for crime id
 	 *
-	 * @param  Uuid| string $newCrimeId value of new crime id
+	 * @param Uuid| string $newCrimeId value of new crime id
 	 * @throws \RangeException if $newCrimeId is not positive
 	 * @throws \TypeError if the Crime Id is not
 	 **/
@@ -62,10 +69,11 @@ class Crime {
 		$this->crimeId = $uuid;
 	}
 
-	public function getCrimeAddress() :
+	public function getCrimeAddress():
 
-	public function setCrimeAddress( $newCrimeAddress) : void {
-try
+	public function setCrimeAddress($newCrimeAddress): void {
+		try:
+
 	}
 	/**
 	 * accessor method for author avatar url
@@ -130,7 +138,7 @@ try
 	 *
 	 * @return string value of author username
 	 **/
-	public function getAuthorUsername():string {
+	public function getAuthorUsername(): string {
 		return ($this->authorUsername);
 	}
 	/**
@@ -141,7 +149,7 @@ try
 	 * @throws \RangeException if $newAuthorUsername is > 32 characters
 	 * @throws \TypeError if $newAuthorUsername is not a string
 	 **/
-	public function setAuthorUsername(string $newAuthorUsername) : void {
+	public function setAuthorUsername(string $newAuthorUsername): void {
 		// verify the that authorUsername is secure
 		$newAuthorUsername = trim($newAuthorUsername);
 		$newAuthorUsername = filter_var($newAuthorUsername, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
