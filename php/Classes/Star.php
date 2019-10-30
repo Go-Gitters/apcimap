@@ -248,12 +248,11 @@ class Star implements \JsonSerializable {
 	 * gets the Star by user Uuid
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param Uuid|string $starUserUuid star user uuid to search for
-	 * @return \SplFixedArray SplFixedArray of Stars found
+	 * @param string $starUserUuid star user uuid to search for
+	 * @return \SplFixedArray array of Stars found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when a variable are not the correct data type
-	 */
-	public static function getStarByUserUuid(\PDO $pdo, $starUserUuid) : \SplFixedArray {
+\	 */
+	public static function getStarByUserUuid(\PDO $pdo, string $starUserUuid) : \SplFixedArray {
 		// sanitize the property uuid before searching
 		try {
 			$starUserUuid = self::validateUuid($starUserUuid);
@@ -262,7 +261,7 @@ class Star implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "SELECT starPropertyUuid, starUserUuid FROM star WHERE starUserUuid = :starUserUuid";
+		$query = "SELECT starPropertyUuid, starUserUuid, starDate FROM star WHERE starUserUuid = :starUserUuid";
 		$statement = $pdo->prepare($query);
 
 		// bind the star user uuid to the placeholder in the template
@@ -274,7 +273,7 @@ class Star implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$star = new Star($row["starPropertyUuid"], $row["starUserUuid"]);
+				$star = new Star($row["starPropertyUuid"], $row["starUserUuid"], $row["starDate"]);
 				$star[$star->key()] = $star;
 				$star->next();
 			} catch(\Exception $exception) {
