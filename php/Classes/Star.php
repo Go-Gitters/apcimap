@@ -81,6 +81,44 @@ class Star implements \JsonSerializable {
 				// convert and store the starred property id
 				$this->starPropertyUuid = $uuid;
 			}
+			/**
+			 * accessor method for starUserUuid
+			 *
+			 * @return Uuid value of starUserUuid
+			 **/
+			public function getStarUserUuid(): Uuid {
+				return ($this->starUserUuid);
+			}
+
+			/**
+			 * mutator method for starUserUuid
+			 *
+			 * @param Uuid| string $newStarUserUuid new value of starred user UUID
+			 * @throws \RangeException if $newStarUserUuid is not positive
+			 * @throws \TypeError if $newStarUserUuid is not a uuid or string
+			 **/
+			public function setStarUserUuid($newStarUserUuid): void {
+				try {
+					$uuid = self::validateUuid($newStarUserUuid);
+				} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+					$exceptionType = get_class($exception);
+					throw(new $exceptionType($exception->getMessage(), 0, $exception));
+				}
+				// convert and store the starred user id
+				$this->starUserUuid = $uuid;
+	}
+
+			/**
+			 * inserts this star into mySQL
+			 *
+			 * @param \PDO $pdo PDO connection object
+			 * @throws \PDOException when mySQL related errors occur
+			 * @throws \TypeError if $pdo is not a PDO connection object
+			 **/
+			public function insert(\PDO $pdo) : void {
+				// create query template
+				$query = "INSERT INTO star(starPropertyUuid)"
+			}
 
 
 	/*
