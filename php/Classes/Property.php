@@ -67,33 +67,57 @@ class Property {
 	/********************************************
 	 * TODO Getters and Setters                 *
 	 ********************************************/
-	/*
-	 * TODO $propertyUuid
-	 */
+	/**
+	 * accessor method for property Uuid
+	 *
+	 * @return Uuid value of property uuid
+	 **/
+	public function getPropertyUuid() : Uuid {
+		return($this->propertyUuid);
+	}
 
-	/*
+	/**
+	 * mutator method for property Uuid
+	 *
+	 * @param Uuid|string $newPropertyUuid new value of property uuid
+	 * @throws \RangeException if $newPropertyUuid is not positive
+	 * @throws \TypeError if $newPropertyUuid is not a uuid or string
+	 **/
+	public function setPropertyUuid( $newPropertyUuid) : void {
+		try {
+			$uuid = self::validateUuid($newPropertyUuid);
+		} catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+
+		//store the property uuid
+		$this->propertyUuid = $uuid;
+	}
+
+	/**
 	 * TODO $propertyCity
-	 */
+	 **/
 
-	/*
+	/**
 	 * TODO $propertyClass
-	 */
+	 **/
 
-	/*
+	/**
 	 * TODO $propertyLatitude
-	 */
+	 **/
 
-	/*
+	/**
 	 * TODO $propertyLongitude
-	 */
+	 **/
 
-	/*
+	/**
 	 * TODO $propertyStreetAddress
-	 */
+	 **/
 
-	/*
+	/**
 	 * TODO $propertyValue
-	 */
+	 **/
 
 
 	/********************************************
