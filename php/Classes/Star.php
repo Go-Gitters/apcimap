@@ -154,13 +154,35 @@ class Star implements \JsonSerializable {
 				$statement->execute($parameters);
 			}
 
-			/* updates this Star in mySQL
+			/*
+			 * updates this Star in mySQL
 			 *
 			 * @param \PDO $pdo PDO connection object
 			 * @throws \PDOException when mySQL related errors occur
 			 * @throws \TypeError if $pdo is not a PDO connection object
 			 */
-			public function
+			public function update(\PDO $pdo) : void {
+
+				// create query template
+				// NOTE: don't think below is correct
+				$query = "UPDATE star SET starUserUuid = :starUserUuid WHERE starPropertyUuid = :starPropertyUuid";
+
+				$parameters = ["starPropertyUuid" => $this->starPropertyUuid->getBytes(), "starUserUuid" => $this->starUserUuid->getBytes()];
+				$statement->execute($parameters);
+			}
+
+			/*
+			 * gets the Star by star property uuid
+			 *
+			 * @param \PDO $pdo PDO connection object
+			 * @param Uuid|string $starPropertyUuid star property uuid to search for
+			 * @return Star|null Star found or null if not found
+			 * @throws \PDOException when mySQL related errors occur
+			 * @throws \TypeError when a variable are not the correct data type
+			 */
+
+
+
 	/*
 	 * TODO $starUserUuid
 	 */
