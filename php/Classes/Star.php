@@ -165,16 +165,16 @@ class Star implements \JsonSerializable {
 			 *
 			 * @param \PDO $pdo PDO connection object
 			 * @throws \PDOException when mySQL related errors occur
-			 * @throws \TypeError if $pdo is not a PDO connection object
 			 */
 			public function insert(\PDO $pdo) : void {
 
 				// create query template
-				$query = "INSERT INTO star(starPropertyUuid, starUserUuid) VALUE(:starPropertyUuid,:starUserUuid)";
+				$query = "INSERT INTO star(starPropertyUuid, starUserUuid, starDate) VALUES(:starPropertyUuid,:starUserUuid, :starDate)";
 				$statement = $pdo->prepare($query);
 
 				// bind the member variables to the placeholders in the template
-				$parameters = ["starPropertyUuid" => $this->starPropertyUuid->getBytes(), "starUserUuid" => $this->starUserUuid->getBytes()];
+				$formattedDate = $this->starDate->format("Y-m-d H:i:s.u");
+				$parameters = ["starPropertyUuid" => $this->starPropertyUuid->getBytes(), "starUserUuid" => $this->starUserUuid->getBytes(), "starDate" => $formattedDate];
 				$statement->execute($parameters);
 			}
 
