@@ -132,7 +132,7 @@ class Property {
 
 		//verify the content will fit in the database
 		if(strlen($newPropertyCity) > 80) {
-			throw(new \RangeException("property city has too many characters"));
+			throw(new \RangeException("property city has more than 80 characters"));
 		}
 
 		//store the property city
@@ -168,9 +168,9 @@ class Property {
 		$this->propertyClass = $newPropertyClass;
 	}
 
-	/************************
+	/*******************
 	 * $propertyLatitude
-	 ************************/
+	 *******************/
 	/**
 	 * accessor method for property latitude
 	 *
@@ -197,9 +197,9 @@ class Property {
 		//store the property class
 		$this->propertyLatitude = $newPropertyLatitude;
 	}	
-	/**
-	 * TODO $propertyLongitude
-	 **/
+	/********************
+	 * $propertyLongitude
+	 ********************/
 	/**
 	 * accessor method for property longitude
 	 *
@@ -227,9 +227,9 @@ class Property {
 		$this->propertyLongitude = $newPropertyLongitude;
 	}
 
-	/**
-	 * TODO $propertyStreetAddress
-	 **/
+	/************************
+	 * $propertyStreetAddress
+	 ***********************/
 	/**
 	 * accessor method for property street address
 	 *
@@ -237,6 +237,33 @@ class Property {
 	 **/
 	public function getPropertyStreetAddress() : string {
 		return($this->propertyStreetAddress);
+	}
+
+	/**
+	 * mutator method for property street address
+	 *
+	 * @param string $newPropertyStreetAddress new value of property street address
+	 * @throws \InvalidArgumentException if $newPropertyStreetAddress is not a string or is insecure
+	 * @throws \RangeException if $newPropertyStreetAddress is > 134 characters
+	 * @thrwos \TypeError if $newPropertyStreetAddress is not a string
+	 **/
+
+	public function setPropertyStreetAddress(string $newPropertyStreetAddress) : void {
+		//verify input is secure
+		//Right now, we're feeding in the data, but we'll do this anyway just in case that changes
+		$newPropertyStreetAddress = trim($newPropertyStreetAddress);
+		$newPropertyStreetAddress = filter_var($newPropertyStreetAddress, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newPropertyStreetAddress) === true) {
+			throw(new \InvalidArgumentException("property street address is empty or insecure"));
+		}
+
+		//verify the content will fit in the database
+		if(strlen($newPropertyStreetAddress) > 134) {
+			throw(new \RangeException("property street address has more than 134 characters"));
+		}
+
+		//store the property street address
+		$this->propertyStreetAddress = $newPropertyStreetAddress;
 	}
 
 	/**
