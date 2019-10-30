@@ -1,5 +1,5 @@
 <?php
-namespace latencio23\apcimap;
+namespace GoGitters\ApciMap;
 require_once(dirname(__DIR__) . "/vendor/autoload.php");
 use Ramsey\Uuid\Uuid;
 /**
