@@ -168,9 +168,9 @@ class Property {
 		$this->propertyClass = $newPropertyClass;
 	}
 
-	/**
-	 * TODO $propertyLatitude
-	 **/
+	/************************
+	 * $propertyLatitude
+	 ************************/
 	/**
 	 * accessor method for property latitude
 	 *
@@ -196,7 +196,7 @@ class Property {
 		$newPropertyLatitude = round($newPropertyLatitude, 6);
 		//store the property class
 		$this->propertyLatitude = $newPropertyLatitude;
-	}
+	}	
 	/**
 	 * TODO $propertyLongitude
 	 **/
@@ -207,6 +207,24 @@ class Property {
 	 **/
 	public function getPropertyLongitude() : float {
 		return($this->propertyLongitude);
+	}
+
+	/**
+	 * mutator method for property longitude
+	 *
+	 * @param float $newPropertyLongitude
+	 * @throws \InvalidArgumentException if $newPropertyLongitude is not >= -180 and <=180
+	 * @throws \TypeError if $newPropertyLongitude is not a float
+	 **/
+	public function setPropertyLongitude(float $newPropertyLongitude) : void {
+		//verify input is of correct form
+		if(!($newPropertyLongitude >= -180) && ($newPropertyLongitude <= 180)) {
+			throw(new \InvalidArgumentException("longitude must be between -180 and 180"));
+		}
+		//set precision to 6 decimals
+		$newPropertyLongitude = round($newPropertyLongitude, 6);
+		//store the property class
+		$this->propertyLongitude = $newPropertyLongitude;
 	}
 
 	/**
