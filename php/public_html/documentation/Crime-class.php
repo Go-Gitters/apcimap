@@ -50,7 +50,7 @@ class Crime {
 	 *
 	 * @return Uuid value of crime id (or null if new Crime)
 	 **/
-	public function getCrimeId(): Uuid {
+	public function getCrimeUuid(): Uuid {
 		return ($this->crimeUuid);
 	}
 
@@ -72,12 +72,22 @@ class Crime {
 		$this->crimeUuid = $uuid;
 	}
 
-	public function getCrimeAddress():
+	public function getCrimeAddress(): string{
+		return ($this->crimeAddress);
+	}
 
-	public function setCrimeAddress($newCrimeAddress): void {
-		try{
-
+	public function setCrimeAddress(string $newCrimeAddress): void {
+		$newCrimeAddress = trim($newCrimeAddress);
+		$newCrimeAddress = filter_var($newCrimeAddress, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newCrimeAddress) === true) {
+			throw(new \InvalidArgumentException("crime address is empty or invalid"));
 		}
+		if(strlen($newCrimeAddress) > 134) {
+			throw(new \RangeException("crime address is too long"));
+		}
+		// store the crime address
+		$this->crimeAddress = $newCrimeAddress;
+	}
 
 	}
 /**
@@ -113,6 +123,11 @@ class Crime {
 	}
 
 
+public function getCrimeLatitude(): string{
+	return ($this->crimeLatitude);
+}
+public function getCrimeLatitude(): void {
+		$newCrimeLatitude = floatval()
 
 
 /**
