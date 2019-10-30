@@ -142,12 +142,25 @@ class Star implements \JsonSerializable {
 			public function delete(\PDO $pdo) : void {
 
 				// create query template
+				// NOTE: which query do we need? do we need both?
 				$query = "DELETE FROM star WHERE starPropertyUuid = :starPropertyUuid";
 				$query = "DELETE FROM star WHERE starUserUuid = :starUserUuid";
 				$statement = $pdo->prepare($query);
 
-				// bind
+				// bind the member variables to the placeholder in the template
+				// NOTE: which parameter do we need? both?
+				$parameters = ["starPropertyUuid" => $this->starPropertyUuid->getBytes()];
+				$parameters = ["starUserUuid" => $this->starUserUuid->getBytes()];
+				$statement->execute($parameters);
 			}
+
+			/* updates this Star in mySQL
+			 *
+			 * @param \PDO $pdo PDO connection object
+			 * @throws \PDOException when mySQL related errors occur
+			 * @throws \TypeError if $pdo is not a PDO connection object
+			 */
+			public function
 	/*
 	 * TODO $starUserUuid
 	 */
