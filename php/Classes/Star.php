@@ -54,16 +54,20 @@ class Star implements \JsonSerializable {
 			 * @throws \Exception if some other exception occurs
 			 * @documentation https://php.net/manual/en/language.oop5.decon.php
 			 */
-			public function __construct($newStarPropertyUuid, $newStarUserUuid) {
+			public function __construct($newStarPropertyUuid, $newStarUserUuid, $newStarDate = null) {
+				// use the mutator methods to do the work for us
 				try {
 					$this->setStarPropertyUuid($newStarPropertyUuid);
 					$this->setStarUserUuid($newStarUserUuid);
+					$this->setStarDate($newStarDate);
 				} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+
 					// determine what exception type was thrown
 					$exceptionType = get_class($exception);
 					throw(new $exceptionType($exception->getMessage(), 0, $exception));
 				}
 			}
+
 			/********************************************
 			 * Getters and Setters                      *
 			 ********************************************/
