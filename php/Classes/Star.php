@@ -72,55 +72,23 @@ class Star implements \JsonSerializable {
 			 * Getters and Setters                      *
 			 ********************************************/
 
-			/*
-			* accessor method for star date
-			*
-			* @return \DateTime value of star date
-			*/
-			public function getStarDate() : \DateTime {
-				return ($this->starDate);
-			}
-
-			/*
-			 * mutator method for star date
-			 *
-			 * @param \DateTime|string|null $newStarDate star date as a DateTime object or string (or null to load the current time)
-			 * @throws \InvalidArgumentException if $newStarDate is not a valid object or string
-			 * @throws \RangeException if the $newStarDate is a date that does not exist
-			 */
-			public function setStarDAte($newStarDate): void {
-				// base case: if the date is null, use the current date and time
-				if($newStarDate === null) {
-					$this->starDate = new \DateTime();
-					return;
-				}
-
-				// store the star date using the ValidateDate trait
-				try {
-					$newStarDate = self::validateDateTime($newStarDate);
-				} catch(\InvalidArgumentException | \RangeException $exception) {
-					throw(new $exceptionType($exception->getMessage(), 0, $exception));
-				}
-				$this->starDate = $newStarDate;
-			}
-
 			 /*
-			 * accessor method for starPropertyUuid
+			 * accessor method for property uuid
 			 *
-			 * @return Uuid value of starPropertyUuid
+			 * @return Uuid value of property uuid
 			 */
 			public function getStarPropertyUuid(): Uuid {
 				return ($this->starPropertyUuid);
 			}
 
 			/*
-			 * mutator method for starPropertyUuid
+			 * mutator method for Property Uuid
 			 *
-			 * @param Uuid| string $newStarPropertyUuid new value of starred property uuid
+			 * @param string $newStarPropertyUuid new value of property uuid
 			 * @throws \RangeException if $newStarPropertyUuid is not positive
 			 * @throws \TypeError if $newStarPropertyUuid is not a uuid or string
 			 */
-			public function setStarPropertyUuid( $newStarPropertyUuid): void {
+			public function setStarPropertyUuid($newStarPropertyUuid): void {
 				try {
 					$uuid = self::validateUuid($newStarPropertyUuid);
 				} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
@@ -133,22 +101,22 @@ class Star implements \JsonSerializable {
 			}
 
 			/*
-			 * accessor method for starUserUuid
+			 * accessor method for user uuid
 			 *
-			 * @return Uuid value of starUserUuid
+			 * @return Uuid value of user uuid
 			 */
 			public function getStarUserUuid(): Uuid {
 				return ($this->starUserUuid);
 			}
 
 			/*
-			 * mutator method for starUserUuid
+			 * mutator method for user Uuid
 			 *
-			 * @param Uuid| string $newStarUserUuid new value of starred user UUID
+			 * @param string $newStarUserUuid new value of user uuid
 			 * @throws \RangeException if $newStarUserUuid is not positive
 			 * @throws \TypeError if $newStarUserUuid is not a uuid or string
 			 */
-			public function setStarUserUuid( $newStarUserUuid): void {
+			public function setStarUserUuid($newStarUserUuid): void {
 				try {
 					$uuid = self::validateUuid($newStarUserUuid);
 				} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
@@ -158,6 +126,38 @@ class Star implements \JsonSerializable {
 
 				// convert and store the starred user uuid
 				$this->starUserUuid = $uuid;
+	}
+
+	/*
+	* accessor method for star date
+	*
+	* @return \DateTime value of star date
+	*/
+	public function getStarDate() : \DateTime {
+		return ($this->starDate);
+	}
+
+	/*
+	 * mutator method for star date
+	 *
+	 * @param \DateTime|string|null $newStarDate star date as a DateTime object or string (or null to load the current time)
+	 * @throws \InvalidArgumentException if $newStarDate is not a valid object or string
+	 * @throws \RangeException if the $newStarDate is a date that does not exist
+	 */
+	public function setStarDAte($newStarDate): void {
+		// base case: if the date is null, use the current date and time
+		if($newStarDate === null) {
+			$this->starDate = new \DateTime();
+			return;
+		}
+
+		// store the star date using the ValidateDate trait
+		try {
+			$newStarDate = self::validateDateTime($newStarDate);
+		} catch(\InvalidArgumentException | \RangeException $exception) {
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+		$this->starDate = $newStarDate;
 	}
 
 			/*
