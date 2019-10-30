@@ -204,12 +204,11 @@ class Star implements \JsonSerializable {
 			 * gets the Star by Property Uuid
 			 *
 			 * @param \PDO $pdo PDO connection object
-			 * @param Uuid|string $starPropertyUuid star property uuid to search for
-			 * @return \SplFixedArray SplFixedArray of Stars found
+			 * @param string $starPropertyUuid property uuid to search for
+			 * @return \SplFixedArray SplFixedArray of Stars found or null if not found
 			 * @throws \PDOException when mySQL related errors occur
-			 * @throws \TypeError when a variable are not the correct data type
 			 */
-			public static function getStarByPropertyUuid(\PDO $pdo, $starPropertyUuid) : \SplFixedArray {
+			public static function getStarByStarPropertyUuid(\PDO $pdo, string $starPropertyUuid) : \SplFixedArray {
 				// sanitize the property uuid before searching
 				try {
 					$starPropertyUuid = self::validateUuid($starPropertyUuid);
@@ -218,7 +217,7 @@ class Star implements \JsonSerializable {
 				}
 
 				// create query template
-				$query = "SELECT starPropertyUuid, starUserUuid FROM star WHERE starPropertyUuid = :starPropertyUuid";
+				$query = "SELECT starPropertyUuid, starUserUuid, starDate FROM star WHERE starPropertyUuid = :starPropertyUuid";
 				$statement = $pdo->prepare($query);
 
 				// bind the star property uuid to the placeholder in the template
@@ -230,7 +229,7 @@ class Star implements \JsonSerializable {
 				$statement->setFetchMode(\PDO::FETCH_ASSOC);
 				while(($row = $statement->fetch()) !== false) {
 					try {
-						$star = new Star($row["starPropertyUuid"], $row["starUserUuid"]);
+						$star = new Star($row["starPropertyUuid"], $row["starUserUuid"], $row["starDate"]);
 						$star[$star->key()] = $star;
 						$star->next();
 					} catch(\Exception $exception) {
@@ -246,7 +245,7 @@ class Star implements \JsonSerializable {
 			 ********************************************/
 
 	/*
-	 * gets the Star by User Uuid
+	 * gets the Star by user Uuid
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param Uuid|string $starUserUuid star user uuid to search for
@@ -292,7 +291,7 @@ class Star implements \JsonSerializable {
 			 ***********************************************************/
 
 	/*
-	 * gets the Star by Property Uuid and User Uuid
+	 * gets the Star by property Uuid and user Uuid
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param string $starPropertyUuid property uuid to search for
