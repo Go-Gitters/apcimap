@@ -31,6 +31,9 @@ class Star implements \JsonSerializable {
 			 */
 			private $starUserUuid;
 
+			/********************************************
+			 * Constructor                              *
+			 ********************************************/
 			/*
 			 * constructor for this Star
 			 *
@@ -53,7 +56,7 @@ class Star implements \JsonSerializable {
 				}
 			}
 			/********************************************
-			 * TODO Getters and Setters                 *
+			 * Getters and Setters                      *
 			 ********************************************/
 			 /*
 			 * accessor method for starPropertyUuid
@@ -67,20 +70,22 @@ class Star implements \JsonSerializable {
 			/*
 			 * mutator method for starPropertyUuid
 			 *
-			 * @param Uuid| string $newStarPropertyUuid new value of starred property UUID
+			 * @param Uuid| string $newStarPropertyUuid new value of starred property uuid
 			 * @throws \RangeException if $newStarPropertyUuid is not positive
 			 * @throws \TypeError if $newStarPropertyUuid is not a uuid or string
 			 */
-			public function setStarPropertyUuid($newStarPropertyUuid): void {
+			public function setStarPropertyUuid( $newStarPropertyUuid): void {
 				try {
 					$uuid = self::validateUuid($newStarPropertyUuid);
 				} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 					$exceptionType = get_class($exception);
 					throw(new $exceptionType($exception->getMessage(), 0, $exception));
 				}
+
 				// convert and store the starred property id
 				$this->starPropertyUuid = $uuid;
 			}
+
 			/*
 			 * accessor method for starUserUuid
 			 *
