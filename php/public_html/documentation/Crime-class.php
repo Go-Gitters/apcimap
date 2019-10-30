@@ -1,6 +1,6 @@
 <?php
 
-namespace latencio23\crim;
+namespace GoGitters\ApciMap;
 require_once("autoload.php");
 require_once(dirname(__DIR__, 1) . "/lib/vendor/autoload.php");
 
@@ -81,58 +81,7 @@ class Crime {
 	 * @return url value of the activation token
 	 */
 
-	 * accessor method for author email
-	 *
-	 * @return string value of author email
-	 **/
-	public function getAuthorEmail() {
-		return ($this->authorEmail);
-	}
-	/**
-	 * mutator method for email
-	 *
-	 * @param string $newAuthorEmail new value of email
-	 * @throws \InvalidArgumentException if $newEmail is not a valid email or insecure
-	 * @throws \RangeException if $newEmail is > 128 characters
-	 * @throws \TypeError if $newEmail is not a string
-	 **/
-	public function setAuthorEmail($newAuthorEmail): void {
-		$newAuthorEmail = filter_var($newAuthorEmail, FILTER_VALIDATE_EMAIL);
-		if(empty($newAuthorEmail) === true) {
-			throw(new \InvalidArgumentException("Invalid Email"));
-		}
-		if(strlen($newAuthorEmail) > 128) {
-			throw(new \RangeException("Email has too many characters"));
-		}
-		$this->authorEmail = $newAuthorEmail;
-	}
-	/**
-	 * accessor method for authorHash
-	 *
-	 * @return string value of hash
-	 */
-	public function getAuthorHash() {
-		return ($this->authorHash);
-	}
-	/**
-	 * mutator method for author hash password
-	 *
-	 * @param string $newAuthorHash
-	 * @throws \InvalidArgumentException if the hash is not secure
-	 * @throws \RangeException if the hash is not 97 characters
-	 * @throws \TypeError if profile ha
-	 * sh is not a string
-	 */
-	public function setAuthorHash($newAuthorHash): string {
-		$newAuthorHash = trim($newAuthorHash);
-		if(empty ($newAuthorHash) === true) {
-			throw(new \InvalidArgumentException("Hash is empty or invalid"));
-		}
-		if(strlen($newAuthorHash) !== 97) {
-			throw(new \RangeException("authorHash has too many characters"));
-		}
-		$this->authorHash = $newAuthorHash;
-	}
+
 	/**
 	 * accessor method for author username
 	 *
@@ -172,10 +121,10 @@ class Crime {
 	 **/
 	public function insert(\PDO $pdo): void {
 		// create query template
-		$query = "INSERT INTO author(authorId, authorActivationToken, authorAvatarUrl, authorEmail, authorHash, authorUsername) VALUES(:AuthorId, :authorActivationToken, :authorAvatarUrl, :authorEmail, :authorHash, :AuthorUsername)";
+		$query = "INSERT INTO crime(crimeUuid, crimeAddress, crimeDate, crimeGeolocation) VALUES(:crimeUuid, :authorActivationToken, :authorAvatarUrl, :authorEmail, :authorHash, :AuthorUsername)";
 		$statement = $pdo->prepare($query);
 		// bind the member variables to the place holders in the template
-		$parameters = ["authorId" => $this->authorId->getBytes(), "authorAvatarUrl" => $this->authorAvatarUrl, "authorEmail" => $this->authorEmail, "authorHash" => $this->authorHash, "authorUsername" => $this->authorUsername];
+		$parameters = ["crimeUuid" => $this->crimeUuid->getBytes(), "crimeAddress" => $this->authorAvatarUrl, "authorEmail" => $this->authorEmail, "authorHash" => $this->authorHash, "authorUsername" => $this->authorUsername];
 		$statement->execute($parameters);
 	}
 	/**
