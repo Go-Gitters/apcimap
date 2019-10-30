@@ -267,48 +267,49 @@ class Star implements \JsonSerializable {
 			 ***********************************************************/
 
 	/*
-	 * gets the Star by Property Uuid
+	 * gets the Star by Property Uuid and User Uuid
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param Uuid|string $starPropertyUuid star property uuid to search for
-	 * @return \SplFixedArray SplFixedArray of Stars found
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when a variable are not the correct data type
+	 * @param string $starPropertyUuid property uuid to search for
+	 * @param string $starUserUuid user uuid to search for
+	 * @return Star|null Star found or null if not found
 	 */
-	public static function getStarByPropertyUuid(\PDO $pdo, $starPropertyUuid) : \SplFixedArray {
-		// sanitize the property uuid before searching
+	public static function getStarByStarPropertyUuidAndStarUserUuid(\PDO $pdo, string $starPropertyUuid, string $starUserUuid) : ?Star {
+
 		try {
 			$starPropertyUuid = self::validateUuid($starPropertyUuid);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 
+		try {
+			$starUserUuid = self::validateUuid($starUserUuid);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+
 		// create query template
-		$query = "SELECT starPropertyUuid, starUserUuid FROM star WHERE starPropertyUuid = :starPropertyUuid";
+		$query = "SELECT starPropertyUuid, starUserUuid starDate FROM star WHERE starPropertyUuid = :starPropertyUuid AND starUserUuid = :starUserUuid";
 		$statement = $pdo->prepare($query);
 
-		// bind the star property uuid to the placeholder in the template
-		$parameters = ["starPropertyUuid" => $starPropertyUuid->getBytes()];
+		// bind the property uuid and user uuid to the placeholder in the template
+		$parameters = ["starPropertyUuid" => $starPropertyUuid->getBytes(), "starUserUuid" => $starUserUuid->getBytes()];
 		$statement->execute($parameters);
 
-		// build an array of stars
-		$star = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$star = new Star($row["starPropertyUuid"], $row["starUserUuid"]);
-				$star[$star->key()] = $star;
-				$star->next();
-			} catch(\Exception $exception) {
-				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
+		// grab the star from mySQL
+		try {
+			$star = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$star = new Star($row["starPropertyUuid"], $row["starUserUuid"], $row["starDate"]);
 			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		return($star);
-
 	}
-
-
 
 	//Closing bracket for Class!!!!!!!!!!!!!!!!!!!
 }
