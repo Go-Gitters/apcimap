@@ -16,15 +16,17 @@ class Crime {
 	 * This is the primary key
 	 * @var Uuid $crimeId
 	 **/
-	private $crimeId;
+	private $crimeUuid;
 	/**
 	 * This is the address where the crime was committed
 	 */
 	private $crimeAddress;
 	/** This is the date that the crime occurred **/
 	private $crimeDate;
-	/** This is the geo-location of the crime * */
-	private $crimeGeoLocation;
+	/** @var This is the latitude at which the crime was committed */
+	private $crimeLatitude;
+	/** @var This is the longitude at which the crime was committed */
+	private $crimeLongitude;
 	/**This is the type of the crime committed **/
 	private $crimeType;
 	private $exception;
@@ -34,8 +36,9 @@ class Crime {
 			$this->setCrimeId($newCrimeId);
 			$this->setCrimeAddress($newCrimeAddress);
 			$this->setCrimeDate($newCrimeDate);
-			$this->setCrimeGeoLocation($newcrimeGeoLocation);
-			$this->crimeType($newCrimeType);
+			$this->setCrimeLatitude($newCrimeLatitude);
+			$this->crimeLongitude($newCrimeLongitude);
+			$this->crimeType ($newCrimeType);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
@@ -48,7 +51,7 @@ class Crime {
 	 * @return Uuid value of crime id (or null if new Crime)
 	 **/
 	public function getCrimeId(): Uuid {
-		return ($this->crimeId);
+		return ($this->crimeUuid);
 	}
 
 	/**
@@ -58,30 +61,56 @@ class Crime {
 	 * @throws \RangeException if $newCrimeId is not positive
 	 * @throws \TypeError if the Crime Id is not
 	 **/
-	public function setCrimeId($newCrimeId): void {
+	public function setCrimeUuid($newCrimeUuid): void {
 		try {
-			$uuid = self::validateUuid($newCrimeId);
+			$uuid = self::validateUuid($newCrimeUuid);
 			//determine what exception type was thrown
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
-		$this->crimeId = $uuid;
+		$this->crimeUuid = $uuid;
 	}
 
 	public function getCrimeAddress():
 
 	public function setCrimeAddress($newCrimeAddress): void {
-		try:
+		try{
+
+		}
 
 	}
+/**
+ * accessor method for crime date
+ *
+ * @return \DateTime value of crime date
+ **/
+	public function getCrimeDate() : \DateTime {
+		return($this->crimeDate);
+	}
 	/**
-	 * accessor method for author avatar url
+	 * mutator method for crime date
 	 *
-	 * @return url value of the activation token
-	 */
+	 * @param \DateTime|string|null $newCrimeDate crime date as a DateTime object or string (or null to load the current time)
+	 * @throws \InvalidArgumentException if $newCrimeDate is not a valid object or string
+	 * @throws \RangeException if $newCrimeDate is a date that does not exist
+	 **/
+	public function setCrimeDate($newCrimeDate = null) : void {
+		// base case: if the date is null, use the current date and time
+		if($newCrimeDate === null) {
+			$this->crimeDate = new \DateTime();
+			return;
+		}
 
-
+		// store the like date using the ValidateDate trait
+		try {
+			$newCrimeDate = self::validateDateTime($newCrimeDate);
+		} catch(\InvalidArgumentException | \RangeException $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+		$this->crimeDate = $newCrimeDate;
+	}
 	/**
 	 * accessor method for author username
 	 *
@@ -157,68 +186,68 @@ class Crime {
 		$statement->execute($parameters);
 	}
 	/**
-	 * gets the Author by author id
+	 * gets the Crime by crime uuid
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param Uuid|string $authorId profile id to search by
-	 * @return \SplFixedArray SplFixedArray of Authors found
+	 * @param Uuid|string $crimeUuid crime id to search by
+	 * @return \SplFixedArray SplFixedArray of Crimes found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getAuthorByAuthorId(\PDO $pdo, $authorId): \SplFixedArray {
+	public static function getCrimeByCrimeUuid(\PDO $pdo, $crimeUuid): \SplFixedArray {
 		try {
-			$authorId = self::validateUuid($authorId);
+			$crimeUuid = self::validateUuid($crimeUuid);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		// create query template
-		$query = "SELECT authorId, authorAvatarUrl, authorEmail, authorUsername From: authorId WHERE authorId = :authorId";
+		$query = "SELECT crimeUuid, crimeAddress, crimeDate, crimeLatitude, crimeLongitude, crimeType From: crimeUuid WHERE crimeUuid = :crimeUuid";
 		$statement = $pdo->prepare($query);
-		// bind the author profile id to the place holder in the template
-		$parameters = ["authorId" => $authorId->getBytes()];
+		// bind the crime uuid to the place holder in the template
+		$parameters = ["crimeUuid" => $crimeUuid->getBytes()];
 		$statement->execute($parameters);
-		// build an array of author
-		$author = new \SplFixedArray($statement->rowCount());
+		// build an array of crimes
+		$crime = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$author = new Author($row["authorId"], $row[authorActivationtoken], $row["authorAvatarUrl"], $row["authorEmail"], $row[authorHash], $row["authorUsername"]);
-				$authors[$authors->key()] = $author;
-				$author->next();
+				$crime = new Crime($row["crimeUuid"], $row["crimeAddress"], $row["crimeDate"], $row["crimeLatitude"], $row["crimeLongitude"], $row["crimeType"]);
+				$crimes[$crimes->key()] = $crime;
+				$crime->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(invalid), 0, $exception));
 			}
 		}
-		return ($author);
+		return ($crime);
 	}
 	/**
-	 * gets all Authors
+	 * gets all Crimes
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @return \SplFixedArray SplFixedArray of Authors found or null if not found
+	 * @return \SplFixedArray SplFixedArray of Crimes found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getAllAuthors(\PDO $pdo): \SPLFixedArray {
+	public static function getAllCrimes(\PDO $pdo): \SPLFixedArray {
 		// create query template
-		$query = "SELECT authorId, authorActivationToken, authorAvatarUrl, authorEmail, authorHash, authorUsername  FROM author";
+		$query = "SELECT crimeUuid, crimeAddress, crimeDate, crimeLatitude, crimeLongitude, crimeType  FROM crime";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
-		// build an array of authors
-		$author = new \SplFixedArray($statement->rowCount());
+		// build an array of crimes
+		$crime = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$author = new Author($row["authorId"], $row[authorActivationToken], $row["authorAvatarUrl"], $row["authorEmail"], $row[authorHash], $row["authorUsername"]);
-				$authors[$authors->key()] = $author;
-				$author->next();
+				$crime = new Crime($row["crimeUuid"], $row[crimeAddress], $row["crimeDate"], $row["crimeLatitude"], $row[crimeLongitude], $row["crimeType"]);
+				$crime[$crimes->key()] = $crime;
+				$crime->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return ($authors);
+		return ($crimes);
 	}
 
 
