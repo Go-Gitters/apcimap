@@ -82,7 +82,7 @@ class Star implements \JsonSerializable {
 					throw(new $exceptionType($exception->getMessage(), 0, $exception));
 				}
 
-				// convert and store the starred property id
+				// convert and store the starred property uuid
 				$this->starPropertyUuid = $uuid;
 			}
 
@@ -102,14 +102,15 @@ class Star implements \JsonSerializable {
 			 * @throws \RangeException if $newStarUserUuid is not positive
 			 * @throws \TypeError if $newStarUserUuid is not a uuid or string
 			 */
-			public function setStarUserUuid($newStarUserUuid): void {
+			public function setStarUserUuid( $newStarUserUuid): void {
 				try {
 					$uuid = self::validateUuid($newStarUserUuid);
 				} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 					$exceptionType = get_class($exception);
 					throw(new $exceptionType($exception->getMessage(), 0, $exception));
 				}
-				// convert and store the starred user id
+
+				// convert and store the starred user uuid
 				$this->starUserUuid = $uuid;
 	}
 
