@@ -3,6 +3,7 @@
 
 namespace GoGitters\ApciMap;
 require_once("autoload.php");
+
 require_once(dirname(__DIR__, 1) . "/vendor/autoload.php");
 use Ramsey\Uuid\Uuid;
 
@@ -13,23 +14,30 @@ use Ramsey\Uuid\Uuid;
  *
  * @author Lisa Lee
  * @version 0.0.1
- *
  */
 
 class Star implements \JsonSerializable {
+	use ValidateDate; /* The React file contained this for the $likeDate */
 	use ValidateUuid;
 
 			/*
-			 * Star Property UUID; this is the foreign key
+			 * id of the Property being starred; this is a component of a composite primary key (and a foreign key)
 			 * @var Uuid $starPropertyUuid
 			 */
 			private $starPropertyUuid;
 
 			/*
-			 * Star User UUID for this Start; this is the foreign key
+			 * id of the User who starred; this is a component of a composite primary key (and a foreign key)
 			 * @var Uuid $starUserUuid
 			 */
 			private $starUserUuid;
+
+			/*
+			 * NOTE: The React file included the below starDate
+			 * date and time the property was starred
+			 * @var \DateTime $starDate
+			 */
+			private $starDate;
 
 			/********************************************
 			 * Constructor                              *
@@ -37,8 +45,9 @@ class Star implements \JsonSerializable {
 			/*
 			 * constructor for this Star
 			 *
-			 * @param string|Uuid $newStarPropertyUuid new star id or null if new
-			 * @param string|Uuid $newStarUserUuid new star id or null if new
+			 * @param string|Uuid $newStarPropertyUuid id of the parent Property
+			 * @param string|Uuid $newStarUserUuid id of the parent User
+			 * @param \DateTime|null $newStarDate date the property was starred (or null for current time)
 			 * @throws \InvalidArgumentException if data types are not valid
 			 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
 			 * @throws \TypeError if a data type violate type hints
