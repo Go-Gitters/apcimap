@@ -31,7 +31,7 @@ class Star implements \JsonSerializable {
 			 */
 			private $starUserUuid;
 
-			/**
+			/*
 			 * constructor for this Star
 			 *
 			 * @param string|Uuid $newStarPropertyUuid new star id or null if new
@@ -41,7 +41,7 @@ class Star implements \JsonSerializable {
 			 * @throws \TypeError if a data type violate type hints
 			 * @throws \Exception if some other exception occurs
 			 * @documentation https://php.net/manual/en/language.oop5.decon.php
-			 **/
+			 */
 			public function __construct($newStarPropertyUuid, $newStarUserUuid) {
 				try {
 					$this->setStarPropertyUuid($newStarPropertyUuid);
@@ -55,22 +55,22 @@ class Star implements \JsonSerializable {
 			/********************************************
 			 * TODO Getters and Setters                 *
 			 ********************************************/
-			 /**
+			 /*
 			 * accessor method for starPropertyUuid
 			 *
 			 * @return Uuid value of starPropertyUuid
-			 **/
+			 */
 			public function getStarPropertyUuid(): Uuid {
 				return ($this->starPropertyUuid);
 			}
 
-			/**
+			/*
 			 * mutator method for starPropertyUuid
 			 *
 			 * @param Uuid| string $newStarPropertyUuid new value of starred property UUID
 			 * @throws \RangeException if $newStarPropertyUuid is not positive
 			 * @throws \TypeError if $newStarPropertyUuid is not a uuid or string
-			 **/
+			 */
 			public function setStarPropertyUuid($newStarPropertyUuid): void {
 				try {
 					$uuid = self::validateUuid($newStarPropertyUuid);
@@ -81,22 +81,22 @@ class Star implements \JsonSerializable {
 				// convert and store the starred property id
 				$this->starPropertyUuid = $uuid;
 			}
-			/**
+			/*
 			 * accessor method for starUserUuid
 			 *
 			 * @return Uuid value of starUserUuid
-			 **/
+			 */
 			public function getStarUserUuid(): Uuid {
 				return ($this->starUserUuid);
 			}
 
-			/**
+			/*
 			 * mutator method for starUserUuid
 			 *
 			 * @param Uuid| string $newStarUserUuid new value of starred user UUID
 			 * @throws \RangeException if $newStarUserUuid is not positive
 			 * @throws \TypeError if $newStarUserUuid is not a uuid or string
-			 **/
+			 */
 			public function setStarUserUuid($newStarUserUuid): void {
 				try {
 					$uuid = self::validateUuid($newStarUserUuid);
@@ -108,18 +108,27 @@ class Star implements \JsonSerializable {
 				$this->starUserUuid = $uuid;
 	}
 
-			/**
+			/*
 			 * inserts this star into mySQL
 			 *
 			 * @param \PDO $pdo PDO connection object
 			 * @throws \PDOException when mySQL related errors occur
 			 * @throws \TypeError if $pdo is not a PDO connection object
-			 **/
+			 */
 			public function insert(\PDO $pdo) : void {
+
 				// create query template
-				$query = "INSERT INTO star(starPropertyUuid)"
+				$query = "INSERT INTO star(starPropertyUuid, starUserUuid) VALUE(:starPropertyUuid,:starUserUuid)";
+				$statement = $pdo->prepare($query);
+
+				// bind the member variables to the placeholders in the template
+				$parameters = ["starPropertyUuid" => $this->starPropertyUuid->getBytes(), "starUserUuid" => $this->starUserUuid->getBytes()];
+				$statement->execute($parameters);
 			}
 
+			/*
+			 *
+			 */
 
 	/*
 	 * TODO $starUserUuid
