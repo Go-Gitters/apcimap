@@ -213,7 +213,7 @@ $this->userUsername = $newUserUsername;
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
-	public static function getUserbyUserUuid(\PDO $pdo, $UserUuid):?User {
+	public static function getUserByUserUuid(\PDO $pdo, $UserUuid):?User {
 		// sanitize the profile id before searching
 		try {
 			$userUuid = self::validateUuid($userUuid);
@@ -240,6 +240,41 @@ $this->userUsername = $newUserUsername;
 		}
 		return ($User);
 	}
+		/**
+		 * get the user by user activation token
+		 *
+		 * @param string $userActivationToken
+		 * @param \PDO object $pdo
+		 * @return User|null User or null if not found
+		 * @throws \PDOException when mySQL related errors occur
+		 * @throws \TypeError when variables are not the correct data type
+		 **/
+		public static function getUserByUserActivationToken(\PDO $pdo, string $userActivationToken) : ?User {
+			//make sure activation token is in the right format and that it is a string representation of a hexadecimal
+			$userActivationToken = trim($userActivationToken);
+			if(ctype_xdigit($userActivationToken) === false) {
+				throw(new \InvalidArgumentException("user activation token is empty or in the wrong format"));
+			}
+			//create the query template
+			$query = "SELECT  userUuid, userActivationToken,userEmail, userHash, userUsername FROM user WHERE userActivationToken = :userActivationToken";
+			$statement = $pdo->prepare($query);
+			// bind the user activation token to the placeholder in the template
+			$parameters = ["userActivationToken" => $userActivationToken];
+			$statement->execute($parameters);
+			// grab the user from mySQL
+			try {
+				$user = null;
+				$statement->setFetchMode(\PDO::FETCH_ASSOC);
+				$row = $statement->fetch();
+				if($row !== false) {
+					$user = new User($row["userId"], $row["userActivationToken"], $row["userEmail"], $row["userHash"], $row["userUsername"]);
+				}
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+			return ($user);
+		}
 	/**
 	 * gets the Profile by email
 	 *
@@ -276,51 +311,52 @@ $this->userUsername = $newUserUsername;
 		}
 		return ($user);
 	}
-	/**
-	 * get the user by user activation token
-	 *
-	 * @param string $userActivationToken
-	 * @param \PDO object $pdo
-	 * @return User|null User or null if not found
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when variables are not the correct data type
-	 **/
-	public static function getUserByUserActivationToken(\PDO $pdo, string $userActivationToken) : ?User {
-		//make sure activation token is in the right format and that it is a string representation of a hexadecimal
-		$userActivationToken = trim($userActivationToken);
-		if(ctype_xdigit($userActivationToken) === false) {
-			throw(new \InvalidArgumentException("user activation token is empty or in the wrong format"));
-		}
-		//create the query template
-		$query = "SELECT  userUuid, userActivationToken,userEmail, userHash, userUsername FROM user WHERE userActivationToken = :userActivationToken";
-		$statement = $pdo->prepare($query);
-		// bind the user activation token to the placeholder in the template
-		$parameters = ["userActivationToken" => $userActivationToken];
-		$statement->execute($parameters);
-		// grab the user from mySQL
-		try {
-			$user = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$profile = new User($row["userId"], $row["userActivationToken"], $row["userEmail"], $row["userHash"], $row["userUsername"]);
+		/**
+		 * gets the user by userUsername
+		 *
+		 * @param \PDO $pdo PDO connection object
+		 * @param string $userUsername to search for
+		 * @return User|null User or null if not found
+		 * @throws \PDOException when mySQL related errors occur
+		 * @throws \TypeError when variables are not the correct data type
+		 **/
+		public static function getUserbyUsername(\PDO $pdo, string $userUsername): ?User {
+			// sanitize the username before searching
+			$userUsername = trim($userUsername);
+			$userUsername = filter_var($userUsername, FILTER_VALIDATE_USERNAME);
+			if(empty($userUsername) === true) {
+				throw(new \PDOException("not a valid username"));
 			}
-		} catch(\Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
+			// create query template
+			$query = "SELECT userUuid, userActivationToken, userEmail, userHash, userUsername FROM User WHERE userEmail = :userEmail";
+			$statement = $pdo->prepare($query);
+			// bind the profile id to the place holder in the template
+			$parameters = ["userUsername" => $userUsername];
+			$statement->execute($parameters);
+			// grab the User from mySQL
+			try {
+				$user = null;
+				$statement->setFetchMode(\PDO::FETCH_ASSOC);
+				$row = $statement->fetch();
+				if($row !== false) {
+					$user = new User($row["userId"], $row["userActivationToken"], $row["userEmail"], $row["userHash"], $row["userUsername"]);
+				}
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+			return ($user);
 		}
-		return ($user);
-	}
-	/**
-	 * formats the state variables for JSON serialization
-	 *
-	 * @return array resulting state variables to serialize
-	 **/
-	public function jsonSerialize() {
-		$fields = get_object_vars($this);
-		$fields["userUuid"] = $this->userUuid->toString();
-		unset($fields["userActivationToken"]);
-		unset($fields["userHash"]);
-		return ($fields);
-	}
+		/**
+		 * formats the state variables for JSON serialization
+		 *
+		 * @return array resulting state variables to serialize
+		 **/
+		public function jsonSerialize() {
+			$fields = get_object_vars($this);
+			$fields["userUuid"] = $this->userUuid->toString();
+			unset($fields["userActivationToken"]);
+			unset($fields["userHash"]);
+			return ($fields);
+		}
 }
