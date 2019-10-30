@@ -111,36 +111,45 @@ class Crime {
 		}
 		$this->crimeDate = $newCrimeDate;
 	}
-	/**
-	 * accessor method for author username
-	 *
-	 * @return string value of author username
-	 **/
-	public function getAuthorUsername(): string {
-		return ($this->authorUsername);
+
+
+
+
+/**
+ * accessor method for crime type
+ *
+ * @return string value of crime type
+ **/
+	public function getCrimeType() : string {
+		return($this->crimeType);
 	}
+
 	/**
-	 * mutator method for author username
+	 * mutator method for crime type
 	 *
-	 * @param string $newAuthorUsername new value of author username
-	 * @throws \InvalidArgumentException if $authorUsername is not a string or insecure
-	 * @throws \RangeException if $newAuthorUsername is > 32 characters
-	 * @throws \TypeError if $newAuthorUsername is not a string
+	 * @param string $newCrimeType new value of crime type
+	 * @throws \InvalidArgumentException if $newCrimeType is not a string or insecure
+	 * @throws \RangeException if $newCrimeType is > 134 characters
+	 * @throws \TypeError if $newCrimeType is not a string
 	 **/
-	public function setAuthorUsername(string $newAuthorUsername): void {
-		// verify the that authorUsername is secure
-		$newAuthorUsername = trim($newAuthorUsername);
-		$newAuthorUsername = filter_var($newAuthorUsername, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newAuthorUsername) === true) {
-			throw(new \InvalidArgumentException("author username is empty or insecure"));
+	public function setCrimeType(string $newCrimeType) : void {
+		// verify the crime type is secure
+		$newCrimeType = trim($newCrimeType);
+		$newCrimeType = filter_var($newCrimeType, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newCrimeType) === true) {
+			throw(new \InvalidArgumentException("crime type is empty or insecure"));
 		}
-		// verify the at handle will fit in the database
-		if(strlen($newAuthorUsername) > 32) {
-			throw(new \RangeException("profile at handle is too large"));
+
+		// verify the crime type will fit in the database
+		if(strlen($newCrimeType) > 134) {
+			throw(new \RangeException("crime type description too large"));
 		}
-		// store the at userName
-		$this->authorUsername = $newAuthorUsername;
+
+		// store the crime content
+		$this->crimeType = $newCrimeType;
 	}
+
+
 	/**
 	 * inserts this Author into mySQL
 	 *
