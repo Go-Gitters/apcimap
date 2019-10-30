@@ -71,6 +71,39 @@ class Star implements \JsonSerializable {
 			/********************************************
 			 * Getters and Setters                      *
 			 ********************************************/
+
+			/*
+			* accessor method for star date
+			*
+			* @return \DateTime value of star date
+			*/
+			public function getStarDate() : \DateTime {
+				return ($this->starDate);
+			}
+
+			/*
+			 * mutator method for star date
+			 *
+			 * @param \DateTime|string|null $newStarDate star date as a DateTime object or string (or null to load the current time)
+			 * @throws \InvalidArgumentException if $newStarDate is not a valid object or string
+			 * @throws \RangeException if the $newStarDate is a date that does not exist
+			 */
+			public function setStarDAte($newStarDate): void {
+				// base case: if the date is null, use the current date and time
+				if($newStarDate === null) {
+					$this->starDate = new \DateTime();
+					return;
+				}
+
+				// store the star date using the ValidateDate trait
+				try {
+					$newStarDate = self::validateDateTime($newStarDate);
+				} catch(\InvalidArgumentException | \RangeException $exception) {
+					throw(new $exceptionType($exception->getMessage(), 0, $exception));
+				}
+				$this->starDate = $newStarDate;
+			}
+
 			 /*
 			 * accessor method for starPropertyUuid
 			 *
