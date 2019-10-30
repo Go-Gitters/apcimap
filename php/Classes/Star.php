@@ -115,7 +115,7 @@ class Star implements \JsonSerializable {
 	}
 
 			/*
-			 * inserts this star into mySQL
+			 * inserts this Star into mySQL
 			 *
 			 * @param \PDO $pdo PDO connection object
 			 * @throws \PDOException when mySQL related errors occur
@@ -133,9 +133,21 @@ class Star implements \JsonSerializable {
 			}
 
 			/*
+			 * deletes this Star from mySQL
 			 *
+			 * @param \PDO $pdo PDO connection object
+			 * @throws \PDOException when mySQL related errors occur
+			 * @throws \TypeError if $pdo is not a PDO connection object
 			 */
+			public function delete(\PDO $pdo) : void {
 
+				// create query template
+				$query = "DELETE FROM star WHERE starPropertyUuid = :starPropertyUuid";
+				$query = "DELETE FROM star WHERE starUserUuid = :starUserUuid";
+				$statement = $pdo->prepare($query);
+
+				// bind
+			}
 	/*
 	 * TODO $starUserUuid
 	 */
