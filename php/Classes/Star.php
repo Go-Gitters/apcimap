@@ -171,28 +171,50 @@ class Star implements \JsonSerializable {
 				$statement->execute($parameters);
 			}
 
-			/********************************************
-			 * TODO GetFooByBars                        *
-			 ********************************************/
+			/**********************************************
+			 * TODO GetFooByBars - getStarByPropertyUuid  *
+			 **********************************************/
 
 			/*
-			 * gets the Star by PropertyUuid
+			 * gets the Star by Property Uuid
 			 *
 			 * @param \PDO $pdo PDO connection object
 			 * @param Uuid|string $starPropertyUuid star property uuid to search for
-			 * @return Star|null Star found or null if not found
+			 * @return \SplFixedArray SplFixedArray of Stars found
 			 * @throws \PDOException when mySQL related errors occur
 			 * @throws \TypeError when a variable are not the correct data type
 			 */
-			public static function getStarByPropertyUuid(\PDO $pdo, $propertyId) : ?Star {
-				// sanitize the propertyId before searching
+			public static function getStarByPropertyUuid(\PDO $pdo, $starPropertyUuid) : \SplFixedArray {
+				// sanitize the property uuid before searching
 				try {
-					$propertyId = self::validateUuid($propertyId);
+					$starPropertyUuid = self::validateUuid($starPropertyUuid);
 				} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 					throw(new \PDOException($exception->getMessage(), 0, $exception));
 				}
 
 				// create query template
+				$query = "SELECT starPropertyUuid, starUserUuid FROM star WHERE starPropertyUuid = :starPropertyUuid";
+				$statement = $pdo->prepare($query);
+
+				// bind the star property uuid to the placeholder in the template
+				$parameters = ["starPropertyUuid" => $starPropertyUuid->getBytes()];
+				$statement->execute($parameters);
+
+				// build an array of stars
+				$star = new \SplFixedArray($statement->rowCount());
+				$statement->setFetchMode(\PDO::FETCH_ASSOC);
+				while(($row = $statement->fetch()) !== false) {
+					try {
+						$star = new Star($row["starPropertyUuid"], $row["starUserUuid"]);
+						$star[$star->key()] = $star;
+						$star->next();
+					} catch(\Exception $exception) {
+						// if the row couldn't be converted, rethrow it
+						throw(new \PDOException($exception->getMessage(), 0, $exception));
+					}
+				}
+				return($star);
+
 			}
 			/********************************************
 			 * TODO GetFooByBars - getStarByUserUuid    *
