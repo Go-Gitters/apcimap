@@ -181,6 +181,23 @@ class Property {
 	}
 
 	/**
+	 * mutator method for property latitude
+	 *
+	 * @param float $newPropertyLatitude
+	 * @throws \InvalidArgumentException if $newPropertyLatitude is not >= -90 and <=90
+	 * @throws \TypeError if $newPropertyLatitude is not a float
+	 **/
+	public function setPropertyLatitude(float $newPropertyLatitude) : void {
+		//verify input is of correct form
+		if(!($newPropertyLatitude >= -90) && ($newPropertyLatitude <= 90)) {
+			throw(new \InvalidArgumentException("latitude must be between -90 and 90"));
+		}
+		//set precision to 6 decimals
+		$newPropertyLatitude = round($newPropertyLatitude, 6);
+		//store the property class
+		$this->propertyLatitude = $newPropertyLatitude;
+	}
+	/**
 	 * TODO $propertyLongitude
 	 **/
 	/**
