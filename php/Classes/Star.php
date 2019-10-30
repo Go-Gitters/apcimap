@@ -282,7 +282,6 @@ class Star implements \JsonSerializable {
 			}
 		}
 		return($star);
-
 	}
 
 			/***********************************************************
