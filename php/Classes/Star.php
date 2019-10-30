@@ -171,8 +171,12 @@ class Star implements \JsonSerializable {
 				$statement->execute($parameters);
 			}
 
+			/********************************************
+			 * TODO GetFooByBars                        *
+			 ********************************************/
+
 			/*
-			 * gets the Star by star property uuid
+			 * gets the Star by PropertyUuid
 			 *
 			 * @param \PDO $pdo PDO connection object
 			 * @param Uuid|string $starPropertyUuid star property uuid to search for
@@ -180,15 +184,25 @@ class Star implements \JsonSerializable {
 			 * @throws \PDOException when mySQL related errors occur
 			 * @throws \TypeError when a variable are not the correct data type
 			 */
+			public static function getStarByPropertyUuid(\PDO $pdo, $propertyId) : ?Star {
+				// sanitize the propertyId before searching
+				try {
+					$propertyId = self::validateUuid($propertyId);
+				} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+					throw(new \PDOException($exception->getMessage(), 0, $exception));
+				}
 
-
-
-	/*
-	 * TODO $starUserUuid
-	 */
-			 */
+				// create query template
+			}
 			/********************************************
-			 * TODO GetFooByBars                        *
+			 * TODO GetFooByBars - getStarByUserUuid    *
 			 ********************************************/
-//Closing bracket for Class!!!!!!!!!!!!!!!!!!!
+
+			/***********************************************************
+			 * TODO GetFooByBars - getStarByPropertyUuidAndUserUuid    *
+			 ***********************************************************/
+
+
+
+	//Closing bracket for Class!!!!!!!!!!!!!!!!!!!
 }
