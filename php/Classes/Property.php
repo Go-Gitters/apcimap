@@ -67,6 +67,10 @@ class Property {
 	/********************************************
 	 * TODO Getters and Setters                 *
 	 ********************************************/
+	/****************
+	 * $propertyUuid
+	 ***************/
+
 	/**
 	 * accessor method for property Uuid
 	 *
@@ -95,30 +99,106 @@ class Property {
 		$this->propertyUuid = $uuid;
 	}
 
+	/*****************
+	 *$propertyCity
+	 ****************/
+
 	/**
-	 * TODO $propertyCity
+	 * accessor method for property city
+	 *
+	 * @return string property city
 	 **/
+	public function getPropertyCity() : string {
+		return($this->propertyCity);
+	}
+
+	/**
+	 * mutator method for property city
+	 *
+	 * @param string $newPropertyCity new value of property city
+	 * @throws \InvalidArgumentException if $newPropertyCity is not a string or is insecure
+	 * @throws \RangeException if $newPropertyCity is > 80 characters
+	 * @thrwos \TypeError if $newPropertyCity is not a string
+	 **/
+
+	public function setPropertyCity(string $newPropertyCity) : void {
+		//verify input is secure
+		//Right now, we're feeding in the data, but we'll do this anyway just in case that changes
+		$newPropertyCity = trim($newPropertyCity);
+		$newPropertyCity = filter_var($newPropertyCity, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newPropertyCity) === true) {
+			throw(new \InvalidArgumentException("property city is empty or insecure"));
+		}
+
+		//verify the content will fit in the database
+		if(strlen($newPropertyCity) > 80) {
+			throw(new \RangeException("property city has too many characters"));
+		}
+
+		//store the property city
+		$this->propertyCity = $newPropertyCity;
+	}
 
 	/**
 	 * TODO $propertyClass
 	 **/
+	/**
+	 * accessor method for property class ('R' or 'C')
+	 *
+	 * @return string property class ('R' or 'C')
+	 **/
+	public function getPropertyClass() : string {
+		return($this->propertyClass);
+	}
+
 
 	/**
 	 * TODO $propertyLatitude
 	 **/
+	/**
+	 * accessor method for property latitude
+	 *
+	 * @return float latitude
+	 **/
+	public function getPropertyLatitude() : float {
+		return($this->propertyLatitude);
+	}
 
 	/**
 	 * TODO $propertyLongitude
 	 **/
+	/**
+	 * accessor method for property longitude
+	 *
+	 * @return float longitude
+	 **/
+	public function getPropertyLongitude() : float {
+		return($this->propertyLongitude);
+	}
 
 	/**
 	 * TODO $propertyStreetAddress
 	 **/
+	/**
+	 * accessor method for property street address
+	 *
+	 * @return string property street address
+	 **/
+	public function getPropertyStreetAddress() : string {
+		return($this->propertyStreetAddress);
+	}
 
 	/**
 	 * TODO $propertyValue
 	 **/
-
+	/**
+	 * accessor method for property value
+	 *
+	 * @return float property value
+	 **/
+	public function getPropertyValue() : float {
+		return($this->propertyValue);
+	}
 
 	/********************************************
 	 * TODO GetFooByBars                        *
