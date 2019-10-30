@@ -10,49 +10,55 @@ namespace GoGitters\ApciMap;
  * @version 0.0.1
  *
  **/
-/*
- * TODO Remove this before merging with dev!
- * DDL for property table for reference
- *
- * CREATE TABLE property (
-	propertyUuid          BINARY(16)     NOT NULL,
-	propertyCity          VARCHAR(80)    NOT NULL,
-	propertyClass         CHAR(1)        NOT NULL,
-	propertyLatitude      DECIMAL(9, 6)  NOT NULL,
-	propertyLongitude     DECIMAL(9, 6)  NOT NULL,
-	propertyStreetAddress VARCHAR(134)   NOT NULL,
-	propertyValue         DECIMAL(15, 2) NOT NULL,
-	PRIMARY KEY (propertyUuid)
-)*/
 
 class Property {
-	//TODO write and document all state variables
 	/********************************************
 	 * Declare and document all state variables *
 	 ********************************************/
-	/*
-	 * TODO $propertyUuid
-	 */
+	/**
+	 * id for this property.  this is the primary key.
+	 * @var Uuid $propertyUuid
+	 **/
+	private $propertyUuid;
 
-	/*
-	 * TODO $propertyCity
-	 */
+	/**
+	 * city for this property.  (some entries will also include state & zip)
+	 * max length = 80
+	 * @var string $propertyCity
+	 **/
+	private $propertyCity;
 
-	/*
-	 * TODO $propertyLatitude
-	 */
+	/**
+	 * class for this property 'C' for commercial or 'R' for residential
+	 * @var string $propertyClass
+	 **/
+	private $propertyClass;
+	/**
+	 * latitude for this property
+	 * MySQL type - DECIMAL(9, 6): xxx.xxxxxx
+	 * @var float $propertyLatitude
+	 **/
+	private $propertyLatitude;
 
-	/*
-	 * TODO $propertyLongitude
-	 */
+	/**
+	 * longitude for this property
+	 * MySQL type - DECIMAL(9, 6): xxx.xxxxxx
+	 * @var float $propertyLongitude
+	 **/
+	private $propertyLongitude;
 
-	/*
-	 * TODO $propertyStreetAddress
-	 */
+	/**
+	 * street address for this property.  (address number & street name)
+	 * max length = 134
+	 * @var string $propertyStreetAddress
+	 **/
+	private $propertyStreetAddress;
 
-	/*
-	 * TODO $propertyValue
-	 */
+	/**
+	 * assessed value for this property
+	 * MySQL type - DECIMAL(15, 2)
+	 **/
+	private $propertyValue;
 
 	/********************************************
 	 * TODO Constructor method                  *
@@ -67,6 +73,10 @@ class Property {
 
 	/*
 	 * TODO $propertyCity
+	 */
+
+	/*
+	 * TODO $propertyClass
 	 */
 
 	/*
