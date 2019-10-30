@@ -118,7 +118,7 @@ class Property {
 	 * @param string $newPropertyCity new value of property city
 	 * @throws \InvalidArgumentException if $newPropertyCity is not a string or is insecure
 	 * @throws \RangeException if $newPropertyCity is > 80 characters
-	 * @thrwos \TypeError if $newPropertyCity is not a string
+	 * @throws \TypeError if $newPropertyCity is not a string
 	 **/
 
 	public function setPropertyCity(string $newPropertyCity) : void {
@@ -189,6 +189,8 @@ class Property {
 	 **/
 	public function setPropertyLatitude(float $newPropertyLatitude) : void {
 		//verify input is of correct form
+		//This checks that it is a valid latitude
+		// and  ensures it has the correct number of digits to the left of the decimal for the database
 		if(!($newPropertyLatitude >= -90) && ($newPropertyLatitude <= 90)) {
 			throw(new \InvalidArgumentException("latitude must be between -90 and 90"));
 		}
@@ -218,6 +220,8 @@ class Property {
 	 **/
 	public function setPropertyLongitude(float $newPropertyLongitude) : void {
 		//verify input is of correct form
+		//This checks that it is a valid longitude
+		// and  ensures it has the correct number of digits to the left of the decimal for the database
 		if(!($newPropertyLongitude >= -180) && ($newPropertyLongitude <= 180)) {
 			throw(new \InvalidArgumentException("longitude must be between -180 and 180"));
 		}
@@ -245,7 +249,7 @@ class Property {
 	 * @param string $newPropertyStreetAddress new value of property street address
 	 * @throws \InvalidArgumentException if $newPropertyStreetAddress is not a string or is insecure
 	 * @throws \RangeException if $newPropertyStreetAddress is > 134 characters
-	 * @thrwos \TypeError if $newPropertyStreetAddress is not a string
+	 * @throws \TypeError if $newPropertyStreetAddress is not a string
 	 **/
 
 	public function setPropertyStreetAddress(string $newPropertyStreetAddress) : void {
@@ -266,9 +270,9 @@ class Property {
 		$this->propertyStreetAddress = $newPropertyStreetAddress;
 	}
 
-	/**
-	 * TODO $propertyValue
-	 **/
+	/****************
+	 * $propertyValue
+	 ****************/
 	/**
 	 * accessor method for property value
 	 *
@@ -276,6 +280,26 @@ class Property {
 	 **/
 	public function getPropertyValue() : float {
 		return($this->propertyValue);
+	}
+
+	/**
+	 * mutator method for property value
+	 *
+	 * @param float $newPropertyValue
+	 * @throws \InvalidArgumentException if $newPropertyValue is not valid for DECIMAL(15,2) for Database
+	 * @throws \TypeError if $newPropertyValue is not a float
+	 **/
+	public function setPropertyValue(float $newPropertyValue) : void {
+		//verify input is of correct form
+		//This checks that it is a valid value
+		// and  ensures it has the correct number of digits to the left of the decimal for the database
+		if(!($newPropertyValue >= 0) && ($newPropertyValue <= 9999999999999)) {
+			throw(new \InvalidArgumentException("value must be >= 0 and <= 9999999999999"));
+		}
+		//set precision to 2 decimals
+		$newPropertyValue = round($newPropertyValue, 2);
+		//store the property class
+		$this->propertyValue = $newPropertyValue;
 	}
 
 	/********************************************
