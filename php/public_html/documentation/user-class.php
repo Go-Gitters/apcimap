@@ -49,8 +49,8 @@ class Profile implements \JsonSerializable {
 		try {
 			$this->setUserUuid($newUserUuid);
 			$this->setUserActivationToken($newProfileActivationToken);
-			$this->setProfileEmail($newProfileEmail);
-			$this->setProfileHash($newProfileHash);
+			$this->setUserEmail($newUserEmail);
+			$this->setUserHash($newUserHashsh);
 			$this->userUsername($newUserUsername);
 		} catch(\InvalidArgumentException | \RangeException |\TypeError | \Exception $exception) {
 			//determine what exception type was thrown
@@ -189,10 +189,21 @@ class Profile implements \JsonSerializable {
 	 *
 	 * @param string $newUserUsername
 	 * @throws \InvalidArgumentException  if the username is not a string or insecure
-	 * @throws \RangeException if the username is more than 128 characters
+	 * @throws \RangeException if the username is more than 32 characters
 	 * @throws \TypeError if the username is not a string
 	 */
-	
+	public function setUserUsername(string $newUserUsername): void {
+	$newUserUsername = trim($newUserUsername);
+$newUserUsername = filter_var($newUserUsername, FILTER_VALIDATE_USERNAME);
+if(empty($newUserUsername) === true) {
+throw(new \InvalidArgumentException("username is empty or insecure"));
+}
+// verify the username will fit in the database
+if(strlen($newUserUsername) > 32) {
+	throw(new \RangeException("username has too many characters"));
+}
+// store the email
+$this->userEmail = $newUserEmail;
 	 /**
 	 * inserts this Profile into mySQL
 	 * @param \PDO $pdo PDO connection object
@@ -201,9 +212,9 @@ class Profile implements \JsonSerializable {
 	 **/
 	public function insert(\PDO $pdo): void {
 		// create query template
-		$query = "INSERT INTO profile(profileId, profileActivationToken, profileAtHandle, profileAvatarUrl,  profileEmail, profileHash, profilePhone) VALUES (:profileId, :profileActivationToken, :profileAtHandle, :profileAvatarUrl, :profileEmail, :profileHash, :profilePhone)";
+		$query = "INSERT INTO user(userUuid, userActivationToken, userEmail, userHash,  userUsername) VALUES (:userUuid, :userActivationToken, :userEmail, :userHash, :userUsername)";
 		$statement = $pdo->prepare($query);
-		$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken, "profileAtHandle" => $this->profileAtHandle, "profileAvatarUrl" => $this->profileAvatarUrl, "profileEmail" => $this->profileEmail, "profileHash" => $this->profileHash,"profilePhone" => $this->profilePhone];
+		$parameters = ["userUuid" => $this->userUuid->getBytes(), "userActivationToken" => $this->profileActivationToken, "profileAtHandle" => $this->profileAtHandle, "profileAvatarUrl" => $this->profileAvatarUrl, "profileEmail" => $this->profileEmail, "profileHash" => $this->profileHash,"profilePhone" => $this->profilePhone];
 		$statement->execute($parameters);
 	}
 	/**
@@ -215,10 +226,10 @@ class Profile implements \JsonSerializable {
 	 **/
 	public function delete(\PDO $pdo): void {
 		// create query template
-		$query = "DELETE FROM profile WHERE profileId = :profileId";
+		$query = "DELETE FROM user WHERE useruUuid = :userId";
 		$statement = $pdo->prepare($query);
 		//bind the member variables to the place holders in the template
-		$parameters = ["profileId" => $this->profileId->getBytes()];
+		$parameters = ["userUuid" => $this->userUuid->getBytes()];
 		$statement->execute($parameters);
 	}
 	/**
@@ -229,7 +240,7 @@ class Profile implements \JsonSerializable {
 	 **/
 	public function update(\PDO $pdo): void {
 		// create query template
-		$query = "UPDATE profile SET profileActivationToken = :profileActivationToken, profileAtHandle = :profileAtHandle, profileAvatarUrl = :profileAvatarUrl,profileEmail = :profileEmail, profileHash = :profileHash, profilePhone = :profilePhone WHERE profileId = :profileId";
+		$query = "UPDATE user SET profileActivationToken = :profileActivationToken, profileAtHandle = :profileAtHandle, profileAvatarUrl = :profileAvatarUrl,profileEmail = :profileEmail, profileHash = :profileHash, profilePhone = :profilePhone WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
 		// bind the member variables to the place holders in the template
 		$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken, "profileAtHandle" => $this->profileAtHandle, "profileAvatarUrl" => $this->profileAvatarUrl, "profileEmail" => $this->profileEmail, "profileHash" => $this->profileHash, "profilePhone" => $this->profilePhone];
@@ -352,8 +363,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public
-	static function getProfileByProfileActivationToken(\PDO $pdo, string $profileActivationToken) : ?Profile {
+	public static function getProfileByProfileActivationToken(\PDO $pdo, string $profileActivationToken) : ?Profile {
 		//make sure activation token is in the right format and that it is a string representation of a hexadecimal
 		$profileActivationToken = trim($profileActivationToken);
 		if(ctype_xdigit($profileActivationToken) === false) {
