@@ -139,9 +139,9 @@ class Property {
 		$this->propertyCity = $newPropertyCity;
 	}
 
-	/**
-	 * TODO $propertyClass
-	 **/
+	/*****************
+	 * $propertyClass
+	 *****************/
 	/**
 	 * accessor method for property class ('R' or 'C')
 	 *
@@ -150,7 +150,23 @@ class Property {
 	public function getPropertyClass() : string {
 		return($this->propertyClass);
 	}
+	/**
+	 * mutator method for property class
+	 *
+	 * @param string $newPropertyClass new value of property class 'R' or 'C' for Residential or Commercial
+	 * @throws \InvalidArgumentException if $newPropertyClass is not an 'R' or a 'C'
+	 * @throws \TypeError if $newPropertyClass is not a string
+	 **/
 
+	public function setPropertyClass(string $newPropertyClass) : void {
+		//verify input is of correct form
+		if($newPropertyClass != ('R' || 'C')) {
+			throw(new \InvalidArgumentException("class type must be 'R' or 'C'"));
+		}
+
+		//store the property class
+		$this->propertyClass = $newPropertyClass;
+	}
 
 	/**
 	 * TODO $propertyLatitude
