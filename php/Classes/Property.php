@@ -63,7 +63,7 @@ class Property {
 	private $propertyValue;
 
 	/********************************************
-	 * TODO Constructor method                  *
+	 * Constructor method                  *
 	 ********************************************/
 
 	/**
@@ -336,9 +336,29 @@ class Property {
 		$this->propertyValue = $newPropertyValue;
 	}
 
+
+	/*******************************************
+	 * DBO Methods
+	 *******************************************/
+
+	//TODO insert function
+	publlic function insert(\PDO $pdo) : void {
+
+}
+	//TODO delete function
+	public function delete(\PDO $pdo) : void {
+
+	}
+
 	/********************************************
 	 * TODO GetFooByBars                        *
+	 *  	getAllProperty
+	 * 	getPropertyByPropertyUuid
+	 * 	getPropertyByUserUuid
 	 ********************************************/
+
+
+
 
 //Closing bracket for Class!!!!!!!!!!!!!!!!!!!
 }
