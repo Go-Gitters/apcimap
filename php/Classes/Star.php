@@ -144,7 +144,7 @@ class Star implements \JsonSerializable {
 	 * @throws \InvalidArgumentException if $newStarDate is not a valid object or string
 	 * @throws \RangeException if the $newStarDate is a date that does not exist
 	 */
-	public function setStarDAte($newStarDate): void {
+	public function setStarDate($newStarDate): void {
 		// base case: if the date is null, use the current date and time
 		if($newStarDate === null) {
 			$this->starDate = new \DateTime();
