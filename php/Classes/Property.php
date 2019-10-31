@@ -341,7 +341,6 @@ class Property {
 	 * DBO Methods
 	 *******************************************/
 
-
 	/**
 	 * inserts this Property into MySQL
 	 *
@@ -362,7 +361,12 @@ class Property {
 
 	//TODO delete function
 	public function delete(\PDO $pdo) : void {
+		//create query template
+		$query = "DELETE FROM property WHERE propertyUuid = :propertyUuid";
+		$statement = $pdo->prepare($query);
 
+		//bind the member variable to the place holder in the template
+		$parameters = ["propertyUuid" => $this->propertyUuid->getBytes()];
 	}
 
 	/********************************************
