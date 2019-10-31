@@ -82,6 +82,19 @@ class Property {
 	 * @throws \Exception if some other exception occurs
 	 */
 
+	public function __construct($newPropertyUuid, $newPropertyCity, $newPropertyClass, $newPropertyLatitude, $newPropertyLongitude, $newPropertyStreetAddress, $newPropertyValue) {
+		try {
+			$this->setPropertyUuid($newPropertyUuid);
+			$this->setPropertyCity($newPropertyCity);
+			$this->setPropertyClass($newPropertyClass);
+			$this->setPropertyLatitude($newPropertyLatitude);
+			$this->setPropertyLongitude($newPropertyLongitude);
+			$this->setPropertyStreetAddress($newPropertyStreetAddress);
+			$this->setPropertyValue($newPropertyValue);
+		}
+		catch
+	}
+
 	/********************************************
 	 *Getters and Setters                       *
 	 ********************************************/
