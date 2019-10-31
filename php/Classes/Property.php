@@ -395,8 +395,17 @@ class Property {
 	/********************************************
 	 * TODO GetFooByBars                        *
 	 ********************************************/
-//TODO fill in
-	public static function getPropertyByPropertyUuid(\PDO $pdo) : ?Property {
+
+	/**
+	 * gets the Property by propertyUuid
+	 *
+	 * @param \PDO $pdo connection object
+	 * @param Uuid|string $propertyUuid property uuid to search for
+	 * @return Property|null Property found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when a variable are not the correct data type
+	 */
+	public static function getPropertyByPropertyUuid(\PDO $pdo, $propertyUuid) : ?Property {
 
 	}
 
@@ -406,7 +415,7 @@ class Property {
 	}
 
 	//TODO fill in
-	public static function getPropertyAllProperty(\PDO $pdo, $userUuid) : \SplFixedArray {
+	public static function getPropertyAllProperty(\PDO $pdo) : \SplFixedArray {
 
 	}
 
