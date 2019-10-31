@@ -341,10 +341,19 @@ class Property {
 	 * DBO Methods
 	 *******************************************/
 
-	//TODO insert function
-	publlic function insert(\PDO $pdo) : void {
 
-}
+	//TODO insert function
+	public function insert(\PDO $pdo) : void {
+		//create query template
+		$query = "INSERT INTO property(propertyUuid, propertyCity, propertyClass, propertyLatitude, propertyLongitude, propertyStreetAddress, propertyValue) VALUES(:propertyUuid, :propertyCity, :propertyClass, :propertyLatitude, :propertyLongitude, :propertyStreetAddress, :propertyValue)";
+		$statement = $pdo->prepare($query);
+
+		//bind the member variables to the place holders in the template
+		$parameters = ["propertyUuid" => $this->propertyUuid->getBytes(), "propertyCity" => $this->propertyCity, "propertyClass" => $this->propertyClass, "propertyLatitude" => $this->propertyLatitude, "propertyLongitude" => $this->propertyLongitude, "propertyStreetAddress" => $this->propertyStreetAddress, "propertyValue" => $this->propertyValue];
+		$statement->execute($parameters);
+	}
+
+
 	//TODO delete function
 	public function delete(\PDO $pdo) : void {
 
