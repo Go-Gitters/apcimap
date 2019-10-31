@@ -375,6 +375,17 @@ class Property {
 		$parameters = ["propertyUuid" => $this->propertyUuid->getBytes()];
 	}
 
+	/**
+	 * updates this Property in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function update(\PDO $pdo) : void {
+
+	}
+
 	/********************************************
 	 * TODO GetFooByBars                        *
 	 *  	getAllProperty
