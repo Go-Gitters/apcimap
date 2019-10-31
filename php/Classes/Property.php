@@ -394,13 +394,21 @@ class Property {
 
 	/********************************************
 	 * TODO GetFooByBars                        *
-	 *  	getAllProperty
-	 * 	getPropertyByPropertyUuid
-	 * 	getPropertyByUserUuid
 	 ********************************************/
+//TODO fill in
+	public static function getPropertyByPropertyUuid(\PDO $pdo) : ?Property {
 
+	}
 
+	//TODO fill in
+	public static function getPropertyByUserUuid(\PDO $pdo, $userUuid) : \SplFixedArray {
 
+	}
+
+	//TODO fill in
+	public static function getPropertyAllProperty(\PDO $pdo, $userUuid) : \SplFixedArray {
+
+	}
 
 //Closing bracket for Class!!!!!!!!!!!!!!!!!!!
 }
