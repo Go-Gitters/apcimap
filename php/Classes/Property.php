@@ -92,7 +92,10 @@ class Property {
 			$this->setPropertyStreetAddress($newPropertyStreetAddress);
 			$this->setPropertyValue($newPropertyValue);
 		}
-		catch
+		catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
 	}
 
 	/********************************************
