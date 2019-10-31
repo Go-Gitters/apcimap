@@ -3,6 +3,8 @@
 
 namespace GoGitters\ApciMap;
 
+use http\Exception\InvalidArgumentException;
+
 /**
  * This class represents a property and includes attributes like latitude, longitude & assessed values.
  *
@@ -64,8 +66,24 @@ class Property {
 	 * TODO Constructor method                  *
 	 ********************************************/
 
+	/**
+	 * constructor for this Property
+	 *
+	 * @param string|Uuid $newPropertyUuid of this Property
+	 * @param string $newPropertyCity
+	 * @param string $newPropertyClass
+	 * @param float $newPropertyLatitude
+	 * @param float $newPropertyLongitude
+	 * @param string $newPropertyStreetAddress
+	 * @param float $newPropertyValue
+	 * @throws \InvalidArgumentException if data types are not valid
+	 * @throws \RangeException if data values are out of bounds
+	 * @throws \TypeError if data types violate type hints
+	 * @throws \Exception if some other exception occurs
+	 */
+
 	/********************************************
-	 * TODO Getters and Setters                 *
+	 *Getters and Setters                       *
 	 ********************************************/
 	/****************
 	 * $propertyUuid
