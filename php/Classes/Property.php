@@ -383,7 +383,13 @@ class Property {
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 	public function update(\PDO $pdo) : void {
+		//create query template
+		$query = "UPDATE property SET propertyUuid = :propertyUuid, propertyCity = :propertyCity, propertyClass = :propertyClass, propertyLatitude = :propertyLatitud, propertyLongitude = :propertyLongitude, propertyStreetAddress = :propertyStreetAddress, propertyValue = :propertyValue WHERE propertyUuid = :propertyUuid";
+		$statement = $pdo->prepare($query);
 
+		//bind member variables to template
+		$parameters = ["propertyUuid" => $this->propertyUuid->getBytes(), "propertyCity" => $this->propertyCity, "propertyClass" => $this->propertyClass, "propertyLatitude" => $this->propertyLatitude, "propertyLongitude" => $this->propertyLongitude, "propertyStreetAddress" => $this->propertyStreetAddress, "propertyValue" => $this->propertyValue];
+		$statement->execute($parameters);
 	}
 
 	/********************************************
