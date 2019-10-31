@@ -4,6 +4,7 @@ namespace GoGitters\ApciMap;
 require_once("autoload.php");
 require_once(dirname(__DIR__, 1) . "/lib/vendor/autoload.php");
 
+use http\Exception\InvalidArgumentException;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -122,14 +123,38 @@ class Crime {
 		$this->crimeDate = $newCrimeDate;
 	}
 
-
-public function getCrimeLatitude(): string{
+/**
+ * accessor method for crime latitude
+ *
+ * @return float value of crime type
+ **/
+public function getCrimeLatitude(): float{
 	return ($this->crimeLatitude);
 }
-public function getCrimeLatitude(): void {
-		$newCrimeLatitude = floatval()
+/**mutator method for crime latitude
+ * @throws InvalidArgumentException if latitude is outside of the ranges of -90 and 90\InvalidArgumentException
+ * */
+public function setCrimeLatitude(): void {
+	if(!($newCrimeLatitude >= -90) && ($newCrimeLatitude <= 90)) {
+		throw(new \InvalidArgumentException("latitude must be between -90 and 90"));
+	}
+	$newCrimeLatitude = round($newCrimeLatitude, 6);
 
-
+	/**accessor method for crime longitude
+	 * @return float value of crime type
+	 **/
+	public function getCrimeLongitude(): float{
+		return ($this->crimeLongitude);
+	}
+	/**mutator method for crime longitude
+	 * @throws InvalidArgumentException if longitude is outside of the ranges of -180 and 180\InvalidArgumentException
+	 * */
+	public function setCrimeLongitude(): float{
+		if(!($newPropertyLongitude >= -180) && ($newPropertyLongitude <= 180)) {
+			throw(new \InvalidArgumentException("longitude must be between -180 and 180"));
+		}
+		$newPropertyLongitude = round($newPropertyLongitude, 6);
+	}
 /**
  * accessor method for crime type
  *
@@ -166,7 +191,7 @@ public function getCrimeLatitude(): void {
 
 
 	/**
-	 * inserts this Author into mySQL
+	 * inserts this Crime into mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
