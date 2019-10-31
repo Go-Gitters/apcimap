@@ -73,7 +73,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \RangeException if $newUserUuid is not positive
 	 * @throws \TypeError if the user Id is not
 	 **/
-	public function setUserId($newUserUuid): void {
+	public function setUserUuid($newUserUuid): void {
 		try {
 			$uuid = self::validateUuid($newUserUuid);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
@@ -134,8 +134,8 @@ class Profile implements \JsonSerializable {
 		// verify the email is secure
 		$newUserEmail = trim($newUserEmail);
 		$newUserEmail = filter_var($newUserEmail, FILTER_VALIDATE_EMAIL);
-		if(empty($newProfileEmail) === true) {
-			throw(new \InvalidArgumentException("profile email is empty or insecure"));
+		if(empty($newUserEmail) === true) {
+			throw(new \InvalidArgumentException("user email is empty or insecure"));
 		}
 		// verify the email will fit in the database
 		if(strlen($newUserEmail) > 128) {
