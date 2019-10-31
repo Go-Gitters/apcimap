@@ -342,7 +342,13 @@ class Property {
 	 *******************************************/
 
 
-	//TODO insert function
+	/**
+	 * inserts this Property into MySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
 	public function insert(\PDO $pdo) : void {
 		//create query template
 		$query = "INSERT INTO property(propertyUuid, propertyCity, propertyClass, propertyLatitude, propertyLongitude, propertyStreetAddress, propertyValue) VALUES(:propertyUuid, :propertyCity, :propertyClass, :propertyLatitude, :propertyLongitude, :propertyStreetAddress, :propertyValue)";
