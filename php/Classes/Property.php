@@ -406,7 +406,20 @@ class Property {
 	 * @throws \TypeError when a variable are not the correct data type
 	 */
 	public static function getPropertyByPropertyUuid(\PDO $pdo, $propertyUuid) : ?Property {
+		// sanitize the propertyUuid before searching
+		try {
+			$propertyUuid = self::validateUuid($propertyUuid);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
 
+		//create query template
+		$query = "SELECT propertyUuid, propertyCity, propertyClass, propertyLatitude, propertyLongitude, propertyStreetAddress, propertyValue FROM property WHERE propertyUuid = :propertyUuid";
+		$statement = $pdo->prepare($query);
+
+		//bind the property uuid to the place holder
+		$parameters = ["propertyUuid" => $propertyUuid->getBytes()];
+		$statement->execute($parameters);
 	}
 
 	//TODO fill in
