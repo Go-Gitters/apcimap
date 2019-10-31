@@ -358,8 +358,14 @@ class Property {
 		$statement->execute($parameters);
 	}
 
+	/**
+	 * deletes this property from MySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
 
-	//TODO delete function
 	public function delete(\PDO $pdo) : void {
 		//create query template
 		$query = "DELETE FROM property WHERE propertyUuid = :propertyUuid";
