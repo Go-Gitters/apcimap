@@ -436,7 +436,7 @@ class Property {
 		return($property);
 	}
 
-	//TODO fill in
+
 	public static function getPropertyByUserUuid(\PDO $pdo, $userUuid) : \SplFixedArray {
 		// sanitize the userUuid before searching
 		try {
@@ -467,7 +467,13 @@ class Property {
 		return($properties);
 	}
 
-	//TODO fill in
+	/**
+	 * get all properties
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray of Properties if found or null if not found
+	 * @throws \PDOException for errors related to MySQL
+	 */
 	public static function getAllProperties(\PDO $pdo) : \SplFixedArray {
 		// create query template
 		//TODO Make query
