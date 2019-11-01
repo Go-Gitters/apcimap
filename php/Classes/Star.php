@@ -164,7 +164,7 @@ class Star {
 			 * @return \SplFixedArray SplFixedArray of Stars found or null if not found
 			 * @throws \PDOException when mySQL related errors occur
 			 */
-			public static function getStarByStarPropertyUuid(\PDO $pdo, string $starPropertyUuid) : \SplFixedArray {
+			public static function getStarByStarPropertyUuid(\PDO $pdo, $starPropertyUuid) : \SplFixedArray {
 				// sanitize the property uuid before searching
 				try {
 					$starPropertyUuid = self::validateUuid($starPropertyUuid);
@@ -197,19 +197,19 @@ class Star {
 
 			}
 			/********************************************
-			 * TODO GetFooByBars - getStarByUserUuid    *
+			 *     GetFooByBars - getStarByUserUuid     *
 			 ********************************************/
 
-	/*
+	/**
 	 * gets the Star by user Uuid
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param string $starUserUuid star user uuid to search for
+	 * @param Uuid|string $starUserUuid star user uuid to search for
 	 * @return \SplFixedArray array of Stars found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 \	 */
-	public static function getStarByUserUuid(\PDO $pdo, string $starUserUuid) : \SplFixedArray {
-		// sanitize the property uuid before searching
+	public static function getStarByUserUuid(\PDO $pdo, $starUserUuid) : \SplFixedArray {
+		// sanitize the user uuid before searching
 		try {
 			$starUserUuid = self::validateUuid($starUserUuid);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
@@ -217,7 +217,7 @@ class Star {
 		}
 
 		// create query template
-		$query = "SELECT starPropertyUuid, starUserUuid, starDate FROM star WHERE starUserUuid = :starUserUuid";
+		$query = "SELECT starPropertyUuid, starUserUuid FROM star WHERE starUserUuid = :starUserUuid";
 		$statement = $pdo->prepare($query);
 
 		// bind the star user uuid to the placeholder in the template
@@ -225,19 +225,19 @@ class Star {
 		$statement->execute($parameters);
 
 		// build an array of stars
-		$star = new \SplFixedArray($statement->rowCount());
+		$stars = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$star = new Star($row["starPropertyUuid"], $row["starUserUuid"], $row["starDate"]);
-				$star[$star->key()] = $star;
-				$star->next();
+				$star = new Star($row["starPropertyUuid"], $row["starUserUuid"]);
+				$stars[$stars->key()] = $star;
+				$stars->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return($star);
+		return($stars);
 	}
 
 			/***********************************************************
