@@ -486,7 +486,7 @@ class Property {
 	public static function getAllProperties(\PDO $pdo) : \SplFixedArray {
 		// create query template
 		//TODO Make query
-		$query = " ";
+		$query = "SELECT propertyUuid, propertyCity, propertyClass, propertyLatitude, propertyLongitude, propertyStreetAddress, propertyValue FROM property";
 		$statement = $pdo->prepare($query);
 		// bind the user uuid to template
 		$parameters = ["userUuid" => $userUuid->getBytes()];
