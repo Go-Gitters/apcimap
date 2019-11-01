@@ -330,8 +330,8 @@ class Property {
 		//verify input is of correct form
 		//This checks that it is a valid value
 		// and  ensures it has the correct number of digits to the left of the decimal for the database
-		if(!($newPropertyValue >= 0) && ($newPropertyValue <= 9999999999999)) {
-			throw(new \InvalidArgumentException("value must be >= 0 and <= 9999999999999"));
+		if(!($newPropertyValue >= 0) && ($newPropertyValue <= 9999999999999.99)) {
+			throw(new \InvalidArgumentException("value must be >= 0 and <= 9999999999999.99"));
 		}
 		//set precision to 2 decimals
 		$newPropertyValue = round($newPropertyValue, 2);
@@ -396,7 +396,7 @@ class Property {
 	}
 
 	/********************************************
-	 * GetFooByBars                        *
+	 * GetFooByBars                             *
 	 ********************************************/
 
 	/**
@@ -457,7 +457,7 @@ class Property {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		// create query template
-		$query = "SELECT propertyUuid, propertyCity, propertyClass, propertyLatitude, propertyLongitude, propertyStreetAddress, propertyValue FROM property INNER JOIN star ON property.propertyUuid star.starPropertyUuid INNER JOIN user ON star.starUserUuid user.userUuid WHERE userUuid = :userUuid ";
+		$query = "SELECT propertyUuid, propertyCity, propertyClass, propertyLatitude, propertyLongitude, propertyStreetAddress, propertyValue FROM property INNER JOIN star ON property.propertyUuid star.starPropertyUuid INNER JOIN 'user' ON star.starUserUuid 'user'.userUuid WHERE userUuid = :userUuid ";
 		$statement = $pdo->prepare($query);
 		// bind the user uuid to template
 		$parameters = ["userUuid" => $userUuid->getBytes()];
@@ -505,7 +505,6 @@ class Property {
 		}
 		return($properties);
 	}
-
 
 //Closing bracket for Class!!!!!!!!!!!!!!!!!!!
 }
