@@ -468,9 +468,30 @@ class Property {
 	}
 
 	//TODO fill in
-	public static function getAllProperty(\PDO $pdo) : \SplFixedArray {
-
+	public static function getAllProperties(\PDO $pdo) : \SplFixedArray {
+		// create query template
+		//TODO Make query
+		$query = " ";
+		$statement = $pdo->prepare($query);
+		// bind the user uuid to template
+		$parameters = ["userUuid" => $userUuid->getBytes()];
+		$statement->execute($parameters);
+		// build an array of properties
+		$properties = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$property = new Property($row["propertyUuid"], $row["propertyCity"], $row["propertyClass"], $row["propertyLatitude"], $row["propertyLongitude"], $row["propertyStreetAddress"], $row["propertyValue"]);
+				$properties[$properties->key()] = $property;
+				$properties->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($properties);
 	}
+
 
 //Closing bracket for Class!!!!!!!!!!!!!!!!!!!
 }
