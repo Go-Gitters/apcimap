@@ -16,8 +16,7 @@ use Ramsey\Uuid\Uuid;
  * @version 0.0.1
  */
 
-class Star implements \JsonSerializable {
-	use ValidateDate; /* The React file contained this for the $likeDate */
+class Star {
 	use ValidateUuid;
 
 			/*
@@ -31,13 +30,6 @@ class Star implements \JsonSerializable {
 			 * @var Uuid $starUserUuid
 			 */
 			private $starUserUuid;
-
-			/*
-			 * NOTE: The React file included the below starDate
-			 * date and time the property was starred
-			 * @var \DateTime $starDate
-			 */
-			private $starDate;
 
 			/********************************************
 			 * Constructor                              *
