@@ -79,14 +79,14 @@ class Star {
 			 */
 			public function setStarPropertyUuid($newStarPropertyUuid): void {
 				try {
-					$uuid = self::validateUuid($newStarPropertyUuid);
+					$newStarPropertyUuid = self::validateUuid($newStarPropertyUuid);
 				} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 					$exceptionType = get_class($exception);
 					throw(new $exceptionType($exception->getMessage(), 0, $exception));
 				}
 
 				// convert and store the starred property uuid
-				$this->starPropertyUuid = $uuid;
+				$this->starPropertyUuid = $newStarPropertyUuid;
 			}
 
 			/*
