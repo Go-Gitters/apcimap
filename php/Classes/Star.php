@@ -39,19 +39,16 @@ class Star {
 			 *
 			 * @param string|Uuid $newStarPropertyUuid id of the parent Property
 			 * @param string|Uuid $newStarUserUuid id of the parent User
-			 * @param \DateTime|null $newStarDate date the property was starred (or null for current time)
-			 * @throws \InvalidArgumentException if data types are not valid
+\			 * @throws \InvalidArgumentException if data types are not valid
 			 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
 			 * @throws \TypeError if a data type violate type hints
 			 * @throws \Exception if some other exception occurs
-			 * @documentation https://php.net/manual/en/language.oop5.decon.php
 			 */
-			public function __construct($newStarPropertyUuid, $newStarUserUuid, $newStarDate = null) {
+			public function __construct($newStarPropertyUuid, $newStarUserUuid) {
 				// use the mutator methods to do the work for us
 				try {
 					$this->setStarPropertyUuid($newStarPropertyUuid);
 					$this->setStarUserUuid($newStarUserUuid);
-					$this->setStarDate($newStarDate);
 				} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 
 					// determine what exception type was thrown
