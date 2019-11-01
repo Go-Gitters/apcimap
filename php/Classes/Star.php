@@ -107,14 +107,14 @@ class Star {
 			 */
 			public function setStarUserUuid($newStarUserUuid): void {
 				try {
-					$uuid = self::validateUuid($newStarUserUuid);
+					$newStarUserUuid = self::validateUuid($newStarUserUuid);
 				} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 					$exceptionType = get_class($exception);
 					throw(new $exceptionType($exception->getMessage(), 0, $exception));
 				}
 
 				// convert and store the starred user uuid
-				$this->starUserUuid = $uuid;
+				$this->starUserUuid = $newStarUserUuid;
 	}
 
 	/*
