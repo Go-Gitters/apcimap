@@ -3,7 +3,10 @@
 
 namespace GoGitters\ApciMap;
 
-use http\Exception\InvalidArgumentException;
+require_once("autoload.php");
+require_once(dirname(__DIR__) . "/vendor/autoload.php");
+
+use Ramsey\Uuid\Uuid;
 
 /**
  * This class represents a property and includes attributes like latitude, longitude & assessed values.
