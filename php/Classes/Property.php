@@ -393,7 +393,7 @@ class Property {
 	}
 
 	/********************************************
-	 * TODO GetFooByBars                        *
+	 * GetFooByBars                        *
 	 ********************************************/
 
 	/**
@@ -427,7 +427,7 @@ class Property {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$property = new Property($row["propertyUuid"], $row["propertyCity"], $row["propertyLatitude"], $row["propertyLongitude"], $row["propertyStreetAddress"], $row["propertyValue"]);
+				$property = new Property($row["propertyUuid"], $row["propertyCity"], $row["propertyClass"], $row["propertyLatitude"], $row["propertyLongitude"], $row["propertyStreetAddress"], $row["propertyValue"]);
 			}
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
@@ -444,11 +444,31 @@ class Property {
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-
+		// create query template
+		//TODO Make query
+		$query = " ";
+		$statement = $pdo->prepare($query);
+		// bind the user uuid to template
+		$parameters = ["userUuid" => $userUuid->getBytes()];
+		$statement->execute($parameters);
+		// build an array of properties
+		$properties = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$property = new Property($row["propertyUuid"], $row["propertyCity"], $row["propertyClass"], $row["propertyLatitude"], $row["propertyLongitude"], $row["propertyStreetAddress"], $row["propertyValue"]);
+				$properties[$properties->key()] = $property;
+				$properties->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($properties);
 	}
 
 	//TODO fill in
-	public static function getPropertyAllProperty(\PDO $pdo) : \SplFixedArray {
+	public static function getAllProperty(\PDO $pdo) : \SplFixedArray {
 
 	}
 
