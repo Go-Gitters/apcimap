@@ -73,12 +73,12 @@ class Property {
 	 * constructor for this Property
 	 *
 	 * @param string|Uuid $newPropertyUuid of this Property
-	 * @param string $newPropertyCity
-	 * @param string $newPropertyClass
-	 * @param float $newPropertyLatitude
-	 * @param float $newPropertyLongitude
-	 * @param string $newPropertyStreetAddress
-	 * @param float $newPropertyValue
+	 * @param string $newPropertyCity property city or city, state or city, state zip.  80 characters or less
+	 * @param string $newPropertyClass property class.  'R' or 'C' for Residential or Commercial
+	 * @param float $newPropertyLatitude property latitude
+	 * @param float $newPropertyLongitude property longitude
+	 * @param string $newPropertyStreetAddress property street address- number and street
+	 * @param float $newPropertyValue property assessed value in dollars
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are out of bounds
 	 * @throws \TypeError if data types violate type hints
@@ -211,7 +211,7 @@ class Property {
 	/**
 	 * accessor method for property latitude
 	 *
-	 * @return float latitude
+	 * @return float $latitude latitude of this property
 	 **/
 	public function getPropertyLatitude() : float {
 		return($this->propertyLatitude);
@@ -220,7 +220,7 @@ class Property {
 	/**
 	 * mutator method for property latitude
 	 *
-	 * @param float $newPropertyLatitude
+	 * @param float $newPropertyLatitude latitude of this property
 	 * @throws \InvalidArgumentException if $newPropertyLatitude is not >= -90 and <=90
 	 * @throws \TypeError if $newPropertyLatitude is not a float
 	 **/
@@ -235,14 +235,14 @@ class Property {
 		$newPropertyLatitude = round($newPropertyLatitude, 6);
 		//store the property class
 		$this->propertyLatitude = $newPropertyLatitude;
-	}	
+	}
 	/********************
 	 * $propertyLongitude
 	 ********************/
 	/**
 	 * accessor method for property longitude
 	 *
-	 * @return float longitude
+	 * @return float $longitude lon
 	 **/
 	public function getPropertyLongitude() : float {
 		return($this->propertyLongitude);
@@ -251,7 +251,7 @@ class Property {
 	/**
 	 * mutator method for property longitude
 	 *
-	 * @param float $newPropertyLongitude
+	 * @param float $newPropertyLongitude longitude of this property
 	 * @throws \InvalidArgumentException if $newPropertyLongitude is not >= -180 and <=180
 	 * @throws \TypeError if $newPropertyLongitude is not a float
 	 **/
@@ -322,7 +322,7 @@ class Property {
 	/**
 	 * mutator method for property value
 	 *
-	 * @param float $newPropertyValue
+	 * @param float $newPropertyValue new assessed value of this property
 	 * @throws \InvalidArgumentException if $newPropertyValue is not valid for DECIMAL(15,2) for Database
 	 * @throws \TypeError if $newPropertyValue is not a float
 	 **/
