@@ -437,6 +437,15 @@ class Property {
 	}
 
 
+	/**
+	 * uses the user uuid to get all properties that a user has starred
+	 *
+	 * @param \PDO $pdo PDO Connection object
+	 * @param Uuid|string  $userUuid user uuid of the user who has starred the properties
+	 * @return \SplFixedArray of Properties or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 */
 	public static function getPropertyByUserUuid(\PDO $pdo, $userUuid) : \SplFixedArray {
 		// sanitize the userUuid before searching
 		try {
@@ -471,7 +480,7 @@ class Property {
 	 * get all properties
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @return \SplFixedArray of Properties if found or null if not found
+	 * @return \SplFixedArray SplFixedArray of Properties if found or null if not found
 	 * @throws \PDOException for errors related to MySQL
 	 */
 	public static function getAllProperties(\PDO $pdo) : \SplFixedArray {
