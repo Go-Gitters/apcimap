@@ -438,6 +438,12 @@ class Property {
 
 	//TODO fill in
 	public static function getPropertyByUserUuid(\PDO $pdo, $userUuid) : \SplFixedArray {
+		// sanitize the userUuid before searching
+		try {
+			$userUuid = self::validateUuid($userUuid);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
 
 	}
 
