@@ -19,13 +19,13 @@ use Ramsey\Uuid\Uuid;
 class Star {
 	use ValidateUuid;
 
-			/*
+			/**
 			 * id of the Property being starred; this is a component of a composite primary key (and a foreign key)
 			 * @var Uuid $starPropertyUuid
 			 */
 			private $starPropertyUuid;
 
-			/*
+			/**
 			 * id of the User who starred; this is a component of a composite primary key (and a foreign key)
 			 * @var Uuid $starUserUuid
 			 */
@@ -34,7 +34,7 @@ class Star {
 			/********************************************
 			 * Constructor                              *
 			 ********************************************/
-			/*
+			/**
 			 * constructor for this Star
 			 *
 			 * @param string|Uuid $newStarPropertyUuid id of the parent Property
@@ -61,7 +61,7 @@ class Star {
 			 * Getters and Setters                      *
 			 ********************************************/
 
-			 /*
+			 /**
 			 * accessor method for property uuid
 			 *
 			 * @return Uuid value of property uuid
@@ -70,7 +70,7 @@ class Star {
 				return ($this->starPropertyUuid);
 			}
 
-			/*
+			/**
 			 * mutator method for Property Uuid
 			 *
 			 * @param string $newStarPropertyUuid new value of property uuid
@@ -89,7 +89,7 @@ class Star {
 				$this->starPropertyUuid = $newStarPropertyUuid;
 			}
 
-			/*
+			/**
 			 * accessor method for user uuid
 			 *
 			 * @return Uuid value of user uuid
@@ -98,7 +98,7 @@ class Star {
 				return ($this->starUserUuid);
 			}
 
-			/*
+			/**
 			 * mutator method for user Uuid
 			 *
 			 * @param string $newStarUserUuid new value of user uuid
@@ -117,7 +117,7 @@ class Star {
 				$this->starUserUuid = $newStarUserUuid;
 	}
 
-			/*
+			/**
 			 * inserts this Star into mySQL
 			 *
 			 * @param \PDO $pdo PDO connection object
@@ -134,7 +134,7 @@ class Star {
 				$statement->execute($parameters);
 			}
 
-			/*
+			/**
 			 * deletes this Star from mySQL
 			 *
 			 * @param \PDO $pdo PDO connection object
@@ -241,18 +241,18 @@ class Star {
 	}
 
 			/***********************************************************
-			 * TODO GetFooByBars - getStarByPropertyUuidAndUserUuid    *
+			 *     GetFooByBars - getStarByPropertyUuidAndUserUuid    *
 			 ***********************************************************/
 
-	/*
+	/**
 	 * gets the Star by property Uuid and user Uuid
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param string $starPropertyUuid property uuid to search for
-	 * @param string $starUserUuid user uuid to search for
+	 * @param Uuid|string $starPropertyUuid property uuid to search for
+	 * @param Uuid|string $starUserUuid user uuid to search for
 	 * @return Star|null Star found or null if not found
 	 */
-	public static function getStarByStarPropertyUuidAndStarUserUuid(\PDO $pdo, string $starPropertyUuid, string $starUserUuid) : ?Star {
+	public static function getStarByStarPropertyUuidAndStarUserUuid(\PDO $pdo, $starPropertyUuid, $starUserUuid) : ?Star {
 
 		try {
 			$starPropertyUuid = self::validateUuid($starPropertyUuid);
@@ -267,7 +267,7 @@ class Star {
 		}
 
 		// create query template
-		$query = "SELECT starPropertyUuid, starUserUuid starDate FROM star WHERE starPropertyUuid = :starPropertyUuid AND starUserUuid = :starUserUuid";
+		$query = "SELECT starPropertyUuid, starUserUuid FROM star WHERE starPropertyUuid = :starPropertyUuid AND starUserUuid = :starUserUuid";
 		$statement = $pdo->prepare($query);
 
 		// bind the property uuid and user uuid to the placeholder in the template
@@ -280,7 +280,7 @@ class Star {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$star = new Star($row["starPropertyUuid"], $row["starUserUuid"], $row["starDate"]);
+				$star = new Star($row["starPropertyUuid"], $row["starUserUuid"]);
 			}
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
