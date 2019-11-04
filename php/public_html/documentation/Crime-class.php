@@ -2,44 +2,64 @@
 
 namespace GoGitters\ApciMap;
 require_once("autoload.php");
-require_once(dirname(__DIR__, 1) . "/lib/vendor/autoload.php");
-
-use http\Exception\InvalidArgumentException;
+require_once(dirname(__DIR__) . "/vendor/autoload.php");
 use Ramsey\Uuid\Uuid;
 
 /**
  *Creating a crime profile
- */
+ * @author Lindsey Atencio
+ * @version 0.0.1
+ *
+ **/
+
 class Crime {
 	use ValidateUuid;
 	/**
 	 * This is the crime Id.
 	 * This is the primary key
-	 * @var Uuid $crimeId
+	 * @var Uuid $crimeUuid
 	 **/
 	private $crimeUuid;
 	/**
-	 * This is the address where the crime was committed
+	 * This is the address where the police report was filed
 	 */
 	private $crimeAddress;
-	/** This is the date that the crime occurred **/
+	/**
+	 * This is the date that the crime report occurred
+	 * @var
+	 */
 	private $crimeDate;
-	/** @var This is the latitude at which the crime was committed */
+	/** @var This is the latitude at which the crime report occurred */
 	private $crimeLatitude;
-	/** @var This is the longitude at which the crime was committed */
+	/**
+	 * This is the longitude at which the crime report occurred
+	 * @var float $crimeLongitude
+	 */
 	private $crimeLongitude;
-	/**This is the type of the crime committed **/
+	/**
+	 * @var string $crimeType
+	 * This is the type of crime reported *
+	 */
 	private $crimeType;
-	private $exception;
 
-	public function __construct($newCrimeId, $newCrimeAddress, $newCrimeDate, $newCrimeLatitiude, $newCrimeLongitude, $newCrimeType) {
+	/**
+	 * Crime constructor.
+	 * @param $newCrimeId
+	 * @param $newCrimeAddress
+	 * @param $newCrimeDate
+	 * @param $newCrimeLatitude
+	 * @param $newCrimeLongitude
+	 * @param $newCrimeType
+	 */
+	/*todo add to the above*/
+	public function __construct($newCrimeUuid, $newCrimeAddress, $newCrimeDate, $newCrimeLatitude, $newCrimeLongitude, $newCrimeType) {
 		try {
-			$this->setCrimeId($newCrimeId);
+			$this->setCrimeUuid($newCrimeUuid);
 			$this->setCrimeAddress($newCrimeAddress);
 			$this->setCrimeDate($newCrimeDate);
 			$this->setCrimeLatitude($newCrimeLatitude);
-			$this->crimeLongitude($newCrimeLongitude);
-			$this->crimeType ($newCrimeType);
+			$this->setCrimeLongitude($newCrimeLongitude);
+			$this->setCrimeType ($newCrimeType);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
@@ -58,9 +78,9 @@ class Crime {
 	/**
 	 * mutator method for crime id
 	 *
-	 * @param Uuid| string $newCrimeId value of new crime id
-	 * @throws \RangeException if $newCrimeId is not positive
-	 * @throws \TypeError if the Crime Id is not
+	 * @param Uuid| string $newCrimeUuid value of new crime id
+	 * @throws \RangeException if $newCrimeUuid is not positive
+	 * @throws \TypeError if the Crime Id is not positive
 	 **/
 	public function setCrimeUuid($newCrimeUuid): void {
 		try {
@@ -88,8 +108,6 @@ class Crime {
 		}
 		// store the crime address
 		$this->crimeAddress = $newCrimeAddress;
-	}
-
 	}
 /**
  * accessor method for crime date
@@ -132,14 +150,18 @@ public function getCrimeLatitude(): float{
 	return ($this->crimeLatitude);
 }
 /**mutator method for crime latitude
- * @throws InvalidArgumentException if latitude is outside of the ranges of -90 and 90\InvalidArgumentException
+ * @param float $newCrimeLatitude latitude for this crime report
+ * @throws \TypeError if $newCrimeLatitude is not a float
+ * @throws \InvalidArgumentException if latitude is outside of the ranges of -90 and 90
  * */
-public function setCrimeLatitude(): void {
+/*todo look at other documentation for adding variables in data design*/
+public function setCrimeLatitude(float $newCrimeLatitude): void {
 	if(!($newCrimeLatitude >= -90) && ($newCrimeLatitude <= 90)) {
 		throw(new \InvalidArgumentException("latitude must be between -90 and 90"));
 	}
 	$newCrimeLatitude = round($newCrimeLatitude, 6);
-
+	$this->crimeLatitude = $newCrimeLatitude;
+}
 	/**accessor method for crime longitude
 	 * @return float value of crime type
 	 **/
@@ -147,13 +169,14 @@ public function setCrimeLatitude(): void {
 		return ($this->crimeLongitude);
 	}
 	/**mutator method for crime longitude
-	 * @throws InvalidArgumentException if longitude is outside of the ranges of -180 and 180\InvalidArgumentException
+	 * @throws InvalidArgumentException if longitude is outside of the ranges of -180 and 180
 	 * */
-	public function setCrimeLongitude(): float{
-		if(!($newPropertyLongitude >= -180) && ($newPropertyLongitude <= 180)) {
+	public function setCrimeLongitude(float $newCrimeLongitude): void{
+		if(!($newCrimeLongitude >= -180) && ($newCrimeLongitude <= 180)) {
 			throw(new \InvalidArgumentException("longitude must be between -180 and 180"));
 		}
-		$newPropertyLongitude = round($newPropertyLongitude, 6);
+		$newCrimeLongitude = round($newCrimeLongitude, 6);
+		$this->crimeLongitude = $newCrimeLongitude;
 	}
 /**
  * accessor method for crime type
@@ -270,7 +293,7 @@ public function setCrimeLatitude(): void {
 		}
 		return ($crime);
 	}
-	/**
+	/**o
 	 * gets all Crimes
 	 *
 	 * @param \PDO $pdo PDO connection object
