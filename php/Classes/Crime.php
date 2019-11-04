@@ -3,6 +3,7 @@
 namespace GoGitters\ApciMap;
 require_once("autoload.php");
 require_once(dirname(__DIR__) . "/vendor/autoload.php");
+
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -11,7 +12,6 @@ use Ramsey\Uuid\Uuid;
  * @version 0.0.1
  *
  **/
-
 class Crime {
 	use ValidateUuid;
 	/**
@@ -29,7 +29,9 @@ class Crime {
 	 * @var
 	 */
 	private $crimeDate;
-	/** @var This is the latitude at which the crime report occurred */
+	/** @var
+	 * This is the latitude at which the crime report occurred
+	 */
 	private $crimeLatitude;
 	/**
 	 * This is the longitude at which the crime report occurred
@@ -59,7 +61,7 @@ class Crime {
 			$this->setCrimeDate($newCrimeDate);
 			$this->setCrimeLatitude($newCrimeLatitude);
 			$this->setCrimeLongitude($newCrimeLongitude);
-			$this->setCrimeType ($newCrimeType);
+			$this->setCrimeType($newCrimeType);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
@@ -93,7 +95,7 @@ class Crime {
 		$this->crimeUuid = $uuid;
 	}
 
-	public function getCrimeAddress(): string{
+	public function getCrimeAddress(): string {
 		return ($this->crimeAddress);
 	}
 
@@ -109,14 +111,16 @@ class Crime {
 		// store the crime address
 		$this->crimeAddress = $newCrimeAddress;
 	}
-/**
- * accessor method for crime date
- *
- * @return \DateTime value of crime date
- **/
-	public function getCrimeDate() : \DateTime {
-		return($this->crimeDate);
+
+	/**
+	 * accessor method for crime date
+	 *
+	 * @return \DateTime value of crime date
+	 **/
+	public function getCrimeDate(): \DateTime {
+		return ($this->crimeDate);
 	}
+
 	/**
 	 * mutator method for crime date
 	 *
@@ -124,13 +128,7 @@ class Crime {
 	 * @throws \InvalidArgumentException if $newCrimeDate is not a valid object or string
 	 * @throws \RangeException if $newCrimeDate is a date that does not exist
 	 **/
-	public function setCrimeDate($newCrimeDate = null) : void {
-		// base case: if the date is null, use the current date and time
-		if($newCrimeDate === null) {
-			$this->crimeDate = new \DateTime();
-			return;
-		}
-
+	public function setCrimeDate(string $newCrimeDate): void {
 		// store the like date using the ValidateDate trait
 		try {
 			$newCrimeDate = self::validateDateTime($newCrimeDate);
@@ -140,51 +138,54 @@ class Crime {
 		}
 		$this->crimeDate = $newCrimeDate;
 	}
-
-/**
- * accessor method for crime latitude
- *
- * @return float value of crime type
- **/
-public function getCrimeLatitude(): float{
-	return ($this->crimeLatitude);
-}
-/**mutator method for crime latitude
- * @param float $newCrimeLatitude latitude for this crime report
- * @throws \TypeError if $newCrimeLatitude is not a float
- * @throws \InvalidArgumentException if latitude is outside of the ranges of -90 and 90
- * */
-/*todo look at other documentation for adding variables in data design*/
-public function setCrimeLatitude(float $newCrimeLatitude): void {
-	if(!($newCrimeLatitude >= -90) && ($newCrimeLatitude <= 90)) {
-		throw(new \InvalidArgumentException("latitude must be between -90 and 90"));
+/* todo reformat the above to match string validation not date*/
+	/**
+	 * accessor method for crime latitude
+	 *
+	 * @return float value of crime type
+	 **/
+	public function getCrimeLatitude(): float {
+		return ($this->crimeLatitude);
 	}
-	$newCrimeLatitude = round($newCrimeLatitude, 6);
-	$this->crimeLatitude = $newCrimeLatitude;
-}
+	/**mutator method for crime latitude
+	 * @param float $newCrimeLatitude latitude for this crime report
+	 * @throws \TypeError if $newCrimeLatitude is not a float
+	 * @throws \InvalidArgumentException if latitude is outside of the ranges of -90 and 90
+	 * */
+	/*todo look at other documentation for adding variables in data design*/
+	public function setCrimeLatitude(float $newCrimeLatitude): void {
+		if(!($newCrimeLatitude >= -90) && ($newCrimeLatitude <= 90)) {
+			throw(new \InvalidArgumentException("latitude must be between -90 and 90"));
+		}
+		$newCrimeLatitude = round($newCrimeLatitude, 6);
+		$this->crimeLatitude = $newCrimeLatitude;
+	}
+
 	/**accessor method for crime longitude
 	 * @return float value of crime type
 	 **/
-	public function getCrimeLongitude(): float{
+	public function getCrimeLongitude(): float {
 		return ($this->crimeLongitude);
 	}
+
 	/**mutator method for crime longitude
-	 * @throws InvalidArgumentException if longitude is outside of the ranges of -180 and 180
+	 * @throws \InvalidArgumentException if longitude is outside of the ranges of -180 and 180
 	 * */
-	public function setCrimeLongitude(float $newCrimeLongitude): void{
+	public function setCrimeLongitude(float $newCrimeLongitude): void {
 		if(!($newCrimeLongitude >= -180) && ($newCrimeLongitude <= 180)) {
 			throw(new \InvalidArgumentException("longitude must be between -180 and 180"));
 		}
 		$newCrimeLongitude = round($newCrimeLongitude, 6);
 		$this->crimeLongitude = $newCrimeLongitude;
 	}
-/**
- * accessor method for crime type
- *
- * @return string value of crime type
- **/
-	public function getCrimeType() : string {
-		return($this->crimeType);
+
+	/**
+	 * accessor method for crime type
+	 *
+	 * @return string value of crime type
+	 **/
+	public function getCrimeType(): string {
+		return ($this->crimeType);
 	}
 
 	/**
@@ -195,7 +196,7 @@ public function setCrimeLatitude(float $newCrimeLatitude): void {
 	 * @throws \RangeException if $newCrimeType is > 134 characters
 	 * @throws \TypeError if $newCrimeType is not a string
 	 **/
-	public function setCrimeType(string $newCrimeType) : void {
+	public function setCrimeType(string $newCrimeType): void {
 		// verify the crime type is secure
 		$newCrimeType = trim($newCrimeType);
 		$newCrimeType = filter_var($newCrimeType, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -222,12 +223,13 @@ public function setCrimeLatitude(float $newCrimeLatitude): void {
 	 **/
 	public function insert(\PDO $pdo): void {
 		// create query template
-		$query = "INSERT INTO crime(crimeUuid, crimeAddress, crimeDate, crimeGeolocation) VALUES(:crimeUuid, :authorActivationToken, :authorAvatarUrl, :authorEmail, :authorHash, :AuthorUsername)";
+		$query = "INSERT INTO crime(crimeUuid, crimeAddress, crimeDate, crimeLatitude, crimeLongitude, crimeType) VALUES(:crimeUuid, :crimeAddress, :crimeDate, :crimeLatitude, :crimeLongitude, :crimeType)";
 		$statement = $pdo->prepare($query);
 		// bind the member variables to the place holders in the template
-		$parameters = ["crimeUuid" => $this->crimeUuid->getBytes(), "crimeAddress" => $this->authorAvatarUrl, "authorEmail" => $this->authorEmail, "authorHash" => $this->authorHash, "authorUsername" => $this->authorUsername];
+		$parameters = ["crimeUuid" => $this->crimeUuid->getBytes(), "crimeAddress" => $this->crimeAddress, "crimeDate" => $this->crimeDate, "crimeLatitude" => $this->crimeLatitude, "crimeLongitude" => $this->crimeLongitude, "crimeType" =>$this->crimeType];
 		$statement->execute($parameters);
 	}
+
 	/**
 	 * deletes this crime from mySQL
 	 *
@@ -243,6 +245,7 @@ public function setCrimeLatitude(float $newCrimeLatitude): void {
 		$parameters = ["crimeUuid" => $this->crimeUuid->getBytes()];
 		$statement->execute($parameters);
 	}
+
 	/**
 	 * updates this Crime in mySQL
 	 *
@@ -254,9 +257,10 @@ public function setCrimeLatitude(float $newCrimeLatitude): void {
 		// create query template
 		$query = "UPDATE crime SET crimeUuid = :crimeUuid, crimeAddress = :crimeAddress, crimeDate = :crimeDate, crimeLatitude = :crimeLatitude, crimeLongitude = :crimeLongitude, crimeType = :crimeType WHERE crimeUuid = :crimeUuid";
 		$statement = $pdo->prepare($query);
-		$parameters = ["crimeUuid" => $this->crimeUuid->getBytes(), "crimeAddress" => $this->crimeAddress->getBytes(), "authorEmail" => $this->authorEmail, "authorUsername"];
+		$parameters = ["crimeUuid" => $this->crimeUuid->getBytes(), "crimeAddress" => $this->crimeAddress, "crimeLatitude" => $this->crimeLatitude, "crimeLongitude" =>$this->crimeLongitude, "crimeType" => $this->crimeType];
 		$statement->execute($parameters);
 	}
+
 	/**
 	 * gets the Crime by crime uuid
 	 *
@@ -279,20 +283,21 @@ public function setCrimeLatitude(float $newCrimeLatitude): void {
 		$parameters = ["crimeUuid" => $crimeUuid->getBytes()];
 		$statement->execute($parameters);
 		// build an array of crimes
-		$crime = new \SplFixedArray($statement->rowCount());
+		$crimes = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$crime = new Crime($row["crimeUuid"], $row["crimeAddress"], $row["crimeDate"], $row["crimeLatitude"], $row["crimeLongitude"], $row["crimeType"]);
 				$crimes[$crimes->key()] = $crime;
-				$crime->next();
+				$crimes->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(invalid), 0, $exception));
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return ($crime);
+		return ($crimes);
 	}
+
 	/**o
 	 * gets all Crimes
 	 *
@@ -307,13 +312,13 @@ public function setCrimeLatitude(float $newCrimeLatitude): void {
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 		// build an array of crimes
-		$crime = new \SplFixedArray($statement->rowCount());
+		$crimes = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$crime = new Crime($row["crimeUuid"], $row[crimeAddress], $row["crimeDate"], $row["crimeLatitude"], $row[crimeLongitude], $row["crimeType"]);
-				$crime[$crimes->key()] = $crime;
-				$crime->next();
+				$crime = new Crime($row["crimeUuid"], $row["crimeAddress"], $row["crimeDate"], $row["crimeLatitude"], $row["crimeLongitude"], $row["crimeType"]);
+				$crimes[$crimes->key()] = $crime;
+				$crimes->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
