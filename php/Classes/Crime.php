@@ -53,7 +53,7 @@ class Crime {
 	 * @param $newCrimeLongitude
 	 * @param $newCrimeType
 	 */
-	/*todo add to the above*/
+	/*todo add to the above and add the name of each section above like they did in theirs*/
 	public function __construct($newCrimeUuid, $newCrimeAddress, $newCrimeDate, $newCrimeLatitude, $newCrimeLongitude, $newCrimeType) {
 		try {
 			$this->setCrimeUuid($newCrimeUuid);
