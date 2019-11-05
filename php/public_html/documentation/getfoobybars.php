@@ -10,25 +10,25 @@
 <ul>
 	<li>getUserByActivationToken</li>
 	<li>getUserByEmail</li>
-	<li>getUserByUserUuid</li>
+	<li>getUserByUserId</li>
 	<li>getUserByUsername</li>
 </ul>
 <h2>Property</h2>
 <ul>
 	<li>getAllProperty</li>
-	<li>getPropertyByPropertyUuid</li>
-	<li>getPropertyByUserUuid</li>
+	<li>getPropertyByPropertyId</li>
+	<li>getPropertyByUserId</li>
 </ul>
 <h2>Crime</h2>
 <ul>
 	<li>getAllCrime</li>
-	<li>getCrimeByCrimeUuid</li>
+	<li>getCrimeByCrimeId</li>
 </ul>
 <h2>Star</h2>
 <ul>
-	<li>getStarByPropertyUuid</li>
-	<li>getStarByUserUuid</li>
-	<li>getStarByPropertyUuidAndUserUuid</li>
+	<li>getStarByPropertyId</li>
+	<li>getStarByUserId</li>
+	<li>getStarByPropertyIdAndUserId</li>
 </ul>
 </body>
 </html>
