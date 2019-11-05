@@ -71,5 +71,9 @@ class PropertyTest extends ApciMapTest {
 	 **/
 	protected $VALID_PROPERTYASSESSEDVALUE = "5096837.87";
 
+	public final function setUp() : void {
+		parent::setUp();
+	}
+
 
 }
