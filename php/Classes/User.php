@@ -156,7 +156,6 @@ use Ramsey\Uuid\Uuid;
 	}
 	/**
 	 * mutator method for user hash password
-	 *
 	 * @param string $newUserHash
 	 * @throws \InvalidArgumentException if the hash is not secure
 	 * @throws \RangeException if the hash is not 97 characters
