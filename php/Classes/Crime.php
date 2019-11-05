@@ -6,13 +6,16 @@ require_once(dirname(__DIR__) . "/vendor/autoload.php");
 
 use Ramsey\Uuid\Uuid;
 use validate
-
+class Crime implements \JsonSerializable {
+	use ValidateDate;
+	use ValidateUuid;
 /**
  *Creating a crime profile
  * @author Lindsey Atencio
  * @version 0.0.1
  *
  **/
+
 class Crime {
 	/********************************************
 	 * Declare and document all state variables *
@@ -47,7 +50,9 @@ class Crime {
 	 * This is the type of crime reported *
 	 */
 	private $crimeType;
-
+	/********************************************
+	 * Constructor method                  *
+	 ********************************************/
 	/**
 	 * Crime constructor.
 	 * @param string| Uuid $newCrimeUuid of this crime
@@ -237,6 +242,7 @@ class Crime {
 		$statement = $pdo->prepare($query);
 		// bind the member variables to the place holders in the template
 		$parameters = ["crimeUuid" => $this->crimeUuid->getBytes(), "crimeAddress" => $this->crimeAddress, "crimeDate" => $this->crimeDate, "crimeLatitude" => $this->crimeLatitude, "crimeLongitude" => $this->crimeLongitude, "crimeType" =>$this->crimeType];
+		$formattedDate = $this->crimeDate->format("Y-m-d H:i:s.u");
 		$statement->execute($parameters);
 	}
 
