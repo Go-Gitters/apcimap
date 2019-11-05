@@ -4,8 +4,8 @@ namespace GoGitters\ApciMap;
 require_once("autoload.php");
 require_once(dirname(__DIR__) . "/vendor/autoload.php");
 
+use
 use Ramsey\Uuid\Uuid;
-use validate
 class Crime implements \JsonSerializable {
 	use ValidateDate;
 	use ValidateUuid;
@@ -24,9 +24,9 @@ class Crime {
 	/**
 	 * This is the crime Id.
 	 * This is the primary key
-	 * @var Uuid $crimeUuid
+	 * @var Uuid $crimeId
 	 **/
-	private $crimeUuid;
+	private $crimeId;
 	/**
 	 * This is the address where the police report was filed
 	 */
@@ -55,7 +55,7 @@ class Crime {
 	 ********************************************/
 	/**
 	 * Crime constructor.
-	 * @param string| Uuid $newCrimeUuid of this crime
+	 * @param string| Uuid $newcrimeId of this crime
 	 * @param string $newCrimeAddress address at which the crime report was filed
 	 * @param string $newCrimeDate date at which the crime report was filed
 	 * @param float $newCrimeLatitude latitude of the location the crime report was filed
@@ -66,9 +66,9 @@ class Crime {
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 */
-	public function __construct($newCrimeUuid, $newCrimeAddress, $newCrimeDate, $newCrimeLatitude, $newCrimeLongitude, $newCrimeType) {
+	public function __construct($newcrimeId, $newCrimeAddress, $newCrimeDate, $newCrimeLatitude, $newCrimeLongitude, $newCrimeType) {
 		try {
-			$this->setCrimeUuid($newCrimeUuid);
+			$this->setcrimeId($newcrimeId);
 			$this->setCrimeAddress($newCrimeAddress);
 			$this->setCrimeDate($newCrimeDate);
 			$this->setCrimeLatitude($newCrimeLatitude);
@@ -84,24 +84,24 @@ class Crime {
 	 * accessor method for crime id
 	 * @return Uuid value of crime id (or null if new Crime)
 	 **/
-	public function getCrimeUuid(): Uuid {
-		return ($this->crimeUuid);
+	public function getcrimeId(): Uuid {
+		return ($this->crimeId);
 	}
 	/**
 	 * mutator method for crime id
-	 * @param Uuid| string $newCrimeUuid value of new crime id
-	 * @throws \RangeException if $newCrimeUuid is not positive
+	 * @param Uuid| string $newcrimeId value of new crime id
+	 * @throws \RangeException if $newcrimeId is not positive
 	 * @throws \TypeError if the Crime Id is not a uuid or a string
 	 **/
-	public function setCrimeUuid($newCrimeUuid): void {
+	public function setcrimeId($newcrimeId): void {
 		try {
-			$uuid = self::validateUuid($newCrimeUuid);
+			$uuid = self::validateUuid($newcrimeId);
 			//determine what exception type was thrown
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
-		$this->crimeUuid = $uuid;
+		$this->crimeId = $uuid;
 	}
 	/**
 	 * accessor method for crime report address
@@ -238,10 +238,10 @@ class Crime {
 	 **/
 	public function insert(\PDO $pdo): void {
 		// create query template
-		$query = "INSERT INTO crime(crimeUuid, crimeAddress, crimeDate, crimeLatitude, crimeLongitude, crimeType) VALUES(:crimeUuid, :crimeAddress, :crimeDate, :crimeLatitude, :crimeLongitude, :crimeType)";
+		$query = "INSERT INTO crime(crimeId, crimeAddress, crimeDate, crimeLatitude, crimeLongitude, crimeType) VALUES(:crimeId, :crimeAddress, :crimeDate, :crimeLatitude, :crimeLongitude, :crimeType)";
 		$statement = $pdo->prepare($query);
 		// bind the member variables to the place holders in the template
-		$parameters = ["crimeUuid" => $this->crimeUuid->getBytes(), "crimeAddress" => $this->crimeAddress, "crimeDate" => $this->crimeDate, "crimeLatitude" => $this->crimeLatitude, "crimeLongitude" => $this->crimeLongitude, "crimeType" =>$this->crimeType];
+		$parameters = ["crimeId" => $this->crimeId->getBytes(), "crimeAddress" => $this->crimeAddress, "crimeDate" => $this->crimeDate, "crimeLatitude" => $this->crimeLatitude, "crimeLongitude" => $this->crimeLongitude, "crimeType" =>$this->crimeType];
 		$formattedDate = $this->crimeDate->format("Y-m-d H:i:s.u");
 		$statement->execute($parameters);
 	}
@@ -255,10 +255,10 @@ class Crime {
 	 **/
 	public function delete(\PDO $pdo): void {
 		// create query template
-		$query = "DELETE FROM crime WHERE crimeUuid = :crimeUuid";
+		$query = "DELETE FROM crime WHERE crimeId = :crimeId";
 		$statement = $pdo->prepare($query);
 		// bind the member variables to the place holder in the template
-		$parameters = ["crimeUuid" => $this->crimeUuid->getBytes()];
+		$parameters = ["crimeId" => $this->crimeId->getBytes()];
 		$statement->execute($parameters);
 	}
 
@@ -271,9 +271,9 @@ class Crime {
 	 **/
 	public function update(\PDO $pdo): void {
 		// create query template
-		$query = "UPDATE crime SET crimeUuid = :crimeUuid, crimeAddress = :crimeAddress, crimeDate = :crimeDate, crimeLatitude = :crimeLatitude, crimeLongitude = :crimeLongitude, crimeType = :crimeType WHERE crimeUuid = :crimeUuid";
+		$query = "UPDATE crime SET crimeId = :crimeId, crimeAddress = :crimeAddress, crimeDate = :crimeDate, crimeLatitude = :crimeLatitude, crimeLongitude = :crimeLongitude, crimeType = :crimeType WHERE crimeId = :crimeId";
 		$statement = $pdo->prepare($query);
-		$parameters = ["crimeUuid" => $this->crimeUuid->getBytes(), "crimeAddress" => $this->crimeAddress, "crimeLatitude" => $this->crimeLatitude, "crimeLongitude" =>$this->crimeLongitude, "crimeType" => $this->crimeType];
+		$parameters = ["crimeId" => $this->crimeId->getBytes(), "crimeAddress" => $this->crimeAddress, "crimeLatitude" => $this->crimeLatitude, "crimeLongitude" =>$this->crimeLongitude, "crimeType" => $this->crimeType];
 		$statement->execute($parameters);
 	}
 
@@ -281,37 +281,37 @@ class Crime {
 	 * gets the Crime by crime uuid
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param Uuid|string $crimeUuid crime id to search by
+	 * @param Uuid|string $crimeId crime id to search by
 	 * @return \SplFixedArray SplFixedArray of Crimes found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getCrimeByCrimeUuid(\PDO $pdo, $crimeUuid): \SplFixedArray {
+	public static function getCrimeBycrimeId(\PDO $pdo, $crimeId): \SplFixedArray {
 		try {
-			$crimeUuid = self::validateUuid($crimeUuid);
+			$crimeId = self::validateUuid($crimeId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		// create query template
-		$query = "SELECT crimeUuid, crimeAddress, crimeDate, crimeLatitude, crimeLongitude, crimeType From: crimeUuid WHERE crimeUuid = :crimeUuid";
+		$query = "SELECT crimeId, crimeAddress, crimeDate, crimeLatitude, crimeLongitude, crimeType From: crimeId WHERE crimeId = :crimeId";
 		$statement = $pdo->prepare($query);
 		// bind the crime uuid to the place holder in the template
-		$parameters = ["crimeUuid" => $crimeUuid->getBytes()];
+		$parameters = ["crimeId" => $crimeId->getBytes()];
 		$statement->execute($parameters);
 		// build an array of crimes
-		$crimes = new \SplFixedArray($statement->rowCount());
+		$crime = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$crime = new Crime($row["crimeUuid"], $row["crimeAddress"], $row["crimeDate"], $row["crimeLatitude"], $row["crimeLongitude"], $row["crimeType"]);
-				$crimes[$crimes->key()] = $crime;
-				$crimes->next();
+				$crime = new Crime($row["crimeId"], $row["crimeAddress"], $row["crimeDate"], $row["crimeLatitude"], $row["crimeLongitude"], $row["crimeType"]);
+				$crime[$crime->key()] = $crime;
+				$crime->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return ($crimes);
+		return ($crime);
 	}
 	/**
 	 * gets all Crimes
@@ -322,7 +322,7 @@ class Crime {
 	 **/
 	public static function getAllCrimes(\PDO $pdo): \SPLFixedArray {
 		// create query template
-		$query = "SELECT crimeUuid, crimeAddress, crimeDate, crimeLatitude, crimeLongitude, crimeType  FROM crime";
+		$query = "SELECT crimeId, crimeAddress, crimeDate, crimeLatitude, crimeLongitude, crimeType  FROM crime";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 		// build an array of crimes
@@ -330,7 +330,7 @@ class Crime {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$crime = new Crime($row["crimeUuid"], $row["crimeAddress"], $row["crimeDate"], $row["crimeLatitude"], $row["crimeLongitude"], $row["crimeType"]);
+				$crime = new Crime($row["crimeId"], $row["crimeAddress"], $row["crimeDate"], $row["crimeLatitude"], $row["crimeLongitude"], $row["crimeType"]);
 				$crimes[$crimes->key()] = $crime;
 				$crimes->next();
 			} catch(\Exception $exception) {
