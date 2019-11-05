@@ -46,14 +46,17 @@ class Crime {
 
 	/**
 	 * Crime constructor.
-	 * @param $newCrimeId
-	 * @param $newCrimeAddress
-	 * @param $newCrimeDate
-	 * @param $newCrimeLatitude
-	 * @param $newCrimeLongitude
-	 * @param $newCrimeType
+	 * @param string| Uuid $newCrimeUuid of this crime
+	 * @param string $newCrimeAddress address at which the crime report was filed
+	 * @param string $newCrimeDate date at which the crime report was filed
+	 * @param float $newCrimeLatitude latitude of the location the crime report was filed
+	 * @param float $newCrimeLongitude longitude of the location the crime report was filed
+	 * @param string $newCrimeType type of crime reported
+	 * @throws \InvalidArgumentException if data types are not valid
+	 * @throws \RangeException if data values are out of bounds
+	 * @throws \TypeError if data types violate type hints
+	 * @throws \Exception if some other exception occurs
 	 */
-	/*todo add to the above and add the name of each section above like they did in theirs*/
 	public function __construct($newCrimeUuid, $newCrimeAddress, $newCrimeDate, $newCrimeLatitude, $newCrimeLongitude, $newCrimeType) {
 		try {
 			$this->setCrimeUuid($newCrimeUuid);
@@ -70,19 +73,16 @@ class Crime {
 
 	/**
 	 * accessor method for crime id
-	 *
 	 * @return Uuid value of crime id (or null if new Crime)
 	 **/
 	public function getCrimeUuid(): Uuid {
 		return ($this->crimeUuid);
 	}
-
 	/**
 	 * mutator method for crime id
-	 *
 	 * @param Uuid| string $newCrimeUuid value of new crime id
 	 * @throws \RangeException if $newCrimeUuid is not positive
-	 * @throws \TypeError if the Crime Id is not positive
+	 * @throws \TypeError if the Crime Id is not a uuid or a string
 	 **/
 	public function setCrimeUuid($newCrimeUuid): void {
 		try {
@@ -94,11 +94,19 @@ class Crime {
 		}
 		$this->crimeUuid = $uuid;
 	}
-
+	/**
+	 * accessor method for crime report address
+	 * @return Uuid value of crime report address (or null if new Crime)
+	 **/
 	public function getCrimeAddress(): string {
 		return ($this->crimeAddress);
 	}
-
+	/**
+	 * mutator method for crime address
+	 * @param string $newCrimeAddress value of new crime address
+	 * @throws \RangeException if $newCrimeAddress is empty or not valid
+	 * @throws \TypeError if the Crime Address is greater than 134 characters
+	 **/
 	public function setCrimeAddress(string $newCrimeAddress): void {
 		$newCrimeAddress = trim($newCrimeAddress);
 		$newCrimeAddress = filter_var($newCrimeAddress, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -113,18 +121,16 @@ class Crime {
 	}
 
 	/**
-	 * accessor method for crime date
-	 *
-	 * @return \DateTime value of crime date
+	 * accessor method for the crime report date
+	 * @return string crime date
 	 **/
 	public function getCrimeDate(): \DateTime {
 		return ($this->crimeDate);
 	}
-
 	/**
 	 * mutator method for crime date
 	 *
-	 * @param \DateTime|string|null $newCrimeDate crime date as a DateTime object or string (or null to load the current time)
+	 * @param string|null $newCrimeDate crime date as a string
 	 * @throws \InvalidArgumentException if $newCrimeDate is not a valid object or string
 	 * @throws \RangeException if $newCrimeDate is a date that does not exist
 	 **/
@@ -181,7 +187,6 @@ class Crime {
 
 	/**
 	 * accessor method for crime type
-	 *
 	 * @return string value of crime type
 	 **/
 	public function getCrimeType(): string {
@@ -212,8 +217,6 @@ class Crime {
 		// store the crime content
 		$this->crimeType = $newCrimeType;
 	}
-
-
 	/**
 	 * inserts this Crime into mySQL
 	 *
@@ -326,5 +329,4 @@ class Crime {
 		}
 		return ($crimes);
 	}
-
 }
