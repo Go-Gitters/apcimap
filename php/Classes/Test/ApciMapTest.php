@@ -22,8 +22,8 @@ require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
  * This class is designed to lay the foundation of the unit tests per project. It loads the all the database
  * parameters about the project so that table specific tests can share the parameters in on place. To use it:
  *
- * 1. Rename the class from DataDesignTest to a project specific name (e.g., ProjectNameTest)
- * 2. Rename the namespace to be the same as in (1) (e.g., Edu\Cnm\ProjectName\Test)
+ * 1. Rename the class from DataDesignTest to a project specific name (e.g., ProjectNameTest)... DONE
+ * 2. Rename the namespace to be the same as in (1) (e.g., Edu\Cnm\ProjectName\Test)... DONE
  * 3. Modify DataDesignTest::getDataSet() to include all the tables in your project.
  * 4. Modify DataDesignTest::getConnection() to include the correct mySQL properties file.
  * 5. Have all table specific tests include this class.
@@ -32,7 +32,7 @@ require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
  *
  * @author Dylan McDonald <dmcdonald21@cnm.edu>
  **/
-abstract class DataDesignTest extends TestCase {
+abstract class ApciMapTest extends TestCase {
 	use TestCaseTrait;
 	/**
 	 * PHPUnit database connection interface
