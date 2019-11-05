@@ -24,7 +24,7 @@ require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
  *
  * 1. Rename the class from DataDesignTest to a project specific name (e.g., ProjectNameTest)... DONE
  * 2. Rename the namespace to be the same as in (1) (e.g., Edu\Cnm\ProjectName\Test)... DONE
- * 3. Modify DataDesignTest::getDataSet() to include all the tables in your project.
+ * 3. Modify DataDesignTest::getDataSet() to include all the tables in your project. ...DONE
  * 4. Modify DataDesignTest::getConnection() to include the correct mySQL properties file.
  * 5. Have all table specific tests include this class.
  *
@@ -49,11 +49,14 @@ abstract class ApciMapTest extends TestCase {
 		$dataset = new QueryDataSet($this->getConnection());
 		// add all the tables for the project here
 		// THESE TABLES *MUST* BE LISTED IN THE SAME ORDER THEY WERE CREATED!!!!
-		$dataset->addTable("profile");
-		$dataset->addTable("tweet");
+		$dataset->addTable("user");
+		$dataset->addTable("property");
+		$dataset->addTable("crime");
+		$dataset->addTable("star");
+		//We're not using this line, but I'm leaving it in for now so we have it as an example
 		// the second parameter is required because like is also a SQL keyword and is the only way PHPUnit can query the like table
-		$dataset->addTable("like", "SELECT likeProfileId, likeTweetId, likeDate FROM `like`");
-		$dataset->addTable("image");
+/*		$dataset->addTable("like", "SELECT likeProfileId, likeTweetId, likeDate FROM `like`");*/
+
 		return ($dataset);
 	}
 
