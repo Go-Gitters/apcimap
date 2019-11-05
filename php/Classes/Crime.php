@@ -5,6 +5,7 @@ require_once("autoload.php");
 require_once(dirname(__DIR__) . "/vendor/autoload.php");
 
 use Ramsey\Uuid\Uuid;
+use validate
 
 /**
  *Creating a crime profile
@@ -13,6 +14,9 @@ use Ramsey\Uuid\Uuid;
  *
  **/
 class Crime {
+	/********************************************
+	 * Declare and document all state variables *
+	 ********************************************/
 	use ValidateUuid;
 	/**
 	 * This is the crime Id.
@@ -129,12 +133,16 @@ class Crime {
 	}
 	/**
 	 * mutator method for crime date
-	 *
-	 * @param string|null $newCrimeDate crime date as a string
+	 * @param \DateTime|string|null $newCrimeDate like date as a DateTime object or string (or null to load the current time)
 	 * @throws \InvalidArgumentException if $newCrimeDate is not a valid object or string
 	 * @throws \RangeException if $newCrimeDate is a date that does not exist
 	 **/
 	public function setCrimeDate(string $newCrimeDate): void {
+		// base case: if the date is null, use the current date and time
+		if($newCrimeDate === null) {
+			$this->crimeDate = new \DateTime();
+			return;
+		}
 		// store the like date using the ValidateDate trait
 		try {
 			$newCrimeDate = self::validateDateTime($newCrimeDate);
@@ -144,7 +152,6 @@ class Crime {
 		}
 		$this->crimeDate = $newCrimeDate;
 	}
-/* todo reformat the above to match string validation not date*/
 	/**
 	 * accessor method for crime latitude
 	 *
@@ -168,15 +175,18 @@ class Crime {
 	}
 
 	/**accessor method for crime longitude
-	 * @return float value of crime type
+	 * @return float value of crime longitude
 	 **/
 	public function getCrimeLongitude(): float {
 		return ($this->crimeLongitude);
 	}
 
-	/**mutator method for crime longitude
-	 * @throws \InvalidArgumentException if longitude is outside of the ranges of -180 and 180
-	 * */
+	/**
+	 * mutator method for crime report longitude
+	 * @param float $newCrimeLongitude longitude of this crime report
+	 * @throws \InvalidArgumentException if $newCrimeLongitude is not >= -180 and <=180
+	 * @throws \TypeError if $newCrimeLongitude is not a float
+	 **/
 	public function setCrimeLongitude(float $newCrimeLongitude): void {
 		if(!($newCrimeLongitude >= -180) && ($newCrimeLongitude <= 180)) {
 			throw(new \InvalidArgumentException("longitude must be between -180 and 180"));
@@ -184,7 +194,6 @@ class Crime {
 		$newCrimeLongitude = round($newCrimeLongitude, 6);
 		$this->crimeLongitude = $newCrimeLongitude;
 	}
-
 	/**
 	 * accessor method for crime type
 	 * @return string value of crime type
@@ -192,7 +201,6 @@ class Crime {
 	public function getCrimeType(): string {
 		return ($this->crimeType);
 	}
-
 	/**
 	 * mutator method for crime type
 	 *
@@ -213,7 +221,6 @@ class Crime {
 		if(strlen($newCrimeType) > 134) {
 			throw(new \RangeException("crime type description too large"));
 		}
-
 		// store the crime content
 		$this->crimeType = $newCrimeType;
 	}
@@ -300,10 +307,8 @@ class Crime {
 		}
 		return ($crimes);
 	}
-
-	/**o
+	/**
 	 * gets all Crimes
-	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @return \SplFixedArray SplFixedArray of Crimes found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
