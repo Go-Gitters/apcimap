@@ -4,9 +4,11 @@ require_once(dirname(__DIR__) . "/vendor/autoload.php");
 use Ramsey\Uuid\Uuid;
 /**
  * Cross Section of a Registered User
+ * @author Lindsey Atencio
+ * @version 0.0.1
+ *
  **/
-class Profile implements \JsonSerializable {
-	use ValidateUuid;
+
 	/**
 	 * id for this User; this is the primary key
 	 * @var Uuid $userUuid
@@ -48,7 +50,7 @@ class Profile implements \JsonSerializable {
 	public function __construct($newUserUuid, string $newUserActivationToken, string $newUserEmail, string $newUserHash, string $newUserUsername) {
 		try {
 			$this->setUserUuid($newUserUuid);
-			$this->setUserActivationToken($newProfileActivationToken);
+			$this->setUserActivationToken($newUserActivationToken);
 			$this->setUserEmail($newUserEmail);
 			$this->setUserHash($newUserHashsh);
 			$this->userUsername($newUserUsername);
@@ -275,11 +277,11 @@ class Profile implements \JsonSerializable {
 			return ($user);
 		}
 		/**
-		 * gets the Profile by email
+		 * gets the user by email
 		 *
 		 * @param \PDO $pdo PDO connection object
-		 * @param string $profileEmail email to search for
-		 * @return Profile|null Profile or null if not found
+		 * @param string $userEmail email to search for
+		 * @return User|null User or null if not found
 		 * @throws \PDOException when mySQL related errors occur
 		 * @throws \TypeError when variables are not the correct data type
 		 **/
@@ -293,16 +295,16 @@ class Profile implements \JsonSerializable {
 			// create query template
 			$query = "SELECT userUuid, userActivationToken, userEmail, userHash, userUsername FROM User WHERE userEmail = :userEmail";
 			$statement = $pdo->prepare($query);
-			// bind the profile id to the place holder in the template
+			// bind the user id to the place holder in the template
 			$parameters = ["userEmail" => $userEmail];
 			$statement->execute($parameters);
-			// grab the Profile from mySQL
+			// grab the User from mySQL
 			try {
 				$user = null;
 				$statement->setFetchMode(\PDO::FETCH_ASSOC);
 				$row = $statement->fetch();
 				if($row !== false) {
-					$profile = new User($row["userId"], $row["userActivationToken"], $row["userEmail"], $row["userHash"], $row["userUsername"]);
+					$user = new User($row["userId"], $row["userActivationToken"], $row["userEmail"], $row["userHash"], $row["userUsername"]);
 				}
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
@@ -329,7 +331,7 @@ class Profile implements \JsonSerializable {
 			// create query template
 			$query = "SELECT userUuid, userActivationToken, userEmail, userHash, userUsername FROM User WHERE userEmail = :userEmail";
 			$statement = $pdo->prepare($query);
-			// bind the profile id to the place holder in the template
+			// bind the user id to the place holder in the template
 			$parameters = ["userUsername" => $userUsername];
 			$statement->execute($parameters);
 			// grab the User from mySQL
