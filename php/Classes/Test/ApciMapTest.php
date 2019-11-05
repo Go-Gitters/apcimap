@@ -93,7 +93,10 @@ abstract class ApciMapTest extends TestCase {
 		// if the connection hasn't been established, create it
 		if($this->connection === null) {
 			// connect to mySQL and provide the interface to PHPUnit
-			$secrets = new \Secrets("/etc/apache2/capstone-mysql/ddctwitter.ini");
+			//This was the original line
+/*			$secrets = new \Secrets("/etc/apache2/capstone-mysql/ddctwitter.ini");*/
+			//This is the changed line for our project.
+			$secrets = new \Secrets("/etc/apache2/capstone-mysql/map.ini");
 			$pdo = $secrets->getPdoObject();
 			$this->connection = $this->createDefaultDBConnection($pdo, $secrets->getDatabase());
 		}
