@@ -17,6 +17,7 @@ use Ramsey\Uuid\Uuid;
  **/
 
 class Property {
+	use ValidateUuid;
 	/********************************************
 	 * Declare and document all state variables *
 	 ********************************************/
@@ -120,11 +121,11 @@ class Property {
 	/**
 	 * mutator method for property Uuid
 	 *
-	 * @param Uuid|string $newPropertyUuid new value of property uuid
+	 * @param Uuid| string $newPropertyUuid new value of property uuid
 	 * @throws \RangeException if $newPropertyUuid is not positive
 	 * @throws \TypeError if $newPropertyUuid is not a uuid or string
 	 **/
-	public function setPropertyUuid( $newPropertyUuid) : void {
+	public function setPropertyUuid($newPropertyUuid) : void {
 		try {
 			$uuid = self::validateUuid($newPropertyUuid);
 		} catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
