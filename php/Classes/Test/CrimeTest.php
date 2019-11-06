@@ -16,20 +16,25 @@ require_once(dirname(__DIR__) . "/autoload.php");
 require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 
 /**
- * Full PHPUnit test for the Tweet class
+ * Class CrimeTest
  *
- * This is a complete PHPUnit test of the Tweet class. It is complete because *ALL* mySQL/PDO enabled methods
+ * A complete PHPUnit test of the Crime class. It is complete because *ALL* mySQL/PDO enabled methods
  * are tested for both invalid and valid inputs.
  *
- * @see Tweet
- * @author Dylan McDonald <dmcdonald21@cnm.edu>
+ * @see Crime
+ * @author Lisa Lee
  **/
-class TweetTest extends DataDesignTest {
+
+
+class CrimeTest extends ApciMapTest {
+
+
 	/**
-	 * Profile that created the Tweet; this is for foreign key relations
-	 * @var Profile profile
+	 * valid address to use as crimeAddress
+	 * max length = 134
+	 * @var string $VALID_CRIMEADDRESS
 	 **/
-	protected $profile = null;
+	protected $VALID_CRIMEADDRESS = "";
 	/**
 	 * valid profile hash to create the profile object to own the test
 	 * @var $VALID_HASH
