@@ -401,7 +401,7 @@ function setUserUsername(string $newUserUsername): void {
 	}
 
 	/**
-	 * deletes this Like from mySQL
+	 * deletes this user from mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
@@ -414,6 +414,12 @@ function setUserUsername(string $newUserUsername): void {
 		$parameters = ["userId" => $this->userId->getBytes(),];
 		$statement->execute($parameters);
 	}
+	/**
+	 * updates this User from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 **/
 	public function update(\PDO $pdo): void {
 		// create query
 		$query = "UPDATE user SET userActivationToken = :userActivationToken, userEmail = :userEmail, userHash = :userHash, userUsername = :userUsername WHERE userId = :userId";
