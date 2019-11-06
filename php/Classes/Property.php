@@ -507,5 +507,39 @@ class Property {
 		return($properties);
 	}
 
+
+	/**
+	 * get properties by distance
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param float $userLat latitude coordinate of where user is
+	 * @param float $userLong longitude coordinate of where user is
+	 * @param float $distance distance in miles that the user is searching by
+	 * @return \SplFixedArray SplFixedArray of Properties if found or null if not found
+	 * @throws \PDOException for errors related to MySQL
+	 * @throws \TypeError when variables are not the correct data type
+	 */
+	public static function getPropertyByDistance(\PDO $pdo, float $userLong, float $userLat, float $distance) : \SplFixedArray {
+		// create query template
+		$query = "SELECT PropertyId, propertyCity, propertyClass, propertyLatitude, propertyLongitude, propertyStreetAddress, propertyValue FROM property WHERE haversine(:userLong, :userLat, artLong, artLat) < :distance";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+		// build an array of properties
+		$properties = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$property = new Property($row["PropertyId"], $row["propertyCity"], $row["propertyClass"], $row["propertyLatitude"], $row["propertyLongitude"], $row["propertyStreetAddress"], $row["propertyValue"]);
+				$properties[$properties->key()] = $property;
+				$properties->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($properties);
+	}
+
+
 //Closing bracket for Class!!!!!!!!!!!!!!!!!!!
 }
