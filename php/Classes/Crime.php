@@ -6,7 +6,7 @@ require_once(dirname(__DIR__) . "/vendor/autoload.php");
 
 use Ramsey\Uuid\Uuid;
 class Crime implements \JsonSerializable {
-	use ValidateDate;
+	use ValidateDateTime;
 	use ValidateUuid;
 /**
  *Creating a crime profile
@@ -312,19 +312,25 @@ class Crime {
 		return ($crime);
 	}
 	/**
-	 * gets all Crimes
+	 * gets the Crime by distance
+	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @return \SplFixedArray SplFixedArray of Crimes found or null if not found
+	 * @param float $crimeLatitude latitude coordinate of where crime report occurred
+	 * @param float $crimeLongitude longitude coordinate of where crime report occurred
+	 * @param float $distance distance in miles that the user is searching by
+	 * @return \SplFixedArray SplFixedArray of crimes found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
-	 **/
-	public static function getAllCrimes(\PDO $pdo): \SPLFixedArray {
+	 * **/
+	public static function getCrimeByDistance(\PDO $pdo, float $crimeLatitude, float $crimeLongitude, float $distance) : \SplFixedArray {
 		// create query template
-		$query = "SELECT crimeId, crimeAddress, crimeDate, crimeLatitude, crimeLongitude, crimeType  FROM crime";
+		$query = "SELECT crimeId, crimeAddress, crimeDate, crimeLatitude, crimeLongitude, crimeType FROM crime WHERE haversine(:crimeLatitude, :crimeLongitude, crimeLatitude, crimeLongitude) < :distance";
 		$statement = $pdo->prepare($query);
-		$statement->execute();
+		// bind the crime distance to the place holder in the template
+		$parameters = ["distance" => $distance, "crimeLatitude" => $crimeLatitude, "crimeLongitude" => $crimeLongitude];
+		$statement->execute($parameters);
 		// build an array of crimes
-		$crimes = new \SplFixedArray($statement->rowCount());
+		$crime = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
@@ -336,6 +342,6 @@ class Crime {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return ($crimes);
+		return($crimes);
 	}
 }
