@@ -3,112 +3,230 @@
 
 namespace GoGitters\ApciMap\Test;
 
+//grab the Crime Class
+use GoGitters\ApciMap\{
+	User, Property, Crime, Star
+}; //The React Data included all the classes
+use Ramsey\Uuid\Uuid; //The React Data did not include this
 
-use PHPUnit\Framework\TestCase;
-use PHPUnit\DbUnit\TestCaseTrait;
-use PHPUnit\DbUnit\DataSet\QueryDataSet;
-use PHPUnit\DbUnit\Database\Connection;
-use PHPUnit\DbUnit\Operation\{Composite, Factory, Operation};
-
-// grab the encrypted properties file
-require_once("/etc/apache2/capstone-mysql/Secrets.php");
 // grab the class under scrutiny
 require_once(dirname(__DIR__) . "/autoload.php");
-require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
-
+// grab the uuid generator
+require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 /**
- * Abstract class containing universal and project specific mySQL parameters
+ * Full PHPUnit test for the Tweet class
  *
- * This class is designed to lay the foundation of the unit tests per project. It loads the all the database
- * parameters about the project so that table specific tests can share the parameters in on place. To use it:
+ * This is a complete PHPUnit test of the Tweet class. It is complete because *ALL* mySQL/PDO enabled methods
+ * are tested for both invalid and valid inputs.
  *
- * 1. Rename the class from DataDesignTest to a project specific name (e.g., ProjectNameTest)... DONE
- * 2. Rename the namespace to be the same as in (1) (e.g., Edu\Cnm\ProjectName\Test)... DONE
- * 3. Modify DataDesignTest::getDataSet() to include all the tables in your project. ...DONE
- * 4. Modify DataDesignTest::getConnection() to include the correct mySQL properties file.
- * 5. Have all table specific tests include this class.
- *
- * *NOTE*: Tables must be added in the order they were created in step (2).
- *
+ * @see Tweet
  * @author Dylan McDonald <dmcdonald21@cnm.edu>
  **/
-abstract class ApciMapTest extends TestCase {
-	use TestCaseTrait;
+class TweetTest extends DataDesignTest {
 	/**
-	 * PHPUnit database connection interface
-	 * @var Connection $connection
+	 * Profile that created the Tweet; this is for foreign key relations
+	 * @var Profile profile
 	 **/
-	protected $connection = null;
-
+	protected $profile = null;
 	/**
-	 * assembles the table from the schema and provides it to PHPUnit
-	 *
-	 * @return QueryDataSet assembled schema for PHPUnit
+	 * valid profile hash to create the profile object to own the test
+	 * @var $VALID_HASH
+	 */
+	protected $VALID_PROFILE_HASH;
+	/**
+	 * content of the Tweet
+	 * @var string $VALID_TWEETCONTENT
 	 **/
-	public final function getDataSet(): QueryDataSet {
-		$dataset = new QueryDataSet($this->getConnection());
-		// add all the tables for the project here
-		// THESE TABLES *MUST* BE LISTED IN THE SAME ORDER THEY WERE CREATED!!!!
-		$dataset->addTable("user");
-		$dataset->addTable("property");
-		$dataset->addTable("crime");
-		$dataset->addTable("star");
-		//We're not using this line, but I'm leaving it in for now so we have it as an example
-		// the second parameter is required because like is also a SQL keyword and is the only way PHPUnit can query the like table
-		/*		$dataset->addTable("like", "SELECT likeProfileId, likeTweetId, likeDate FROM `like`");*/
-
-		return ($dataset);
+	protected $VALID_TWEETCONTENT = "PHPUnit test passing";
+	/**
+	 * content of the updated Tweet
+	 * @var string $VALID_TWEETCONTENT2
+	 **/
+	protected $VALID_TWEETCONTENT2 = "PHPUnit test still passing";
+	/**
+	 * timestamp of the Tweet; this starts as null and is assigned later
+	 * @var \DateTime $VALID_TWEETDATE
+	 **/
+	protected $VALID_TWEETDATE = null;
+	/**
+	 * Valid timestamp to use as sunriseTweetDate
+	 */
+	protected $VALID_SUNRISEDATE = null;
+	/**
+	 * Valid timestamp to use as sunsetTweetDate
+	 */
+	protected $VALID_SUNSETDATE = null;
+	/**
+	 * create dependent objects before running each test
+	 **/
+	public final function setUp()  : void {
+		// run the default setUp() method first
+		parent::setUp();
+		$password = "abc123";
+		$this->VALID_PROFILE_HASH = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
+		// create and insert a Profile to own the test Tweet
+		$this->profile = new Profile(generateUuidV4(), null,"@handle", "https://media.giphy.com/media/3og0INyCmHlNylks9O/giphy.gif", "test@phpunit.de",$this->VALID_PROFILE_HASH, "+12125551212");
+		$this->profile->insert($this->getPDO());
+		// calculate the date (just use the time the unit test was setup...)
+		$this->VALID_TWEETDATE = new \DateTime();
+		//format the sunrise date to use for testing
+		$this->VALID_SUNRISEDATE = new \DateTime();
+		$this->VALID_SUNRISEDATE->sub(new \DateInterval("P10D"));
+		//format the sunset date to use for testing
+		$this->VALID_SUNSETDATE = new\DateTime();
+		$this->VALID_SUNSETDATE->add(new \DateInterval("P10D"));
 	}
-
 	/**
-	 * templates the setUp method that runs before each test; this method expunges the database before each run
-	 *
-	 * @see https://phpunit.de/manual/current/en/fixtures.html#fixtures.more-setup-than-teardown PHPUnit Fixtures: setUp and tearDown
-	 * @see https://github.com/sebastianbergmann/dbunit/issues/37 TRUNCATE fails on tables which have foreign key constraints
-	 * @return Composite array containing delete and insert commands
+	 * test inserting a valid Tweet and verify that the actual mySQL data matches
 	 **/
-	public final function getSetUpOperation(): Composite {
-		return new Composite([
-			Factory::DELETE_ALL(),
-			Factory::INSERT()
-		]);
+	public function testInsertValidTweet() : void {
+		// create a new Tweet and insert to into mySQL
+		$tweetId = generateUuidV4();
+		$tweet = new Tweet($tweetId, $this->profile->getProfileId(), $this->VALID_TWEETCONTENT, $this->VALID_TWEETDATE);
+		$tweet->insert($this->getPDO());
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoTweet = Tweet::getTweetByTweetId($this->getPDO(), $tweet->getTweetId());
+		$this->assertEquals($pdoTweet->getTweetId()->toString(), $tweetId->toString());
+		$this->assertEquals($pdoTweet->getTweetProfileId(), $tweet->getTweetId()->toString());
+		$this->assertEquals($pdoTweet->getTweetContent(), $this->VALID_TWEETCONTENT);
+		//format the date too seconds since the beginning of time to avoid round off error
+		$this->assertEquals($pdoTweet->getTweetDate()->getTimestamp(), $this->VALID_TWEETDATE->getTimestamp());
 	}
-
 	/**
-	 * templates the tearDown method that runs after each test; this method expunges the database after each run
-	 *
-	 * @return Operation delete command for the database
+	 * test inserting a Tweet, editing it, and then updating it
 	 **/
-	public final function getTearDownOperation(): Operation {
-		return (Factory::DELETE_ALL());
+	public function testUpdateValidTweet() : void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("tweet");
+		// create a new Tweet and insert to into mySQL
+		$tweetId = generateUuidV4();
+		$tweet = new Tweet($tweetId, $this->profile->getProfileId(), $this->VALID_TWEETCONTENT, $this->VALID_TWEETDATE);
+		$tweet->insert($this->getPDO());
+		// edit the Tweet and update it in mySQL
+		$tweet->setTweetContent($this->VALID_TWEETCONTENT2);
+		$tweet->update($this->getPDO());
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoTweet = Tweet::getTweetByTweetId($this->getPDO(), $tweet->getTweetId());
+		$this->assertEquals($pdoTweet->getTweetId(), $tweetId);
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tweet"));
+		$this->assertEquals($pdoTweet->getTweetProfileId()->toString(), $this->profile->getProfileId()->toString());
+		$this->assertEquals($pdoTweet->getTweetContent(), $this->VALID_TWEETCONTENT2);
+		//format the date too seconds since the beginning of time to avoid round off error
+		$this->assertEquals($pdoTweet->getTweetDate()->getTimestamp(), $this->VALID_TWEETDATE->getTimestamp());
 	}
-
 	/**
-	 * sets up the database connection and provides it to PHPUnit
-	 *
-	 * @see <https://phpunit.de/manual/current/en/database.html#database.configuration-of-a-phpunit-database-testcase>
-	 * @return Connection PHPUnit database connection interface
+	 * test creating a Tweet and then deleting it
 	 **/
-	public final function getConnection(): Connection {
-		// if the connection hasn't been established, create it
-		if($this->connection === null) {
-			// connect to mySQL and provide the interface to PHPUnit
-			//This was the original line
-			/*			$secrets = new \Secrets("/etc/apache2/capstone-mysql/ddctwitter.ini");*/
-			//This is the changed line for our project.
-			$secrets = new \Secrets("/etc/apache2/capstone-mysql/map.ini");
-			$pdo = $secrets->getPdoObject();
-			$this->connection = $this->createDefaultDBConnection($pdo, $secrets->getDatabase());
-		}
-		return ($this->connection);
+	public function testDeleteValidTweet() : void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("tweet");
+		// create a new Tweet and insert to into mySQL
+		$tweetId = generateUuidV4();
+		$tweet = new Tweet($tweetId, $this->profile->getProfileId(), $this->VALID_TWEETCONTENT, $this->VALID_TWEETDATE);
+		$tweet->insert($this->getPDO());
+		// delete the Tweet from mySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tweet"));
+		$tweet->delete($this->getPDO());
+		// grab the data from mySQL and enforce the Tweet does not exist
+		$pdoTweet = Tweet::getTweetByTweetId($this->getPDO(), $tweet->getTweetId());
+		$this->assertNull($pdoTweet);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("tweet"));
 	}
-
 	/**
-	 * returns the actual PDO object; this is a convenience method
-	 *
-	 * @return \PDO active PDO object
+	 * test grabbing a Tweet that does not exist
 	 **/
-	public final function getPDO() {
-		return ($this->getConnection()->getConnection());
+	public function testGetInvalidTweetByTweetId() : void {
+		// grab a profile id that exceeds the maximum allowable profile id
+		$tweet = Tweet::getTweetByTweetId($this->getPDO(), generateUuidV4());
+		$this->assertNull($tweet);
+	}
+	/**
+	 * test inserting a Tweet and regrabbing it from mySQL
+	 *
+	 *
+	 **/
+	public function testGetValidTweetByTweetProfileId() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("tweet");
+		// create a new Tweet and insert to into mySQL
+		$tweetId = generateUuidV4();
+		$tweet = new Tweet($tweetId, $this->profile->getProfileId(), $this->VALID_TWEETCONTENT, $this->VALID_TWEETDATE);
+		$tweet->insert($this->getPDO());
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = Tweet::getTweetByTweetProfileId($this->getPDO(), $tweet->getTweetProfileId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tweet"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DataDesign\\Tweet", $results);
+		// grab the result from the array and validate it
+		$pdoTweet = $results[0];
+
+		$this->assertEquals($pdoTweet->getTweetId(), $tweetId);
+		$this->assertEquals($pdoTweet->getTweetProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoTweet->getTweetContent(), $this->VALID_TWEETCONTENT);
+		//format the date too seconds since the beginning of time to avoid round off error
+		$this->assertEquals($pdoTweet->getTweetDate()->getTimestamp(), $this->VALID_TWEETDATE->getTimestamp());
+	}
+	/**
+	 * test grabbing a Tweet that does not exist
+	 **/
+	public function testGetInvalidTweetByTweetProfileId() : void {
+		// grab a profile id that exceeds the maximum allowable profile id
+		$tweet = Tweet::getTweetByTweetProfileId($this->getPDO(), generateUuidV4());
+		$this->assertCount(0, $tweet);
+	}
+	/**
+	 * test grabbing a Tweet by tweet content
+	 **/
+	public function testGetValidTweetByTweetContent() : void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("tweet");
+		// create a new Tweet and insert to into mySQL
+		$tweetId = generateUuidV4();
+		$tweet = new Tweet($tweetId, $this->profile->getProfileId(), $this->VALID_TWEETCONTENT, $this->VALID_TWEETDATE);
+		$tweet->insert($this->getPDO());
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = Tweet::getTweetByTweetContent($this->getPDO(), $tweet->getTweetContent());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tweet"));
+		$this->assertCount(1, $results);
+		// enforce no other objects are bleeding into the test
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DataDesign\\Tweet", $results);
+		// grab the result from the array and validate it
+		$pdoTweet = $results[0];
+		$this->assertEquals($pdoTweet->getTweetId(), $tweetId);
+		$this->assertEquals($pdoTweet->getTweetProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoTweet->getTweetContent(), $this->VALID_TWEETCONTENT);
+		//format the date too seconds since the beginning of time to avoid round off error
+		$this->assertEquals($pdoTweet->getTweetDate()->getTimestamp(), $this->VALID_TWEETDATE->getTimestamp());
+	}
+	/**
+	 * test grabbing a Tweet by content that does not exist
+	 **/
+	public function testGetInvalidTweetByTweetContent() : void {
+		// grab a tweet by content that does not exist
+		$tweet = Tweet::getTweetByTweetContent($this->getPDO(), "Comcast has the best service EVER #comcastLove");
+		$this->assertCount(0, $tweet);
+	}
+	/**
+	 * test grabbing all Tweets
+	 **/
+	public function testGetAllValidTweets() : void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("tweet");
+		// create a new Tweet and insert to into mySQL
+		$tweetId = generateUuidV4();
+		$tweet = new Tweet($tweetId, $this->profile->getProfileId(), $this->VALID_TWEETCONTENT, $this->VALID_TWEETDATE);
+		$tweet->insert($this->getPDO());
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = Tweet::getAllTweets($this->getPDO());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tweet"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DataDesign\\Tweet", $results);
+		// grab the result from the array and validate it
+		$pdoTweet = $results[0];
+		$this->assertEquals($pdoTweet->getTweetId(), $tweetId);
+		$this->assertEquals($pdoTweet->getTweetProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoTweet->getTweetContent(), $this->VALID_TWEETCONTENT);
+		//format the date too seconds since the beginning of time to avoid round off error
+		$this->assertEquals($pdoTweet->getTweetDate()->getTimestamp(), $this->VALID_TWEETDATE->getTimestamp());
 	}
 }
