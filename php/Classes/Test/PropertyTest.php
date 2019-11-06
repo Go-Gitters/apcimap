@@ -80,16 +80,16 @@ class PropertyTest extends ApciMapTest {
 		$numRows = $this->getConnection()->getRowCount("property");
 
 		//make a valid property uuid
-		$propertyUuid = generateUuidV4();
+		$propertyId = generateUuidV4();
 
 		//make a new property with valid entries
-		$property = new Property($propertyUuid, $this->VALID_PROPERTYCITY, $this->VALID_PROPERTYCLASS, $this->VALID_PROPERTYLATITUDE, $this->VALID_PROPERTYLONGITUDE, $this->VALID_PROPERTYSTREETADDRESS, $this->VALID_PROPERTYASSESSEDVALUE);
+		$property = new Property($propertyId, $this->VALID_PROPERTYCITY, $this->VALID_PROPERTYCLASS, $this->VALID_PROPERTYLATITUDE, $this->VALID_PROPERTYLONGITUDE, $this->VALID_PROPERTYSTREETADDRESS, $this->VALID_PROPERTYASSESSEDVALUE);
 
 		//insert property
 		$property->insert($this->getPDO());
 
 		//grab dah data from mySQL and check that the fields match our expectations
-		$pdoProperty = Property::getPropertyByPropertyUuid($this->getPDO(), $property->getPropertyUuid());
+		$pdoProperty = Property::getPropertyByPropertyId($this->getPDO(), $property->getPropertyId());
 		$this->assertEquals($numRows +1, $this->getConnection()->getRowCount("property"));
 	}
 
