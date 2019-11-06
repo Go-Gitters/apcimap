@@ -29,9 +29,9 @@ class UserTest extends ApciMapTest {
 	 * second valid at handle to use
 	 * @var string $VALID_ATHANDLE2
 	 **/
-	protected $VALID_ATHANDLE2 = "@passingtests";
+	protected $VALID_USERID2 = "@passingtests";
 	/**
-	 * second valid at handle to use
+	 * second valid USERID to use
 	 * @var string $VALID_ATHANDLE2
 	 **/
 	protected $VALID_PROFILE_AVATAR_URL = "https://media.giphy.com/media/3og0INyCmHlNylks9O/giphy.gif";
