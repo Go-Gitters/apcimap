@@ -4,7 +4,6 @@ namespace GoGitters\ApciMap;
 require_once("autoload.php");
 require_once(dirname(__DIR__) . "/vendor/autoload.php");
 
-use
 use Ramsey\Uuid\Uuid;
 class Crime implements \JsonSerializable {
 	use ValidateDate;
@@ -55,7 +54,7 @@ class Crime {
 	 ********************************************/
 	/**
 	 * Crime constructor.
-	 * @param string| Uuid $newcrimeId of this crime
+	 * @param string| Uuid $newCrimeId of this crime
 	 * @param string $newCrimeAddress address at which the crime report was filed
 	 * @param string $newCrimeDate date at which the crime report was filed
 	 * @param float $newCrimeLatitude latitude of the location the crime report was filed
@@ -66,9 +65,9 @@ class Crime {
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 */
-	public function __construct($newcrimeId, $newCrimeAddress, $newCrimeDate, $newCrimeLatitude, $newCrimeLongitude, $newCrimeType) {
+	public function __construct($newCrimeId, $newCrimeAddress, $newCrimeDate, $newCrimeLatitude, $newCrimeLongitude, $newCrimeType) {
 		try {
-			$this->setcrimeId($newcrimeId);
+			$this->setCrimeId($newCrimeId);
 			$this->setCrimeAddress($newCrimeAddress);
 			$this->setCrimeDate($newCrimeDate);
 			$this->setCrimeLatitude($newCrimeLatitude);
@@ -84,18 +83,18 @@ class Crime {
 	 * accessor method for crime id
 	 * @return Uuid value of crime id (or null if new Crime)
 	 **/
-	public function getcrimeId(): Uuid {
+	public function getCrimeId(): Uuid {
 		return ($this->crimeId);
 	}
 	/**
 	 * mutator method for crime id
-	 * @param Uuid| string $newcrimeId value of new crime id
-	 * @throws \RangeException if $newcrimeId is not positive
+	 * @param Uuid| string $newCrimeId value of new crime id
+	 * @throws \RangeException if $newCrimeId is not positive
 	 * @throws \TypeError if the Crime Id is not a uuid or a string
 	 **/
-	public function setcrimeId($newcrimeId): void {
+	public function setcrimeId($newCrimeId): void {
 		try {
-			$uuid = self::validateUuid($newcrimeId);
+			$uuid = self::validateUuid($newCrimeId);
 			//determine what exception type was thrown
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
@@ -170,7 +169,6 @@ class Crime {
 	 * @throws \TypeError if $newCrimeLatitude is not a float
 	 * @throws \InvalidArgumentException if latitude is outside of the ranges of -90 and 90
 	 * */
-	/*todo look at other documentation for adding variables in data design*/
 	public function setCrimeLatitude(float $newCrimeLatitude): void {
 		if(!($newCrimeLatitude >= -90) && ($newCrimeLatitude <= 90)) {
 			throw(new \InvalidArgumentException("latitude must be between -90 and 90"));
