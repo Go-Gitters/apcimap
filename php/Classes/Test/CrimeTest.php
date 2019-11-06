@@ -11,8 +11,10 @@ use Ramsey\Uuid\Uuid; //The React Data did not include this
 
 // grab the class under scrutiny
 require_once(dirname(__DIR__) . "/autoload.php");
+
 // grab the uuid generator
 require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
+
 /**
  * Full PHPUnit test for the Tweet class
  *
