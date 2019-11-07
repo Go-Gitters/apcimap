@@ -5,17 +5,16 @@ require_once("autoload.php");
 require_once(dirname(__DIR__) . "/vendor/autoload.php");
 
 use Ramsey\Uuid\Uuid;
-class Crime implements \JsonSerializable {
-	use ValidateDateTime;
-	use ValidateUuid;
 /**
  *Creating a crime profile
  * @author Lindsey Atencio
  * @version 0.0.1
- *
+ *the crime class has information such as the crime report location, type of crime, and date of crime.
  **/
+class Crime implements \JsonSerializable {
+	use ValidateDateTime;
+	use ValidateUuid;
 
-class Crime {
 	/********************************************
 	 * Declare and document all state variables *
 	 ********************************************/
