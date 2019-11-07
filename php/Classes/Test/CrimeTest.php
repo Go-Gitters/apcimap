@@ -22,6 +22,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
  * are tested for both invalid and valid inputs.
  *
  * @see Crime
+ * @package GoGitters\ApciMap\Test //The React Data did not include this
  * @author Lisa Lee
  **/
 
@@ -34,38 +35,47 @@ class CrimeTest extends ApciMapTest {
 	 * max length = 134
 	 * @var string $VALID_CRIMEADDRESS
 	 **/
-	protected $VALID_CRIMEADDRESS = "";
+	protected $VALID_CRIMEADDRESS = "8900 BLOCK LOS ARBOLES AVE NE";
+
 	/**
-	 * valid profile hash to create the profile object to own the test
-	 * @var $VALID_HASH
+	 * valid datetime to use as crime report date
+	 * datetime from dataset is in ESRI format
+	 * @var string $VALID_CRIMEDATE
 	 */
-	protected $VALID_PROFILE_HASH;
+	protected $VALID_CRIMEDATE = "1499644800000";
+
 	/**
 	 * content of the Tweet
 	 * @var string $VALID_TWEETCONTENT
 	 **/
+
 	protected $VALID_TWEETCONTENT = "PHPUnit test passing";
 	/**
 	 * content of the updated Tweet
 	 * @var string $VALID_TWEETCONTENT2
 	 **/
+
 	protected $VALID_TWEETCONTENT2 = "PHPUnit test still passing";
 	/**
 	 * timestamp of the Tweet; this starts as null and is assigned later
 	 * @var \DateTime $VALID_TWEETDATE
 	 **/
+
 	protected $VALID_TWEETDATE = null;
 	/**
 	 * Valid timestamp to use as sunriseTweetDate
 	 */
+
 	protected $VALID_SUNRISEDATE = null;
 	/**
 	 * Valid timestamp to use as sunsetTweetDate
 	 */
+
 	protected $VALID_SUNSETDATE = null;
 	/**
 	 * create dependent objects before running each test
 	 **/
+
 	public final function setUp()  : void {
 		// run the default setUp() method first
 		parent::setUp();
