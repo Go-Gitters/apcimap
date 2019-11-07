@@ -32,6 +32,7 @@ class CrimeTest extends ApciMapTest {
 
 	/**
 	 * valid address to use as crimeAddress
+	 * neighborhood block level location of incident
 	 * max length = 134
 	 * @var string $VALID_CRIMEADDRESS
 	 **/
@@ -39,44 +40,38 @@ class CrimeTest extends ApciMapTest {
 
 	/**
 	 * valid datetime to use as crime report date
-	 * datetime from dataset is in ESRI format
+	 * datetime from dataset is date that incident was reported as milliseconds since 1/1/1970 UTC (Note: This might be different to the date on which the incident took place)
+	 * max length = 13
 	 * @var string $VALID_CRIMEDATE
 	 */
 	protected $VALID_CRIMEDATE = "1499644800000";
 
 	/**
-	 * content of the Tweet
-	 * @var string $VALID_TWEETCONTENT
+	 * valid latitude to use as crimeLatitude
+	 * MySQL type - DECIMAL(9, 6): xxx.xxxxxx
+	 * @var float $VALID_CRIMELATITUDE
 	 **/
+	protected $VALID_CRIMELATITUDE = 35.0775992;
 
-	protected $VALID_TWEETCONTENT = "PHPUnit test passing";
 	/**
-	 * content of the updated Tweet
-	 * @var string $VALID_TWEETCONTENT2
+	 * valid longitude to use as crimeLongitude
+	 * MySQL type - DECIMAL(9, 6): xxx.xxxxxx
+	 * @var string $VALID_CRIMELONGITUDE
 	 **/
+	protected $VALID_CRIMELONGITUDE = -106.6060713;
 
-	protected $VALID_TWEETCONTENT2 = "PHPUnit test still passing";
 	/**
-	 * timestamp of the Tweet; this starts as null and is assigned later
-	 * @var \DateTime $VALID_TWEETDATE
+	 * valid crime type to use as crimeType
+	 * description/type of incident based on NIBRS (National Incident-Based Reporting System) used by APD
+	 * max length = 134
 	 **/
+	protected $VALID_CRIMETYPE = "THEFT FROM A BUILDING";
 
-	protected $VALID_TWEETDATE = null;
-	/**
-	 * Valid timestamp to use as sunriseTweetDate
-	 */
-
-	protected $VALID_SUNRISEDATE = null;
-	/**
-	 * Valid timestamp to use as sunsetTweetDate
-	 */
-
-	protected $VALID_SUNSETDATE = null;
 	/**
 	 * create dependent objects before running each test
 	 **/
-
 	public final function setUp()  : void {
+
 		// run the default setUp() method first
 		parent::setUp();
 		$password = "abc123";
