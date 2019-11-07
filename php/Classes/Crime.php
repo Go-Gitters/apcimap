@@ -343,4 +343,14 @@ class Crime implements \JsonSerializable {
 		}
 		return($crimes);
 	}
+	/**
+	 * formats the state variables for JSON serialization
+	 *
+	 * @return array resulting state variables to serialize
+	 **/
+	public function jsonSerialize() {
+		$fields = get_object_vars($this);
+		$fields["crimeId"] = $this->crimeId->toString();
+		return ($fields);
+	}
 }
