@@ -25,29 +25,24 @@ class UserTest extends ApciMapTest {
 	 * @var string $VALID_USERID
 	 **/
 	protected $VALID_USERID = "@phpunit";
-	/**
-	 * second valid at handle to use
-	 * @var string $VALID_ATHANDLE2
-	 **/
-	protected $VALID_USERID2 = "@passingtests";
-	/**
-	 * second valid USERID to use
-	 * @var string $VALID_ATHANDLE2
-	 **/
-	protected $VALID_PROFILE_AVATAR_URL = "https://media.giphy.com/media/3og0INyCmHlNylks9O/giphy.gif";
-	/**
-	 * valid email to use
-	 * @var string $VALID_EMAIL
-	 **/
-	protected $VALID_EMAIL = "test@phpunit.de";
-	/**
-	 * valid hash to use
-	 * @var $VALID_HASH
-	 */
-	protected $VALID_HASH;
-	/**
-	 * valid phone number to use
-	 * @var string $VALID_PHONE
-	 **/
-	protected $VALID_PHONE = "+12125551212";
+
+
+
+	// grab the data from mySQL and enforce the fields match our expectations
+$pdoUser = User::getUserByUserActivationToken($this->getPDO(), $user->getUserActivationToken());
+$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("user"));
+$this->assertEquals($pdoUser->getUserId(), $userId);
+$this->assertEquals($pdoUser->getUserActivationToken(), $this->VALID_ACTIVATION);
+$this->assertEquals($pdoUser->getUserEmail(), $this->VALID_USEREMAIL);
+$this->assertEquals($pdoUser->getUserHash(), $this->VALID_HASH);
+$this->assertEquals($pdoUser->get(), $this->VALID_EMAIL);
+$this->assertEquals($pdoProfile->getProfileHash(), $this->VALID_HASH);
+$this->assertEquals($pdoProfile->getProfilePhone(), $this->VALID_PHONE);
 }
+	/**
+	 * test grabbing a Profile by an email that does not exists
+	 **/
+	public function testGetInvalidProfileActivation() : void {
+	// grab an email that does not exist
+	$profile = Profile::getProfileByProfileActivationToken($this->getPDO(), "6675636b646f6e616c646472756d7066");
+	$this->assertNull($profile);
