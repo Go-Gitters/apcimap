@@ -186,7 +186,6 @@ class CrimeTest extends ApciMapTest {
 		$this->assertEquals($pdoCrime->getCrimeLatitude(), $this->VALID_CRIMELATITUDE);
 		$this->assertEquals($pdoCrime->getCrimeLongitude(), $this->VALID_CRIMELONGITUDE);
 		$this->assertEquals($pdoCrime->getCrimeType(), $this->VALID_CRIMETYPE);
-
 	}
 
 	/**
@@ -217,6 +216,7 @@ class CrimeTest extends ApciMapTest {
 		$this->assertEquals($pdoCrime->getCrimeLatitude(), $this->VALID_CRIMELATITUDE);
 		$this->assertEquals($pdoCrime->getCrimeLongitude(), $this->VALID_CRIMELONGITUDE);
 		$this->assertEquals($pdoCrime->getCrimeType(), $this->VALID_CRIMETYPE);
+	}
 
 		/**
 		 * test grabbing a Crime by a crime incident report type that does not exist
@@ -225,7 +225,7 @@ class CrimeTest extends ApciMapTest {
 			// grab a crime by crime incident report type that does not exist
 			$crime = Crime::getCrimeByCrimeType($this->getPDO(), "kejalek jfalek fjeio aejl");
 			$this->assertCount(0, $crime);
-		}
+	}
 
 		/**
 		 * test grabbing all Crimes
@@ -253,5 +253,5 @@ class CrimeTest extends ApciMapTest {
 			$this->assertEquals($pdoCrime->getCrimeLatitude(), $this->VALID_CRIMELATITUDE);
 			$this->assertEquals($pdoCrime->getCrimeLongitude(), $this->VALID_CRIMELONGITUDE);
 			$this->assertEquals($pdoCrime->getCrimeType(), $this->VALID_CRIMETYPE);
-		}
 	}
+}
