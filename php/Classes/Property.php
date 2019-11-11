@@ -377,6 +377,7 @@ class Property {
 
 		//bind the member variable to the place holder in the template
 		$parameters = ["propertyId" => $this->propertyId->getBytes()];
+		$statement->execute($parameters);
 	}
 
 	/**
