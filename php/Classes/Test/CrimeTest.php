@@ -161,4 +161,19 @@ class CrimeTest extends ApciMapTest {
 		$this->assertNull($crime);
 	}
 
+	/**
+	 * test inserting a Crime and regrabbing it from mySQL
+	 **/
+	public function testGetValidCrimeByCrimeId() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("crime");
+
+		// create a new Crime and insert into mySQL
+		$crimeId = generateUuidV4();
+		$crime = new Crime($crimeId, $this->VALID_CRIMEADDRESS, $this->VALID_CRIMEDATE, $this->VALID_CRIMELATITUDE, $this->VALID_CRIMELONGITUDE, $this->VALID_CRIMETYPE);
+		$crime->insert($this->getPDO());
+
+
+	}
+
 }
