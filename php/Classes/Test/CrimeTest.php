@@ -173,7 +173,33 @@ class CrimeTest extends ApciMapTest {
 		$crime = new Crime($crimeId, $this->VALID_CRIMEADDRESS, $this->VALID_CRIMEDATE, $this->VALID_CRIMELATITUDE, $this->VALID_CRIMELONGITUDE, $this->VALID_CRIMETYPE);
 		$crime->insert($this->getPDO());
 
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = Crime::getCrimeByCrimeId($this->getPDO(), $crime->getCrimeId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("crime"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("GoGitters\ApciMap\Test", $results);
+
+		// grab the result from the array and validate it
+		$pdoCrime = $results[0];
+
+		$this->assertEquals($pdoCrime->getCrimeId(), $crimeId);
+		$this->assertEquals($pdoCrime->getCrimeAddress(), $this->VALID_CRIMEADDRESS);
+		$this->assertEquals($pdoCrime->getCrimeDate(), $this->VALID_CRIMEDATE);
+		$this->assertEquals($pdoCrime->getCrimeLatitude(), $this->VALID_CRIMELATITUDE);
+		$this->assertEquals($pdoCrime->getCrimeLongitude(), $this->VALID_CRIMELONGITUDE);
+		$this->assertEquals($pdoCrime->getCrimeType(), $this->VALID_CRIMETYPE);
 
 	}
+
+	/**
+	 * test grabbing a Crime that does not exist
+	 **/
+	public function testGetInvalidCrimeByCrimeId() : void {
+		// grab a crime id that exceeds the maximum allowable crime id
+		$crime = Crime::getCrimeByCrimeId($this->getPDO(), generateUuidV4());
+		$this->assertCount(0, $crime);
+	}
+
+
 
 }
