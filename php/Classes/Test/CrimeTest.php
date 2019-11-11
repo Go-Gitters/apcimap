@@ -61,11 +61,20 @@ class CrimeTest extends ApciMapTest {
 	protected $VALID_CRIMELONGITUDE = -106.6060713;
 
 	/**
+	 * content of the crime incident report
 	 * valid crime type to use as crimeType
 	 * description/type of incident based on NIBRS (National Incident-Based Reporting System) used by APD
 	 * max length = 134
+	 * @var string $VALID_CRIMETYPE
 	 **/
 	protected $VALID_CRIMETYPE = "THEFT FROM A BUILDING";
+
+	/**
+	 * content of the updated crime incident report
+	 * max length = 134
+	 * @var string $VALID_CRIMETYPE2
+	 **/
+	protected $VALID_CRIMETYPE2 = "AUTO THEFT";
 
 	/**
 	 * create dependent objects before running each test
@@ -76,7 +85,7 @@ class CrimeTest extends ApciMapTest {
 	}
 
 	/**
-	 * test inserting a valid crime incident address and verify that the actual mySQL data matches
+	 * test inserting a valid crime report incident and verify that the actual mySQL data matches
 	 **/
 	public function testInsertValidCrime() : void {
 		// create a new Crime report incident and insert into mySQL
@@ -93,29 +102,29 @@ class CrimeTest extends ApciMapTest {
 		$this->assertEquals($pdoCrime->getCrimeLatitude(), $this->VALID_CRIMELATITUDE);
 		$this->assertEquals($pdoCrime->getCrimeLongitude(), $this->VALID_CRIMELONGITUDE);
 		$this->assertEquals($pdoCrime->getCrimeType(), $this->VALID_CRIMETYPE);
-
-
-
-
+	}
 
 		/**
-		 * test inserting a valid crime incident address and verify that the actual mySQL data matches
+		 * test inserting a crime incident report, editing it, and then updating it
 		 **/
+		public function testUpdateValidCrime() : void {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("crime");
 
-		// make a valid crime uuid
+		// create a new Crime and insert it into mySQL
 		$crimeId = generateUuidV4();
-
-		// make a new crime incident report with valid entries
 		$crime = new Crime($crimeId, $this->VALID_CRIMEADDRESS, $this->VALID_CRIMEDATE, $this->VALID_CRIMELATITUDE, $this->VALID_CRIMELONGITUDE, $this->VALID_CRIMETYPE);
-
-		// insert a crime incident report
 		$crime->insert($this->getPDO());
+
+		// edit the Crime and update it in mySQL
+		$crime->setCrimeType($this->VALID_CRIMETYPE2);
+		$crime->update($this->getPDO());
 
 		// grab the data from mySQL and check that the fields match our expectations
 		$pdoCrime = Crime::getCrimeByCrimeId($this->getPDO(), $crime->getCrimeId());
 		$this->assertEquals($pdoCrime->getCrimeId(), $crimeId);
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("crime"));
+		$this->assertEquals($pdoCrime->getCrimeAddress(), $this->VALID_CRIMEADDRESS);
 
 	}
 }
