@@ -200,6 +200,13 @@ class CrimeTest extends ApciMapTest {
 		$this->assertCount(0, $crime);
 	}
 
+	/**
+	 * test grabbing a Crime by crime incident report type
+	 **/
+	public function testGetValidCrimeByCrimeType() : void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("crime");
 
 
+	}
 }
