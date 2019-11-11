@@ -216,5 +216,10 @@ class CrimeTest extends ApciMapTest {
 		$results = Crime::getCrimeByCrimeType($this->getPDO(), $crime->getCrimeType());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("crime"));
 		$this->assertCount(1, $results);
+
+		// enforce no other objects are bleeding into the test
+		$this->assertContainsOnlyInstancesOf("GoGitters\ApciMap\Test", $results);
+
+
 	}
 }
