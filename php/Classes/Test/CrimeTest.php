@@ -79,6 +79,28 @@ class CrimeTest extends ApciMapTest {
 	 * test inserting a valid crime incident address and verify that the actual mySQL data matches
 	 **/
 	public function testInsertValidCrime() : void {
+		// create a new Crime report incident and insert into mySQL
+		$crimeId = generateUuidV4();
+		$crime = new Crime($crimeId, $this->crime->getCrimeId(), $this->VALID_CRIMEADDRESS, $this->VALID_CRIMEDATE, $this->VALID_CRIMELATITUDE, $this->VALID_CRIMELONGITUDE, $this->VALID_CRIMETYPE);
+		$crime->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoCrime = Crime::getCrimeByCrimeId($this->getPDO(), $crime->getCrimeId());
+
+		$this->assertEquals($pdoCrime->getCrimeId()->toString(), $crimeId->toString());
+		$this->assertEquals($pdoCrime->getCrimeAddress(), $this->VALID_CRIMEADDRESS);
+		$this->assertEquals($pdoCrime->getCrimeDate(), $this->VALID_CRIMEDATE);
+		$this->assertEquals($pdoCrime->getCrimeLatitude(), $this->VALID_CRIMELATITUDE);
+		$this->assertEquals($pdoCrime->getCrimeLongitude(), $this->VALID_CRIMELONGITUDE);
+		$this->assertEquals($pdoCrime->getCrimeType(), $this->VALID_CRIMETYPE);
+
+
+
+
+
+		/**
+		 * test inserting a valid crime incident address and verify that the actual mySQL data matches
+		 **/
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("crime");
 
