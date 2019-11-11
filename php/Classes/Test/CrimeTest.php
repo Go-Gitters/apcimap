@@ -138,6 +138,21 @@ class CrimeTest extends ApciMapTest {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("crime");
 
-		// create
+		// create a new Crime and insert into mySQL
+		$crimeId = generateUuidV4();
+		$crime = new Crime($crimeId, $this->VALID_CRIMEADDRESS, $this->VALID_CRIMEDATE, $this->VALID_CRIMELATITUDE, $this->VALID_CRIMELONGITUDE, $this->VALID_CRIMETYPE);
+
+		// delete the Crime from mySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("crime"));
+		$crime->delete($this->getPDO());
+
+		// grab the data from mySQL and enforce the Crime does not exist
+		$pdoCrime = Crime::getCrimeByCrimeId($this->getPDO(), $crime->getCrimeId());
+		$this->assertNull($pdoCrime);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("crime"));
 	}
+
+	/**
+	 *
+	 **/
 }
