@@ -137,7 +137,7 @@ class PropertyTest extends ApciMapTest {
 		$this->assertEquals($pdoProperty->getPropertyValue(), $this->VALID_PROPERTYVALUE2);
 	}
 
-	//TODO: Test creating a property and then deleting it testDeleteValidProperty()
+	//Test creating a property and then deleting it testDeleteValidProperty()
 	public function testDeleteValidProperty() : void {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("property");
@@ -162,6 +162,14 @@ class PropertyTest extends ApciMapTest {
 	}
 
 	//TODO: Test grabbing a property that does not exist testGetInvalidPropertyByPropertyId()
+	public function testGetInvalidPropertyByPropertyId() : void {
+		//make a propertyId that is not in MySQL
+		$propertyId = generateUuidV4();
+		//get property by new Id
+		$pdoProperty = Property::getPropertyByPropertyId($this->getPDO(), $propertyId);
+		$this->assertNull($pdoProperty);
+	}
+
 	//TODO: Test getAllProperties
 	//TODO: Test getPropertiesByDistance
 	//TODO: Test getPropertyByUserId
