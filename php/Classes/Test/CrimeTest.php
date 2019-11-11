@@ -190,15 +190,6 @@ class CrimeTest extends ApciMapTest {
 	}
 
 	/**
-	 * test grabbing a Crime that does not exist
-	 **/
-	public function testGetInvalidCrimeByCrimeId(): void {
-		// grab a crime id that exceeds the maximum allowable crime id
-		$crime = Crime::getCrimeByCrimeId($this->getPDO(), generateUuidV4());
-		$this->assertCount(0, $crime);
-	}
-
-	/**
 	 * test grabbing a Crime by crime incident report type
 	 **/
 	public function testGetValidCrimeByCrimeType(): void {
