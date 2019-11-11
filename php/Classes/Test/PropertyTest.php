@@ -78,11 +78,16 @@ class PropertyTest extends ApciMapTest {
 	 **/
 	protected $VALID_PROPERTYVALUE2 = "8457.25";
 
+	/**
+	 * setup function
+	 **/
 	public final function setUp() : void {
 		parent::setUp();
 	}
 
-	//Test inserting a valid property.  This also tests getPropertyByPropertyId().
+	/**
+	 * Test inserting a valid property.  This also tests getPropertyByPropertyId().
+	 **/
 	public function testInsertValidProperty() : void {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("property");
@@ -108,6 +113,10 @@ class PropertyTest extends ApciMapTest {
 		$this->assertEquals($pdoProperty->getPropertyValue(), $this->VALID_PROPERTYVALUE);
 	}
 
+
+	/**
+	 * Test updating valid property.
+	 **/
 	public function testUpdateValidProperty() : void {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("property");
@@ -137,7 +146,9 @@ class PropertyTest extends ApciMapTest {
 		$this->assertEquals($pdoProperty->getPropertyValue(), $this->VALID_PROPERTYVALUE2);
 	}
 
-	//Test creating a property and then deleting it testDeleteValidProperty()
+	/**
+	 * Test creating a property and then deleting it testDeleteValidProperty()
+	 **/
 	public function testDeleteValidProperty() : void {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("property");
@@ -161,7 +172,9 @@ class PropertyTest extends ApciMapTest {
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("property"));
 	}
 
-	//TODO: Test grabbing a property that does not exist testGetInvalidPropertyByPropertyId()
+	/**
+	 * Test grabbing a property that does not exist testGetInvalidPropertyByPropertyId()
+	 **/
 	public function testGetInvalidPropertyByPropertyId() : void {
 		//make a propertyId that is not in MySQL
 		$propertyId = generateUuidV4();
