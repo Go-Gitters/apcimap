@@ -212,8 +212,9 @@ class CrimeTest extends ApciMapTest {
 		$crime = new Crime($crimeId, $this->VALID_CRIMEADDRESS, $this->VALID_CRIMEDATE, $this->VALID_CRIMELATITUDE, $this->VALID_CRIMELONGITUDE, $this->VALID_CRIMETYPE);
 		$crime->insert($this->getPDO());
 
-
-
-
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = Crime::getCrimeByCrimeType($this->getPDO(), $crime->getCrimeType());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("crime"));
+		$this->assertCount(1, $results);
 	}
 }
