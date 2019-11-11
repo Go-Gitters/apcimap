@@ -388,7 +388,7 @@ class Property {
 	 **/
 	public function update(\PDO $pdo) : void {
 		//create query template
-		$query = "UPDATE property SET PropertyId = :PropertyId, propertyCity = :propertyCity, propertyClass = :propertyClass, propertyLatitude = :propertyLatitud, propertyLongitude = :propertyLongitude, propertyStreetAddress = :propertyStreetAddress, propertyValue = :propertyValue WHERE PropertyId = :PropertyId";
+		$query = "UPDATE property SET PropertyId = :PropertyId, propertyCity = :propertyCity, propertyClass = :propertyClass, propertyLatitude = :propertyLatitude, propertyLongitude = :propertyLongitude, propertyStreetAddress = :propertyStreetAddress, propertyValue = :propertyValue WHERE PropertyId = :PropertyId";
 		$statement = $pdo->prepare($query);
 
 		//bind member variables to template

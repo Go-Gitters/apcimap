@@ -64,12 +64,20 @@ class PropertyTest extends ApciMapTest {
 	protected $VALID_PROPERTYSTREETADDRESS = "8978 Easy Street";
 
 	/**
-	 * valid assessed value to use as propertyAssessedValue
+	 * valid assessed value to use as propertyValue
 	 * assessed value for this property
 	 * MySQL type - DECIMAL(15, 2)
-	 * @var float $VALID_PROPERTYASSESSEDVALUE
+	 * @var float $VALID_PROPERTYVALUE
 	 **/
-	protected $VALID_PROPERTYASSESSEDVALUE = "5096837.87";
+	protected $VALID_PROPERTYVALUE = "5096837.87";
+
+	/**
+	 * second valid assessed value to use as propertyValue
+	 * assessed value for this property
+	 * MySQL type - DECIMAL(15, 2)
+	 * @var float $VALID_PROPERTYVALUE2
+	 **/
+	protected $VALID_PROPERTYVALUE2 = "8457.25";
 
 	public final function setUp() : void {
 		parent::setUp();
@@ -83,7 +91,7 @@ class PropertyTest extends ApciMapTest {
 		$propertyId = generateUuidV4();
 
 		//make a new property with valid entries
-		$property = new Property($propertyId, $this->VALID_PROPERTYCITY, $this->VALID_PROPERTYCLASS, $this->VALID_PROPERTYLATITUDE, $this->VALID_PROPERTYLONGITUDE, $this->VALID_PROPERTYSTREETADDRESS, $this->VALID_PROPERTYASSESSEDVALUE);
+		$property = new Property($propertyId, $this->VALID_PROPERTYCITY, $this->VALID_PROPERTYCLASS, $this->VALID_PROPERTYLATITUDE, $this->VALID_PROPERTYLONGITUDE, $this->VALID_PROPERTYSTREETADDRESS, $this->VALID_PROPERTYVALUE);
 
 		//insert property
 		$property->insert($this->getPDO());
@@ -91,6 +99,43 @@ class PropertyTest extends ApciMapTest {
 		//grab dah data from mySQL and check that the fields match our expectations
 		$pdoProperty = Property::getPropertyByPropertyId($this->getPDO(), $property->getPropertyId());
 		$this->assertEquals($numRows +1, $this->getConnection()->getRowCount("property"));
+		$this->assertEquals($pdoProperty->getPropertyId()->toString(), $propertyId->toString());
+		$this->assertEquals($pdoProperty->getPropertyCity(), $this->VALID_PROPERTYCITY);
+		$this->assertEquals($pdoProperty->getPropertyClass(), $this->VALID_PROPERTYCLASS);
+		$this->assertEquals($pdoProperty->getPropertyLatitude(), $this->VALID_PROPERTYLATITUDE);
+		$this->assertEquals($pdoProperty->getPropertyLongitude(), $this->VALID_PROPERTYLONGITUDE);
+		$this->assertEquals($pdoProperty->getPropertyStreetAddress(), $this->VALID_PROPERTYSTREETADDRESS);
+		$this->assertEquals($pdoProperty->getPropertyValue(), $this->VALID_PROPERTYVALUE);
+	}
+
+	public function testUpdateValidProperty() : void {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("property");
+
+		//make a valid property uuid
+		$propertyId = generateUuidV4();
+
+		//make a new property with valid entries
+		$property = new Property($propertyId, $this->VALID_PROPERTYCITY, $this->VALID_PROPERTYCLASS, $this->VALID_PROPERTYLATITUDE, $this->VALID_PROPERTYLONGITUDE, $this->VALID_PROPERTYSTREETADDRESS, $this->VALID_PROPERTYVALUE);
+
+		//insert property
+		$property->insert($this->getPDO());
+
+		//edit the property and update it in MySQL
+		$property->setPropertyValue($this->VALID_PROPERTYVALUE2);
+		$property->update($this->getPDO());
+
+		//grab dah data from mySQL and check that the fields match our expectations
+		$pdoProperty = Property::getPropertyByPropertyId($this->getPDO(), $property->getPropertyId());
+		$this->assertEquals($numRows +1, $this->getConnection()->getRowCount("property"));
+		$this->assertEquals($pdoProperty->getPropertyId()->toString(), $propertyId->toString());
+		$this->assertEquals($pdoProperty->getPropertyCity(), $this->VALID_PROPERTYCITY);
+		$this->assertEquals($pdoProperty->getPropertyClass(), $this->VALID_PROPERTYCLASS);
+		$this->assertEquals($pdoProperty->getPropertyLatitude(), $this->VALID_PROPERTYLATITUDE);
+		$this->assertEquals($pdoProperty->getPropertyLongitude(), $this->VALID_PROPERTYLONGITUDE);
+		$this->assertEquals($pdoProperty->getPropertyStreetAddress(), $this->VALID_PROPERTYSTREETADDRESS);
+		$this->assertEquals($pdoProperty->getPropertyValue(), $this->VALID_PROPERTYVALUE2);
+
 	}
 
 
