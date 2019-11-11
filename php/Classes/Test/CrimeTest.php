@@ -25,8 +25,6 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
  * @package GoGitters\ApciMap\Test //The React Data did not include this
  * @author Lisa Lee
  **/
-
-
 class CrimeTest extends ApciMapTest {
 
 
@@ -79,7 +77,7 @@ class CrimeTest extends ApciMapTest {
 	/**
 	 * create dependent objects before running each test
 	 **/
-	public final function setUp()  : void {
+	public final function setUp(): void {
 		//run the default setUp() method first
 		parent::setUp();
 	}
@@ -87,7 +85,7 @@ class CrimeTest extends ApciMapTest {
 	/**
 	 * test inserting a valid crime report incident and verify that the actual mySQL data matches
 	 **/
-	public function testInsertValidCrime() : void {
+	public function testInsertValidCrime(): void {
 		// create a new Crime report incident and insert into mySQL
 		$crimeId = generateUuidV4();
 		$crime = new Crime($crimeId, $this->crime->getCrimeId(), $this->VALID_CRIMEADDRESS, $this->VALID_CRIMEDATE, $this->VALID_CRIMELATITUDE, $this->VALID_CRIMELONGITUDE, $this->VALID_CRIMETYPE);
@@ -104,10 +102,10 @@ class CrimeTest extends ApciMapTest {
 		$this->assertEquals($pdoCrime->getCrimeType(), $this->VALID_CRIMETYPE);
 	}
 
-		/**
-		 * test inserting a crime incident report, editing it, and then updating it
-		 **/
-		public function testUpdateValidCrime() : void {
+	/**
+	 * test inserting a crime incident report, editing it, and then updating it
+	 **/
+	public function testUpdateValidCrime(): void {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("crime");
 
@@ -134,7 +132,7 @@ class CrimeTest extends ApciMapTest {
 	/**
 	 * test creating a Crime and then deleting it
 	 **/
-	public function testDeleteValidCrime() : void {
+	public function testDeleteValidCrime(): void {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("crime");
 
@@ -155,7 +153,7 @@ class CrimeTest extends ApciMapTest {
 	/**
 	 * test grabbing a Crime that does not exist
 	 **/
-	public function testGetInvalidCrimeByCrimeId() : void {
+	public function testGetInvalidCrimeByCrimeId(): void {
 		// grab a crime id that exceeds the maximum allowable crime id
 		$crime = Crime::getCrimeByCrimeId($this->getPDO(), generateUuidV4());
 		$this->assertNull($crime);
@@ -194,7 +192,7 @@ class CrimeTest extends ApciMapTest {
 	/**
 	 * test grabbing a Crime that does not exist
 	 **/
-	public function testGetInvalidCrimeByCrimeId() : void {
+	public function testGetInvalidCrimeByCrimeId(): void {
 		// grab a crime id that exceeds the maximum allowable crime id
 		$crime = Crime::getCrimeByCrimeId($this->getPDO(), generateUuidV4());
 		$this->assertCount(0, $crime);
@@ -203,7 +201,7 @@ class CrimeTest extends ApciMapTest {
 	/**
 	 * test grabbing a Crime by crime incident report type
 	 **/
-	public function testGetValidCrimeByCrimeType() : void {
+	public function testGetValidCrimeByCrimeType(): void {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("crime");
 
@@ -232,7 +230,8 @@ class CrimeTest extends ApciMapTest {
 		/**
 		 * test grabbing a Crime by a crime incident report type that does not exist
 		 **/
-		public function testGetInvalidCrimeByCrimeType() : void {
+		public
+		function testGetInvalidCrimeByCrimeType(): void {
 			// grab a crime by crime incident report type that does not exist
 			$crime = Crime::getCrimeByCrimeType($this->getPDO(), "kejalek jfalek fjeio aejl");
 			$this->assertCount(0, $crime);
@@ -241,7 +240,8 @@ class CrimeTest extends ApciMapTest {
 		/**
 		 * test grabbing all Crimes
 		 **/
-		public function testGetAllValidCrimes() : void {
+		public
+		function testGetAllValidCrimes(): void {
 			// count the number of rows and save it for later
 			$numRows = $this->getConnection()->getRowCount("crime");
 
@@ -255,6 +255,14 @@ class CrimeTest extends ApciMapTest {
 			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("crime"));
 			$this->assertCount(1, $results);
 			$this->assertContainsOnlyInstancesOf("GoGitters\ApciMap\Test", $results);
+
+			// grab the result from the array and validate it
+			$pdoCrime = $results[0];
+			$this->assertEquals($pdoCrime->getCrimeId(), $crimeId);
+			$this->assertEquals($pdoCrime->getCrimeAddress(), $this->VALID_CRIMEADDRESS);
+			$this->assertEquals($pdoCrime->getCrimeDate(), $this->VALID_CRIMEDATE);
+			$this->assertEquals($pdoCrime->getCrimeLatitude(), $this->VALID_CRIMELATITUDE);
+			$this->assertEquals($pdoCrime->getCrimeLongitude(), $this->VALID_CRIMELONGITUDE);
+			$this->assertEquals($pdoCrime->getCrimeType(), $this->VALID_CRIMETYPE);
 		}
 	}
-}
