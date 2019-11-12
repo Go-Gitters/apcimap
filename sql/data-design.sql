@@ -1,9 +1,9 @@
 DROP TABLE IF EXISTS star;
-DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS `user`;
 DROP TABLE IF EXISTS property;
 DROP TABLE IF EXISTS crime;
 
-CREATE TABLE user (
+CREATE TABLE `user` (
 	userId            BINARY(16)   NOT NULL,
 	userActivationToken CHAR(32),
 	userEmail           VARCHAR(128) NOT NULL,

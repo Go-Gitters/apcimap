@@ -56,8 +56,7 @@ $userUsername;
  * @throws \Exception if some other exception occurs
  * @Documentation https://php.net/manual/en/language.oop5.decon.php
  **/
-public
-function __construct($newUserId, string $newUserActivationToken, string $newUserEmail, string $newUserHash, string $newUserUsername) {
+public function __construct($newUserId, $newUserActivationToken, $newUserEmail, $newUserHash, $newUserUsername) {
 	try {
 		$this->setuserId($newUserId);
 		$this->setUserActivationToken($newUserActivationToken);
@@ -220,8 +219,7 @@ function getUserUsername(): string {
  * @throws \RangeException if the username is more than 32 characters
  * @throws \TypeError if the username is not a string
  */
-public
-function setUserUsername(string $newUserUsername): void {
+public function setUserUsername(string $newUserUsername): void {
 	$newUserUsername = trim($newUserUsername);
 	$newUserUsername = filter_var($newUserUsername, FILTER_VALIDATE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	if(empty($newUserUsername) === true) {
