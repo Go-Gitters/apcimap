@@ -40,21 +40,22 @@ class CrimeTest extends ApciMapTest {
 	 * max length = 13
 	 * @var string $VALID_CRIMEDATE
 	 */
-	protected $VALID_CRIMEDATE = "2019-11-22 09:12:23.44";
+//	protected $VALID_CRIMEDATE = "2019-11-22 09:12:23.44";
+
 
 	/**
 	 * valid latitude to use as crimeLatitude
 	 * MySQL type - DECIMAL(9, 6): xxx.xxxxxx
 	 * @var float $VALID_CRIMELATITUDE
 	 **/
-	protected $VALID_CRIMELATITUDE = 35.0775992;
+	protected $VALID_CRIMELATITUDE = 35.077592;
 
 	/**
 	 * valid longitude to use as crimeLongitude
 	 * MySQL type - DECIMAL(9, 6): xxx.xxxxxx
 	 * @var string $VALID_CRIMELONGITUDE
 	 **/
-	protected $VALID_CRIMELONGITUDE = -106.6060713;
+	protected $VALID_CRIMELONGITUDE = -106.606071;
 
 	/**
 	 * content of the crime incident report
@@ -78,6 +79,7 @@ class CrimeTest extends ApciMapTest {
 	public final function setUp(): void {
 		//run the default setUp() method first
 		parent::setUp();
+		$this->VALID_CRIMEDATE = new \DateTime();
 	}
 
 	/**
@@ -94,7 +96,7 @@ class CrimeTest extends ApciMapTest {
 
 		$this->assertEquals($pdoCrime->getCrimeId()->toString(), $crimeId->toString());
 		$this->assertEquals($pdoCrime->getCrimeAddress(), $this->VALID_CRIMEADDRESS);
-		$this->assertEquals($pdoCrime->getCrimeDate(), $this->VALID_CRIMEDATE);
+		$this->assertEquals($pdoCrime->getCrimeDate()->getTimestamp(), $this->VALID_CRIMEDATE->getTimestamp());
 		$this->assertEquals($pdoCrime->getCrimeLatitude(), $this->VALID_CRIMELATITUDE);
 		$this->assertEquals($pdoCrime->getCrimeLongitude(), $this->VALID_CRIMELONGITUDE);
 		$this->assertEquals($pdoCrime->getCrimeType(), $this->VALID_CRIMETYPE);

@@ -152,7 +152,7 @@ class Crime implements \JsonSerializable {
 			$this->crimeDate = new \DateTime();
 			return;
 		}
-		// store the $crimeDate using the ValidateDate trait
+		// store the $crimeDate using the ValidateDateTime trait
 		try {
 			$newCrimeDate = self::validateDateTime($newCrimeDate);
 		} catch(\InvalidArgumentException | \RangeException $exception) {
