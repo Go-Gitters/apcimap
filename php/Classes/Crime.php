@@ -238,8 +238,8 @@ class Crime implements \JsonSerializable {
 		$query = "INSERT INTO crime(crimeId, crimeAddress, crimeDate, crimeLatitude, crimeLongitude, crimeType) VALUES(:crimeId, :crimeAddress, :crimeDate, :crimeLatitude, :crimeLongitude, :crimeType)";
 		$statement = $pdo->prepare($query);
 		// bind the member variables to the place holders in the template
-		$parameters = ["crimeId" => $this->crimeId->getBytes(), "crimeAddress" => $this->crimeAddress, "crimeDate" => $this->crimeDate, "crimeLatitude" => $this->crimeLatitude, "crimeLongitude" => $this->crimeLongitude, "crimeType" =>$this->crimeType];
 		$formattedDate = $this->crimeDate->format("Y-m-d H:i:s.u");
+		$parameters = ["crimeId" => $this->crimeId->getBytes(), "crimeAddress" => $this->crimeAddress, "crimeDate" => $formattedDate, "crimeLatitude" => $this->crimeLatitude, "crimeLongitude" => $this->crimeLongitude, "crimeType" =>$this->crimeType];
 		$statement->execute($parameters);
 	}
 
