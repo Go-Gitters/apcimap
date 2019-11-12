@@ -281,7 +281,8 @@ class Crime implements \JsonSerializable {
 		// create query template
 		$query = "UPDATE crime SET crimeId = :crimeId, crimeAddress = :crimeAddress, crimeDate = :crimeDate, crimeLatitude = :crimeLatitude, crimeLongitude = :crimeLongitude, crimeType = :crimeType WHERE crimeId = :crimeId";
 		$statement = $pdo->prepare($query);
-		$parameters = ["crimeId" => $this->crimeId->getBytes(), "crimeAddress" => $this->crimeAddress, "crimeDate" => $this->crimeDate, "crimeLatitude" => $this->crimeLatitude, "crimeLongitude" => $this->crimeLongitude, "crimeType" => $this->crimeType];
+		$formattedDate = $this->crimeDate->format("Y-m-d H:i:s.u");
+		$parameters = ["crimeId" => $this->crimeId->getBytes(), "crimeAddress" => $this->crimeAddress, "crimeDate" => $formattedDate, "crimeLatitude" => $this->crimeLatitude, "crimeLongitude" => $this->crimeLongitude, "crimeType" => $this->crimeType];
 		$statement->execute($parameters);
 	}
 
