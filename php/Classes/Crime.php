@@ -144,14 +144,15 @@ class Crime implements \JsonSerializable {
 	 * @param \DateTime|string|null $newCrimeDate like date as a DateTime object or string (or null to load the current time)
 	 * @throws \InvalidArgumentException if $newCrimeDate is not a valid object or string
 	 * @throws \RangeException if $newCrimeDate is a date that does not exist
+	 * @throws \Exception
 	 **/
-	public function setCrimeDate(string $newCrimeDate): void {
+	public function setCrimeDate($newCrimeDate): void {
 		// base case: if the date is null, use the current date and time
 		if($newCrimeDate === null) {
 			$this->crimeDate = new \DateTime();
 			return;
 		}
-		// store the like date using the ValidateDate trait
+		// store the $crimeDate using the ValidateDate trait
 		try {
 			$newCrimeDate = self::validateDate($newCrimeDate);
 		} catch(\InvalidArgumentException | \RangeException $exception) {

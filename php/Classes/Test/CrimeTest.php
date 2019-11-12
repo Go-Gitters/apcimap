@@ -40,7 +40,7 @@ class CrimeTest extends ApciMapTest {
 	 * max length = 13
 	 * @var string $VALID_CRIMEDATE
 	 */
-	protected $VALID_CRIMEDATE = "2018-12-04";
+//	protected $VALID_CRIMEDATE = date("Y-m-d H:i:s");
 
 	/**
 	 * valid latitude to use as crimeLatitude
@@ -86,7 +86,9 @@ class CrimeTest extends ApciMapTest {
 	public function testInsertValidCrime(): void {
 		// create a new Crime report incident and insert into mySQL
 		$crimeId = generateUuidV4();
-		$crime = new Crime($crimeId, $this->VALID_CRIMEADDRESS, $this->VALID_CRIMEDATE, $this->VALID_CRIMELATITUDE, $this->VALID_CRIMELONGITUDE, $this->VALID_CRIMETYPE);
+		$crimeDate = date("Y-m-d H:i:s.u");
+		echo($crimeDate);
+		$crime = new Crime($crimeId, $this->VALID_CRIMEADDRESS, $crimeDate, $this->VALID_CRIMELATITUDE, $this->VALID_CRIMELONGITUDE, $this->VALID_CRIMETYPE);
 		$crime->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
