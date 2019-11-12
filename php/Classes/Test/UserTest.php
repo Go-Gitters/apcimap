@@ -5,7 +5,7 @@ use GoGitters\ApciMap\{User};
 // grab the class under scrutiny
 require_once(dirname(__DIR__) . "/autoload.php");
 //grab the uuid generator
-require_once(dirname(__DIR__, 2) . "/ValidateUuid.php");
+require_once(dirname(__DIR__) . ".././lib/uuid.php");
 /**
  * Full PHPUnit test for the User class
  *

@@ -5,7 +5,7 @@
 <!--			<file>CrimeTest.php</file>-->
 			<file>PropertyTest.php</file>
 <!--			<file>Star.php</file>-->
-<!--			<file>User.php</file>-->
+<!--			<file>UserTest.php</file>
 		</testsuite>
 	</testsuites>
 	<filter>
