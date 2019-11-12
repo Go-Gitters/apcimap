@@ -148,7 +148,7 @@ class Crime implements \JsonSerializable {
 		}
 		// store the like date using the ValidateDate trait
 		try {
-			$newCrimeDate = self::validateDateTime($newCrimeDate);
+			$newCrimeDate = self::validateDate($newCrimeDate);
 		} catch(\InvalidArgumentException | \RangeException $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
