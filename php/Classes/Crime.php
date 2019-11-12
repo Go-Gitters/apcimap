@@ -12,7 +12,7 @@ use Ramsey\Uuid\Uuid;
  *the crime class has information such as the crime report location, type of crime, and date of crime.
  **/
 class Crime implements \JsonSerializable {
-	use ValidateDateTime;
+	use ValidateDate;
 	use ValidateUuid;
 
 	/********************************************
