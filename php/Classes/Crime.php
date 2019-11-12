@@ -154,7 +154,7 @@ class Crime implements \JsonSerializable {
 		}
 		// store the $crimeDate using the ValidateDate trait
 		try {
-			$newCrimeDate = self::validateDate($newCrimeDate);
+			$newCrimeDate = self::validateDateTime($newCrimeDate);
 		} catch(\InvalidArgumentException | \RangeException $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
@@ -281,7 +281,7 @@ class Crime implements \JsonSerializable {
 		// create query template
 		$query = "UPDATE crime SET crimeId = :crimeId, crimeAddress = :crimeAddress, crimeDate = :crimeDate, crimeLatitude = :crimeLatitude, crimeLongitude = :crimeLongitude, crimeType = :crimeType WHERE crimeId = :crimeId";
 		$statement = $pdo->prepare($query);
-		$parameters = ["crimeId" => $this->crimeId->getBytes(), "crimeAddress" => $this->crimeAddress, "crimeLatitude" => $this->crimeLatitude, "crimeLongitude" => $this->crimeLongitude, "crimeType" => $this->crimeType];
+		$parameters = ["crimeId" => $this->crimeId->getBytes(), "crimeAddress" => $this->crimeAddress, "crimeDate" => $this->crimeDate, "crimeLatitude" => $this->crimeLatitude, "crimeLongitude" => $this->crimeLongitude, "crimeType" => $this->crimeType];
 		$statement->execute($parameters);
 	}
 
