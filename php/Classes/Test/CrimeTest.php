@@ -4,10 +4,8 @@
 namespace GoGitters\ApciMap\Test;
 
 // grab the Crime Class
-use GoGitters\ApciMap\{
-	User, Property, Crime, Star
-}; // The React Data included all the classes
-use Ramsey\Uuid\Uuid; //The React Data did not include this
+use GoGitters\ApciMap\{Crime};
+use Ramsey\Uuid\Uuid;
 
 // grab the class under scrutiny
 require_once(dirname(__DIR__) . "/autoload.php");
