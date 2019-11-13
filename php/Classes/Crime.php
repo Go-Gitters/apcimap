@@ -5,6 +5,7 @@ require_once("autoload.php");
 require_once(dirname(__DIR__) . "/vendor/autoload.php");
 
 use Ramsey\Uuid\Uuid;
+
 /**
  *Creating a crime profile
  * @author Lindsey Atencio
@@ -12,7 +13,7 @@ use Ramsey\Uuid\Uuid;
  *the crime class has information such as the crime report location, type of crime, and date of crime.
  **/
 class Crime implements \JsonSerializable {
-	use ValidateDateTime;
+	use ValidateDate;
 	use ValidateUuid;
 
 	/********************************************
@@ -85,6 +86,7 @@ class Crime implements \JsonSerializable {
 	public function getCrimeId(): Uuid {
 		return ($this->crimeId);
 	}
+
 	/**
 	 * mutator method for crime id
 	 * @param Uuid| string $newCrimeId value of new crime id
@@ -101,6 +103,7 @@ class Crime implements \JsonSerializable {
 		}
 		$this->crimeId = $uuid;
 	}
+
 	/**
 	 * accessor method for crime report address
 	 * @return Uuid value of crime report address (or null if new Crime)
@@ -108,6 +111,7 @@ class Crime implements \JsonSerializable {
 	public function getCrimeAddress(): string {
 		return ($this->crimeAddress);
 	}
+
 	/**
 	 * mutator method for crime address
 	 * @param string $newCrimeAddress value of new crime address
@@ -134,19 +138,21 @@ class Crime implements \JsonSerializable {
 	public function getCrimeDate(): \DateTime {
 		return ($this->crimeDate);
 	}
+
 	/**
 	 * mutator method for crime date
 	 * @param \DateTime|string|null $newCrimeDate like date as a DateTime object or string (or null to load the current time)
 	 * @throws \InvalidArgumentException if $newCrimeDate is not a valid object or string
 	 * @throws \RangeException if $newCrimeDate is a date that does not exist
+	 * @throws \Exception
 	 **/
-	public function setCrimeDate(string $newCrimeDate): void {
+	public function setCrimeDate($newCrimeDate): void {
 		// base case: if the date is null, use the current date and time
 		if($newCrimeDate === null) {
 			$this->crimeDate = new \DateTime();
 			return;
 		}
-		// store the like date using the ValidateDate trait
+		// store the $crimeDate using the ValidateDateTime trait
 		try {
 			$newCrimeDate = self::validateDateTime($newCrimeDate);
 		} catch(\InvalidArgumentException | \RangeException $exception) {
@@ -155,6 +161,7 @@ class Crime implements \JsonSerializable {
 		}
 		$this->crimeDate = $newCrimeDate;
 	}
+
 	/**
 	 * accessor method for crime latitude
 	 *
@@ -163,6 +170,7 @@ class Crime implements \JsonSerializable {
 	public function getCrimeLatitude(): float {
 		return ($this->crimeLatitude);
 	}
+
 	/**mutator method for crime latitude
 	 * @param float $newCrimeLatitude latitude for this crime report
 	 * @throws \TypeError if $newCrimeLatitude is not a float
@@ -196,6 +204,7 @@ class Crime implements \JsonSerializable {
 		$newCrimeLongitude = round($newCrimeLongitude, 6);
 		$this->crimeLongitude = $newCrimeLongitude;
 	}
+
 	/**
 	 * accessor method for crime type
 	 * @return string value of crime type
@@ -203,6 +212,7 @@ class Crime implements \JsonSerializable {
 	public function getCrimeType(): string {
 		return ($this->crimeType);
 	}
+
 	/**
 	 * mutator method for crime type
 	 *
@@ -226,6 +236,7 @@ class Crime implements \JsonSerializable {
 		// store the crime content
 		$this->crimeType = $newCrimeType;
 	}
+
 	/**
 	 * inserts this Crime into mySQL
 	 *
@@ -238,8 +249,8 @@ class Crime implements \JsonSerializable {
 		$query = "INSERT INTO crime(crimeId, crimeAddress, crimeDate, crimeLatitude, crimeLongitude, crimeType) VALUES(:crimeId, :crimeAddress, :crimeDate, :crimeLatitude, :crimeLongitude, :crimeType)";
 		$statement = $pdo->prepare($query);
 		// bind the member variables to the place holders in the template
-		$parameters = ["crimeId" => $this->crimeId->getBytes(), "crimeAddress" => $this->crimeAddress, "crimeDate" => $this->crimeDate, "crimeLatitude" => $this->crimeLatitude, "crimeLongitude" => $this->crimeLongitude, "crimeType" =>$this->crimeType];
 		$formattedDate = $this->crimeDate->format("Y-m-d H:i:s.u");
+		$parameters = ["crimeId" => $this->crimeId->getBytes(), "crimeAddress" => $this->crimeAddress, "crimeDate" => $formattedDate, "crimeLatitude" => $this->crimeLatitude, "crimeLongitude" => $this->crimeLongitude, "crimeType" => $this->crimeType];
 		$statement->execute($parameters);
 	}
 
@@ -270,7 +281,8 @@ class Crime implements \JsonSerializable {
 		// create query template
 		$query = "UPDATE crime SET crimeId = :crimeId, crimeAddress = :crimeAddress, crimeDate = :crimeDate, crimeLatitude = :crimeLatitude, crimeLongitude = :crimeLongitude, crimeType = :crimeType WHERE crimeId = :crimeId";
 		$statement = $pdo->prepare($query);
-		$parameters = ["crimeId" => $this->crimeId->getBytes(), "crimeAddress" => $this->crimeAddress, "crimeLatitude" => $this->crimeLatitude, "crimeLongitude" =>$this->crimeLongitude, "crimeType" => $this->crimeType];
+		$formattedDate = $this->crimeDate->format("Y-m-d H:i:s.u");
+		$parameters = ["crimeId" => $this->crimeId->getBytes(), "crimeAddress" => $this->crimeAddress, "crimeDate" => $formattedDate, "crimeLatitude" => $this->crimeLatitude, "crimeLongitude" => $this->crimeLongitude, "crimeType" => $this->crimeType];
 		$statement->execute($parameters);
 	}
 
@@ -283,33 +295,33 @@ class Crime implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getCrimeBycrimeId(\PDO $pdo, $crimeId): \SplFixedArray {
+	public static function getCrimeByCrimeId(\PDO $pdo, $crimeId): ?Crime {
 		try {
 			$crimeId = self::validateUuid($crimeId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		// create query template
-		$query = "SELECT crimeId, crimeAddress, crimeDate, crimeLatitude, crimeLongitude, crimeType From: crimeId WHERE crimeId = :crimeId";
+		$query = "SELECT crimeId, crimeAddress, crimeDate, crimeLatitude, crimeLongitude, crimeType FROM crime WHERE crimeId = :crimeId";
 		$statement = $pdo->prepare($query);
 		// bind the crime uuid to the place holder in the template
 		$parameters = ["crimeId" => $crimeId->getBytes()];
 		$statement->execute($parameters);
-		// build an array of crimes
-		$crime = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
+		// grab crime from mySQL
+		try {
+			$crime = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
 				$crime = new Crime($row["crimeId"], $row["crimeAddress"], $row["crimeDate"], $row["crimeLatitude"], $row["crimeLongitude"], $row["crimeType"]);
-				$crime[$crime->key()] = $crime;
-				$crime->next();
-			} catch(\Exception $exception) {
-				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		return ($crime);
 	}
+
 	/**
 	 * gets the Crime by distance
 	 *
@@ -321,7 +333,7 @@ class Crime implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 * **/
-	public static function getCrimeByDistance(\PDO $pdo, float $crimeLatitude, float $crimeLongitude, float $distance) : \SplFixedArray {
+	public static function getCrimeByDistance(\PDO $pdo, float $crimeLatitude, float $crimeLongitude, float $distance): \SplFixedArray {
 		// create query template
 		$query = "SELECT crimeId, crimeAddress, crimeDate, crimeLatitude, crimeLongitude, crimeType FROM crime WHERE haversine(:crimeLatitude, :crimeLongitude, crimeLatitude, crimeLongitude) < :distance";
 		$statement = $pdo->prepare($query);
@@ -341,8 +353,9 @@ class Crime implements \JsonSerializable {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return($crimes);
+		return ($crimes);
 	}
+
 	/**
 	 * formats the state variables for JSON serialization
 	 *
@@ -354,6 +367,6 @@ class Crime implements \JsonSerializable {
 		return ($fields);
 		//format the date so that the front end can consume it
 		$fields["crimeDate"] = round(floatval($this->crimeDate->format("U.u")) * 1000);
-		return($fields);
+		return ($fields);
 	}
 }
