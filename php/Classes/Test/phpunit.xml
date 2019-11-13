@@ -2,7 +2,7 @@
 	<testsuites>
 		<testsuite name="ApciMap Data Design">
 <!--!!!!!!!!!!!Test file names are commented out.  Will need to be uncommented to run tests as needed!!!!!!!!!!!!-->
-			<file>CrimeTest.php</file>
+<!--			<file>CrimeTest.php</file>-->
 			<file>PropertyTest.php</file>
 <!--			<file>Star.php</file>-->
 <!--			<file>UserTest.php</file>
