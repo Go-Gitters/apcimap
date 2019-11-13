@@ -116,7 +116,9 @@ class PropertyTest extends ApciMapTest {
 
 	/**
 	 * Test updating valid property.
-	 **/
+	 *
+	 * @throws \Exception
+	 */
 	public function testUpdateValidProperty() : void {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("property");
@@ -148,7 +150,9 @@ class PropertyTest extends ApciMapTest {
 
 	/**
 	 * Test creating a property and then deleting it testDeleteValidProperty()
-	 **/
+	 *
+	 * @throws \Exception
+	 */
 	public function testDeleteValidProperty() : void {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("property");
@@ -183,7 +187,42 @@ class PropertyTest extends ApciMapTest {
 		$this->assertNull($pdoProperty);
 	}
 
-	//TODO: Test getAllProperties
+	/**
+	 * Test getting all properties
+	 * @throws \Exception
+	 */
+
+	public function testGetAllProperties() : void {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("property");
+
+		//make a valid property uuid
+		$propertyId = generateUuidV4();
+
+		//make a new property with valid entries
+		$property = new Property($propertyId, $this->VALID_PROPERTYCITY, $this->VALID_PROPERTYCLASS, $this->VALID_PROPERTYLATITUDE, $this->VALID_PROPERTYLONGITUDE, $this->VALID_PROPERTYSTREETADDRESS, $this->VALID_PROPERTYVALUE);
+
+		//insert property
+		$property->insert($this->getPDO());
+
+		//grab data from MySQL and check expectations
+		$results = Property::getAllProperties($this->getPDO());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("property"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("GoGitters\\ApciMap\\Property", $results);
+
+		//grab the property from the array and validate it
+		$pdoProperty = $results[0];
+		$this->assertEquals($pdoProperty->getPropertyId()->toString(), $propertyId->toString());
+		$this->assertEquals($pdoProperty->getPropertyCity(), $this->VALID_PROPERTYCITY);
+		$this->assertEquals($pdoProperty->getPropertyClass(), $this->VALID_PROPERTYCLASS);
+		$this->assertEquals($pdoProperty->getPropertyLatitude(), $this->VALID_PROPERTYLATITUDE);
+		$this->assertEquals($pdoProperty->getPropertyLongitude(), $this->VALID_PROPERTYLONGITUDE);
+		$this->assertEquals($pdoProperty->getPropertyStreetAddress(), $this->VALID_PROPERTYSTREETADDRESS);
+		$this->assertEquals($pdoProperty->getPropertyValue(), $this->VALID_PROPERTYVALUE);
+
+	}
+
 	//TODO: Test getPropertiesByDistance
 	//TODO: Test getPropertyByUserId
 
