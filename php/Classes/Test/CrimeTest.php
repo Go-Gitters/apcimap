@@ -82,7 +82,9 @@ class CrimeTest extends ApciMapTest {
 
 	/**
 	 * test inserting a valid crime report incident and verify that the actual mySQL data matches
-	 **/
+	 *
+	 * @throws \Exception
+	 */
 	public function testInsertValidCrime(): void {
 		// create a new Crime report incident and insert into mySQL
 		$crimeId = generateUuidV4();
