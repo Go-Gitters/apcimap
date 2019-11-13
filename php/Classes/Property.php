@@ -526,7 +526,7 @@ class Property {
 		$statement = $pdo->prepare($query);
 		//bind parameters
 		$parameters = ["userLong" => $userLong, "userLat" => $userLat , "distance" => $distance];
-		$statement->execute();
+		$statement->execute($parameters);
 		// build an array of properties
 		$properties = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);

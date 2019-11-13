@@ -244,8 +244,6 @@ class PropertyTest extends ApciMapTest {
 
 	}
 
-	//TODO: Test getPropertiesByDistance
-
 	/**
 	 * Test getting properties by distance
 	 * @throws \Exception
