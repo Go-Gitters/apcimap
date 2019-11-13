@@ -173,16 +173,9 @@ class CrimeTest extends ApciMapTest {
 		$crime->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoCrime = Crime::getCrimeByCrimeId()
-		$results = Crime::getCrimeByCrimeId($this->getPDO(), $crime->getCrimeId());
+		$pdoCrime = Crime::getCrimeByCrimeId($this->getPDO(), $crime->getCrimeId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("crime"));
-		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("GoGitters\ApciMap\Test", $results);
-
-		// grab the result from the array and validate it
-		$pdoCrime = $results[0];
-
-		$this->assertEquals($pdoCrime->getCrimeId(), $crimeId);
+\		$this->assertEquals($pdoCrime->getCrimeId(), $crimeId);
 		$this->assertEquals($pdoCrime->getCrimeAddress(), $this->VALID_CRIMEADDRESS);
 		$this->assertEquals($pdoCrime->getCrimeDate(), $this->VALID_CRIMEDATE);
 		$this->assertEquals($pdoCrime->getCrimeLatitude(), $this->VALID_CRIMELATITUDE);
