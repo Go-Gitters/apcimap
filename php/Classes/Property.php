@@ -522,8 +522,10 @@ class Property {
 	 */
 	public static function getPropertyByDistance(\PDO $pdo, float $userLong, float $userLat, float $distance) : \SplFixedArray {
 		// create query template
-		$query = "SELECT propertyId, propertyCity, propertyClass, propertyLatitude, propertyLongitude, propertyStreetAddress, propertyValue FROM property WHERE haversine(:userLong, :userLat, artLong, artLat) < :distance";
+		$query = "SELECT propertyId, propertyCity, propertyClass, propertyLatitude, propertyLongitude, propertyStreetAddress, propertyValue FROM property WHERE haversine(:userLong, :userLat, propertyLongitude, propertyLatitude) < :distance";
 		$statement = $pdo->prepare($query);
+		//bind parameters
+		$parameters = ["userLong" => $userLong, "userLat" => $userLat , "distance" => $distance];
 		$statement->execute();
 		// build an array of properties
 		$properties = new \SplFixedArray($statement->rowCount());

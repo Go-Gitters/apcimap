@@ -79,6 +79,27 @@ class PropertyTest extends ApciMapTest {
 	protected $VALID_PROPERTYVALUE2 = "8457.25";
 
 	/**
+	 * valid user latitude
+	 * MySQL type - DECIMAL(9, 6): xxx.xxxxxx
+	 * @var float $VALID_USERLATITUDE
+	 **/
+	protected $VALID_USERLATITUDE = 35.093863;
+
+	/**
+	 * valid user longitude
+	 * MySQL type - DECIMAL(9, 6): xxx.xxxxxx
+	 * @var float $VALID_USERLONGITUDE
+	 **/
+	protected $VALID_USERLONGITUDE = -106.640397;
+
+	/**
+	 * valid user distance
+	 * distance in miles that the user is searching by
+	 * @var float $VALID_USERDISTANCE
+	 **/
+	protected $VALID_USERDISTANCE= 10.0;
+
+	/**
 	 * setup function
 	 **/
 	public final function setUp() : void {
@@ -224,6 +245,42 @@ class PropertyTest extends ApciMapTest {
 	}
 
 	//TODO: Test getPropertiesByDistance
+
+	/**
+	 * Test getting properties by distance
+	 * @throws \Exception
+	 */
+
+	public function testGetPropertyByDistance() : void {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("property");
+
+		//make a valid property uuid
+		$propertyId = generateUuidV4();
+
+		//make a new property with valid entries
+		$property = new Property($propertyId, $this->VALID_PROPERTYCITY, $this->VALID_PROPERTYCLASS, $this->VALID_PROPERTYLATITUDE, $this->VALID_PROPERTYLONGITUDE, $this->VALID_PROPERTYSTREETADDRESS, $this->VALID_PROPERTYVALUE);
+
+		//insert property
+		$property->insert($this->getPDO());
+
+		//grab data from MySQL and check expectations
+		$results = Property::getPropertyByDistance($this->getPDO(), $this->VALID_USERLONGITUDE, $this->VALID_PROPERTYLATITUDE, $this->VALID_USERDISTANCE);
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("property"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("GoGitters\\ApciMap\\Property", $results);
+
+		//grab the property from the array and validate it
+		$pdoProperty = $results[0];
+		$this->assertEquals($pdoProperty->getPropertyId()->toString(), $propertyId->toString());
+		$this->assertEquals($pdoProperty->getPropertyCity(), $this->VALID_PROPERTYCITY);
+		$this->assertEquals($pdoProperty->getPropertyClass(), $this->VALID_PROPERTYCLASS);
+		$this->assertEquals($pdoProperty->getPropertyLatitude(), $this->VALID_PROPERTYLATITUDE);
+		$this->assertEquals($pdoProperty->getPropertyLongitude(), $this->VALID_PROPERTYLONGITUDE);
+		$this->assertEquals($pdoProperty->getPropertyStreetAddress(), $this->VALID_PROPERTYSTREETADDRESS);
+		$this->assertEquals($pdoProperty->getPropertyValue(), $this->VALID_PROPERTYVALUE);
+
+	}
 	//TODO: Test getPropertyByUserId
 
 
