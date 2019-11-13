@@ -17,6 +17,7 @@ Class User implements \JsonSerializable {
  * id for this User; this is the primary key
  * @var Uuid $userId
  **/
+
 private
 $userId;
 /**

@@ -36,7 +36,7 @@ class UserTest extends ApciMapTest {
  * valid user hash for user account
  * @var string $VALID_USERHASH
  */
-	protected $VALID_HASH = "d4k6fiofjiaomfrc98tmcjfiwoam894pwu4983mcftja8r943mjf4mjr483qmrcjp9mjfcx8943qh459frjeoifnmcwaonfje";
+	protected $VALID_HASH = "";
 	/**
 	 * valid username for user account
 	 * @var string $VALID_USERNAME
