@@ -25,7 +25,6 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
  **/
 class CrimeTest extends ApciMapTest {
 
-
 	/**
 	 * valid address to use as crimeAddress
 	 * neighborhood block level location of incident
@@ -40,8 +39,7 @@ class CrimeTest extends ApciMapTest {
 	 * max length = 13
 	 * @var string $VALID_CRIMEDATE
 	 */
-//	protected $VALID_CRIMEDATE = "2019-11-22 09:12:23.44";
-
+	protected $VALID_CRIMEDATE = "2019-11-22 09:12:23.44";
 
 	/**
 	 * valid latitude to use as crimeLatitude
