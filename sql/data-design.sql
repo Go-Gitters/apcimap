@@ -1,9 +1,9 @@
 DROP TABLE IF EXISTS star;
-DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS `user`;
 DROP TABLE IF EXISTS property;
 DROP TABLE IF EXISTS crime;
 
-CREATE TABLE user (
+CREATE TABLE `user` (
 	userId            BINARY(16)   NOT NULL,
 	userActivationToken CHAR(32),
 	userEmail           VARCHAR(128) NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE property (
 CREATE TABLE crime (
 	crimeId      BINARY(16)    NOT NULL,
 	crimeAddress   VARCHAR(134)  NOT NULL,
-	crimeDate      CHAR(13)      NOT NULL,
+	crimeDate      DATETIME(6)   NOT NULL,
 	crimeLatitude  DECIMAL(9, 6) NOT NULL,
 	crimeLongitude DECIMAL(9, 6) NOT NULL,
 	crimeType      VARCHAR(134)  NOT NULL,

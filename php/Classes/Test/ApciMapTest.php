@@ -1,21 +1,15 @@
 <?php
-
-
 namespace GoGitters\ApciMap\Test;
-
-
 use PHPUnit\Framework\TestCase;
 use PHPUnit\DbUnit\TestCaseTrait;
 use PHPUnit\DbUnit\DataSet\QueryDataSet;
 use PHPUnit\DbUnit\Database\Connection;
 use PHPUnit\DbUnit\Operation\{Composite, Factory, Operation};
-
 // grab the encrypted properties file
 require_once("/etc/apache2/capstone-mysql/Secrets.php");
 // grab the class under scrutiny
 require_once(dirname(__DIR__) . "/autoload.php");
 require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
-
 /**
  * Abstract class containing universal and project specific mySQL parameters
  *
@@ -39,7 +33,6 @@ abstract class ApciMapTest extends TestCase {
 	 * @var Connection $connection
 	 **/
 	protected $connection = null;
-
 	/**
 	 * assembles the table from the schema and provides it to PHPUnit
 	 *
@@ -55,11 +48,9 @@ abstract class ApciMapTest extends TestCase {
 		$dataset->addTable("star");
 		//We're not using this line, but I'm leaving it in for now so we have it as an example
 		// the second parameter is required because like is also a SQL keyword and is the only way PHPUnit can query the like table
-/*		$dataset->addTable("like", "SELECT likeProfileId, likeTweetId, likeDate FROM `like`");*/
-
+		/*		$dataset->addTable("like", "SELECT likeProfileId, likeTweetId, likeDate FROM `like`");*/
 		return ($dataset);
 	}
-
 	/**
 	 * templates the setUp method that runs before each test; this method expunges the database before each run
 	 *
@@ -73,7 +64,6 @@ abstract class ApciMapTest extends TestCase {
 			Factory::INSERT()
 		]);
 	}
-
 	/**
 	 * templates the tearDown method that runs after each test; this method expunges the database after each run
 	 *
@@ -82,7 +72,6 @@ abstract class ApciMapTest extends TestCase {
 	public final function getTearDownOperation(): Operation {
 		return (Factory::DELETE_ALL());
 	}
-
 	/**
 	 * sets up the database connection and provides it to PHPUnit
 	 *
@@ -94,7 +83,7 @@ abstract class ApciMapTest extends TestCase {
 		if($this->connection === null) {
 			// connect to mySQL and provide the interface to PHPUnit
 			//This was the original line
-/*			$secrets = new \Secrets("/etc/apache2/capstone-mysql/ddctwitter.ini");*/
+			/*			$secrets = new \Secrets("/etc/apache2/capstone-mysql/ddctwitter.ini");*/
 			//This is the changed line for our project.
 			$secrets = new \Secrets("/etc/apache2/capstone-mysql/map.ini");
 			$pdo = $secrets->getPdoObject();
@@ -102,7 +91,6 @@ abstract class ApciMapTest extends TestCase {
 		}
 		return ($this->connection);
 	}
-
 	/**
 	 * returns the actual PDO object; this is a convenience method
 	 *
