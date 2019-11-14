@@ -120,8 +120,8 @@ class CrimeTest extends ApciMapTest {
 
 		// grab the data from mySQL and check that the fields match our expectations
 		$pdoCrime = Crime::getCrimeByCrimeId($this->getPDO(), $crime->getCrimeId());
-		$this->assertEquals($pdoCrime->getCrimeId(), $crimeId);
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("crime"));
+		$this->assertEquals($pdoCrime->getCrimeId(), $crimeId);
 		$this->assertEquals($pdoCrime->getCrimeAddress(), $this->VALID_CRIMEADDRESS);
 		$this->assertEquals($pdoCrime->getCrimeDate(), $this->VALID_CRIMEDATE);
 		$this->assertEquals($pdoCrime->getCrimeLatitude(), $this->VALID_CRIMELATITUDE);
