@@ -323,25 +323,25 @@ class Crime implements \JsonSerializable {
 	}
 
 	/**
-	 * gets the Crime by distance
+	 * gets the crime incident reports by distance
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param float $crimeLatitude latitude coordinate of where crime report occurred
-	 * @param float $crimeLongitude longitude coordinate of where crime report occurred
+	 * @param float $userLatitude latitude coordinate of where crime report occurred
+	 * @param float $userLongitude longitude coordinate of where crime report occurred
 	 * @param float $distance distance in miles that the user is searching by
 	 * @return \SplFixedArray SplFixedArray of crimes found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 * **/
-	public static function getCrimeByDistance(\PDO $pdo, float $crimeLatitude, float $crimeLongitude, float $distance): \SplFixedArray {
+	public static function getCrimeByDistance(\PDO $pdo, float $userLatitude, float $userLongitude, float $distance) : \SplFixedArray {
 		// create query template
-		$query = "SELECT crimeId, crimeAddress, crimeDate, crimeLatitude, crimeLongitude, crimeType FROM crime WHERE haversine(:crimeLatitude, :crimeLongitude, crimeLatitude, crimeLongitude) < :distance";
+		$query = "SELECT crimeId, crimeAddress, crimeDate, crimeLatitude, crimeLongitude, crimeType FROM crime WHERE haversine(:userLatitude, :userLongitude, crimeLatitude, crimeLongitude) < :distance";
 		$statement = $pdo->prepare($query);
 		// bind the crime distance to the place holder in the template
-		$parameters = ["distance" => $distance, "crimeLatitude" => $crimeLatitude, "crimeLongitude" => $crimeLongitude];
+		$parameters = ["userLatitude" => $userLatitude, "userLongitude" => $userLongitude, "distance" => $distance];
 		$statement->execute($parameters);
 		// build an array of crimes
-		$crime = new \SplFixedArray($statement->rowCount());
+		$crimes = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
