@@ -520,7 +520,7 @@ class Property {
 	 * @throws \PDOException for errors related to MySQL
 	 * @throws \TypeError when variables are not the correct data type
 	 */
-	public static function getPropertyByDistance(\PDO $pdo, float $userLong, float $userLat, float $distance) : \SplFixedArray {
+	public static function getPropertyByDistance(\PDO $pdo, float $userLat, float $userLong, float $distance) : \SplFixedArray {
 		// create query template
 		$query = "SELECT propertyId, propertyCity, propertyClass, propertyLatitude, propertyLongitude, propertyStreetAddress, propertyValue FROM property WHERE haversine(:userLong, :userLat, propertyLongitude, propertyLatitude) < :distance";
 		$statement = $pdo->prepare($query);

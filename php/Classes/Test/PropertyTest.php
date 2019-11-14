@@ -263,7 +263,7 @@ class PropertyTest extends ApciMapTest {
 		$property->insert($this->getPDO());
 
 		//grab data from MySQL and check expectations
-		$results = Property::getPropertyByDistance($this->getPDO(), $this->VALID_USERLONGITUDE, $this->VALID_PROPERTYLATITUDE, $this->VALID_USERDISTANCE);
+		$results = Property::getPropertyByDistance($this->getPDO(), $this->VALID_USERLATITUDE, $this->VALID_PROPERTYLONGITUDE, $this->VALID_USERDISTANCE);
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("property"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("GoGitters\\ApciMap\\Property", $results);
