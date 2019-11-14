@@ -130,7 +130,7 @@ class CrimeTest extends ApciMapTest {
 	}
 
 	/**
-	 * test creating a Crime and then deleting it
+	 * test creating a Crime incident report and then deleting it
 	 **/
 	public function testDeleteValidCrime(): void {
 		// count the number of rows and save it for later
