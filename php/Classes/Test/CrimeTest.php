@@ -72,6 +72,25 @@ class CrimeTest extends ApciMapTest {
 	protected $VALID_CRIMETYPE2 = "AUTO THEFT";
 
 	/**
+	 * valid user latitude
+	 * MySQL type - DECIMAL(9, 6): xxx.xxxxxx
+	 * @var float $VALID_USERLATITUDE
+	 **/
+	protected $VALID_USERLATITUDE = 35.093863;
+	/**
+	 * valid user longitude
+	 * MySQL type - DECIMAL(9, 6): xxx.xxxxxx
+	 * @var float $VALID_USERLONGITUDE
+	 **/
+	protected $VALID_USERLONGITUDE = -106.640397;
+	/**
+	 * valid user distance
+	 * distance in miles that the user is searching by
+	 * @var float $VALID_USERDISTANCE
+	 **/
+	protected $VALID_USERDISTANCE= 10.0;
+
+	/**
 	 * create dependent objects before running each test; set up function
 	 **/
 	public final function setUp(): void {
@@ -251,7 +270,7 @@ class CrimeTest extends ApciMapTest {
 	}
 
 	/**
-	 * Test getting crime incident reports by distance
+	 * test getting crime incident reports by distance
 	 * @throws \Exception
 	 */
 	public function testGetCrimeByDistance() : void {
