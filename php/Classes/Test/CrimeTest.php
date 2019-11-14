@@ -177,7 +177,7 @@ class CrimeTest extends ApciMapTest {
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("crime"));
 		$this->assertEquals($pdoCrime->getCrimeId(), $crimeId);
 		$this->assertEquals($pdoCrime->getCrimeAddress(), $this->VALID_CRIMEADDRESS);
-		$this->assertEquals($pdoCrime->getCrimeDate(), $this->VALID_CRIMEDATE);
+		$this->assertEquals($pdoCrime->getCrimeDate(), $this->VALID_CRIMEDATE->getTimestamp());
 		$this->assertEquals($pdoCrime->getCrimeLatitude(), $this->VALID_CRIMELATITUDE);
 		$this->assertEquals($pdoCrime->getCrimeLongitude(), $this->VALID_CRIMELONGITUDE);
 		$this->assertEquals($pdoCrime->getCrimeType(), $this->VALID_CRIMETYPE);
