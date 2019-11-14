@@ -287,7 +287,7 @@ class CrimeTest extends ApciMapTest {
 		$crime->insert($this->getPDO());
 
 		//grab data from MySQL and check expectations
-		$results = Crime::getCrimeByDistance($this->getPDO(), $this->VALID_USERLONGITUDE, $this->VALID_CRIMELATITUDE, $this->VALID_USERDISTANCE);
+		$results = Crime::getCrimeByDistance($this->getPDO(), $this->VALID_USERLATITUDE, $this->VALID_USERLONGITUDE, $this->VALID_USERDISTANCE);
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("crime"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("GoGitters\\ApciMap\\Property", $results);
