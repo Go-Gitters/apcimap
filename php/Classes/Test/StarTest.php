@@ -200,7 +200,7 @@ class StarTest extends ApciMapTest {
 	 **/
 	public function testGetInvalidStarByUserId() : void {
 		// grab a user id that exceeds the maximum allowable user id
-		$star = Star::getStarByStarUserId($this->getPDO()), generateUuidV4());
+		$star = Star::getStarByUserId($this->getPDO(), generateUuidV4());
 		$this->assertCount(0, $star);
 	}
 }
