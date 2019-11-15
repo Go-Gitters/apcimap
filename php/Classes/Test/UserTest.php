@@ -5,7 +5,7 @@ use GoGitters\ApciMap\{User};
 // grab the class under scrutiny
 require_once(dirname(__DIR__) . "/autoload.php");
 //grab the uuid generator
-require_once(dirname(__DIR__) . ".././lib/uuid.php");
+require_once(dirname(__DIR__,2) . "/lib/uuid.php");
 /**
  * Full PHPUnit test for the User class
  *
@@ -24,9 +24,9 @@ class UserTest extends ApciMapTest {
 	/**
 	 * @var Uuid  $VALID_USERID
 	 */
-	protected $VALID_ID ="";
+	protected $VALID_ID;
 	/** @var string activation token */
-	protected $VALID_ACTIVATION = "ALP127CTINP3L4G8AINTN8A2N8FO3NRI";
+	protected $VALID_ACTIVATION;
 	/**
 	 * valid user email
 	 * @var string $VALID_USEREMAIL
@@ -36,7 +36,7 @@ class UserTest extends ApciMapTest {
  * valid user hash for user account
  * @var string $VALID_USERHASH
  */
-	protected $VALID_HASH = "";
+	protected $VALID_HASH;
 	/**
 	 * valid username for user account
 	 * @var string $VALID_USERNAME
@@ -45,6 +45,7 @@ class UserTest extends ApciMapTest {
 
 	/**
 	 * run the default setup operation to create salt and hash.
+	 * @throws \Exception
 	 */
 	public final function setUp() : void {
 		parent::setUp();
@@ -56,18 +57,28 @@ class UserTest extends ApciMapTest {
 
 	/**
 	 * test inserting a valid user and verify that the actual mySQL data matches
-	 **/
+	 *
+	 *
+	 * @throws \Exception
+	 */
 	public function testInsertValidUser() : void {
 		// count the number of rows and save it for later
+		echo "in test error function";
 		$numRows = $this->getConnection()->getRowCount("user");
+		$userId = generateUuidV4();
+		echo $userId . "\n";
+		echo $this->VALID_ACTIVATION . "\n";
+		echo $this->VALID_EMAIL . "\n";
+		echo $this->VALID_HASH . "\n";
+		echo $this->VALID_USERNAME . "\n";
 		$user = new User($userId, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_USERNAME);
 		$user->insert($this->getPDO());
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoUser = User::getUserByUser($this->getPDO(), $user->getUser());
+		$pdoUser = User::getUserByUserId($this->getPDO(), $user->getUserId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("user"));
 		$this->assertEquals($pdoUser->getUserId(), $userId);
 		$this->assertEquals($pdoUser->getUserActivationToken(), $this->VALID_ACTIVATION);
-		$this->assertEquals($pdoUser->getUserEmail(), $this->VALID_USEREMAIL);
+		$this->assertEquals($pdoUser->getUserEmail(), $this->VALID_EMAIL);
 		$this->assertEquals($pdoUser->getUserHash(), $this->VALID_HASH);
 		$this->assertEquals($pdoUser->getUserUsername(), $this->VALID_USERNAME);
 	}
@@ -78,16 +89,15 @@ class UserTest extends ApciMapTest {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("user");
 		// create a new User and insert to into mySQL
-		$user = generateUuidV4();
+		$userId = generateUuidV4();
 		$user = new user ($userId, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_USERNAME);
-		$user->insert($this->getPDO());
 		$user->insert($this->getPDO());
 		// edit the user and update it in mySQL
 		$user->update($this->getPDO());
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoUser = User::getUserByUserId($this->getPDO(), $user->getUserId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("user"));
-		$this->assertEquals($pdoUser->getUserId(), $UserId);
+		$this->assertEquals($pdoUser->getUserId(), $userId);
 		$this->assertEquals($pdoUser->getUserActivationToken(), $this->VALID_ACTIVATION);
 		$this->assertEquals($pdoUser->getUserEmail(), $this->VALID_EMAIL);
 		$this->assertEquals($pdoUser->getUserHash(), $this->VALID_HASH);
@@ -96,18 +106,20 @@ class UserTest extends ApciMapTest {
 
 	/**
 	 * test creating a User and then deleting it
-	 **/
-	public function testDeleteValidUser() : void {
+	 * @throws \Exception
+	 */
+	public function testDeleteValidUser(): void {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("user");
 		$userId = generateUuidV4();
 		$user = new User($userId, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_USERNAME);
+		//putting this specific user information into database
 		$user->insert($this->getPDO());
-		// delete the User from mySQL
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("user"));
+		// delete the User from mySQL
 		$user->delete($this->getPDO());
 		// grab the data from mySQL and enforce the user does not exist/
-		$user = new User($userId, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_USERNAME);
+		$pdoUser = User::getUserByUserId($this->getPDO(), $user->getUserId());
 		$this->assertNull($pdoUser);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("user"));
 	}
@@ -118,14 +130,20 @@ class UserTest extends ApciMapTest {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("user");
 		$userId = generateUuidV4();
+		echo $userId . "\n";
+		echo $this->VALID_ACTIVATION . "\n";
+		echo $this->VALID_EMAIL . "\n";
+		echo $this->VALID_HASH . "\n";
+		echo $this->VALID_USERNAME . "\n";
+
 		$user = new User ($userId, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_USERNAME);
 		$user->insert($this->getPDO());
 	// grab the data from mySQL and enforce the fields match our expectations
 $pdoUser = User::getUserByUserActivationToken($this->getPDO(), $user->getUserActivationToken());
 $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("user"));
 $this->assertEquals($pdoUser->getUserId(), $userId);
-$this->assertEquals($pdoUser->getActivationToken(), $this->VALID_ACTIVATION);
-$this->assertEquals($pdoUser->getEmail(), $this->VALID_EMAIL);
+$this->assertEquals($pdoUser->getUserActivationToken(), $this->VALID_ACTIVATION);
+$this->assertEquals($pdoUser->getUserEmail(), $this->VALID_EMAIL);
 $this->assertEquals($pdoUser->getUserHash(), $this->VALID_HASH);
 $this->assertEquals($pdoUser->getUserUsername(), $this->VALID_USERNAME);
 }
@@ -146,16 +164,16 @@ $this->assertEquals($pdoUser->getUserUsername(), $this->VALID_USERNAME);
 			$numRows = $this->getConnection()->getRowCount("user");
 			$userId = generateUuidV4();
 			$user = new User($userId, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_USERNAME);
-		$user->insert($this->getPDO());
-		// grab the data from mySQL and enforce the fields match our expectations
-		$userId = User::getUserByUserEmail($this->getPDO(), $user->getUserEmail());
-		$this->assertEquals($pdoUser->getUserId(), $userId);
-		$this->assertEquals($pdoUser->getUserActivationToken(), $this->VALID_ACTIVATION);
-		$this->assertEquals($pdoUser->getUserEmail(), $this->VALID_USEREMAIL);
-		$this->assertEquals($pdoUser->getUserHash(), $this->VALID_HASH);
-		$this->assertEquals($pdoUser->get(), $this->VALID_EMAIL);
-		$this->assertEquals($pdoUser->getUserUsername(), $this->VALID_USERNAME);
-	}
+			$user->insert($this->getPDO());
+			// grab the data from mySQL and enforce the fields match our expectations
+			$pdoUser = User::getUserByUserEmail($this->getPDO(), $user->getUserEmail());
+			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("user"));
+			$this->assertEquals($pdoUser->getUserId(), $userId);
+			$this->assertEquals($pdoUser->getUserActivationToken(), $this->VALID_ACTIVATION);
+			$this->assertEquals($pdoUser->getUserEmail(), $this->VALID_EMAIL);
+			$this->assertEquals($pdoUser->getUserHash(), $this->VALID_HASH);
+			$this->assertEquals($pdoUser->getUserUsername(), $this->VALID_USERNAME);
+		}
 		/**
 		 * test grabbing a User by an email that does not exists
 		 **/
@@ -165,17 +183,30 @@ $this->assertEquals($pdoUser->getUserUsername(), $this->VALID_USERNAME);
 			$this->assertNull($user);
 		}
 
-		/**
-		 * test grabbing a User by username
-		 **/
+	/**
+	 * test grabbing a User by username
+	 *
+	 * @throws \Exception
+	 */
 		public function testGetValidUserByUsername() : void {
 			// count the number of rows and save it for later
 			$numRows = $this->getConnection()->getRowCount("user");
 			$userId = generateUuidV4();
-			$user = new User($userId,$this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_USERNAME);
+			$user = new User($userId, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_USERNAME);
 		$user->insert($this->getPDO());
-		// grab the data from mySQL and enforce the fields match our expectations
-		$userId = User::getUserByUserEmail($this->getPDO(), $user->getUserEmail());
+			// grab the data from mySQL and enforce the fields match our expectations
+		$results = User::getUserByUsername($this->getPDO(), $this->VALID_USERNAME);
+//		var_dump($userId);
+			var_dump("hellooooo", $user);
+			var_dump($results[0]);
+			$this->assertEquals($numRows +1, $this->getConnection()->getRowCount("user"));
+
+//enforce no other objects are bleeding into user
+			$this->assertContainsOnlyInstancesOf("GoGitters\\ApciMap\\User", $results);
+
+			//enforce the results meet expectations
+			$pdoUser = $results[0];
+			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("user"));
 		$this->assertEquals($pdoUser->getUserId(), $userId);
 		$this->assertEquals($pdoUser->getUserActivationToken(), $this->VALID_ACTIVATION);
 		$this->assertEquals($pdoUser->getUserEmail(), $this->VALID_EMAIL);
@@ -187,7 +218,7 @@ $this->assertEquals($pdoUser->getUserUsername(), $this->VALID_USERNAME);
 		 **/
 		public function testGetInvalidUserByUsername() : void {
 			// grab a username that does not exist
-			$user = User::getUserByUserUsername($this->getPDO(), "does@not.exist");
-			$this->assertNull($user);
+			$user = User::getUserByUsername($this->getPDO(), "does@not.exist");
+			$this->assertCount(0, $user);
 		}
 	}
