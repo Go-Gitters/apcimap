@@ -125,7 +125,7 @@ class StarTest extends ApciMapTest {
 		$star->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoStar = Star::getStarByStarPropertyIdAndStarUserId($this->getPDO(), $this->user->getUserId(), $this->property->getPropertyId());
+		$pdoStar = Star::getStarByStarPropertyIdAndStarUserId($this->getPDO(), $this->property->getPropertyId(), $this->user->getUserId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("star"));
 		$this->assertEquals($pdoStar->getStarUserId(), $this->user->getUserId());
 		$this->assertEquals($pdoStar->getStarPropertyId(), $this->property->getPropertyId());
@@ -136,7 +136,7 @@ class StarTest extends ApciMapTest {
 	 **/
 	public function testGetInvalidStarByPropertyIdAndUserId() {
 		// grab a property id and user id that exceeds the maximum allowable property id and user id
-		$star = Star::getStarByStarPropertyIdAndStarUserId($this->getPDO(), generateUuidV4());
+		$star = Star::getStarByStarPropertyIdAndStarUserId($this->getPDO(), generateUuidV4(), generateUuidV4());
 		$this->assertNull($star);
 	}
 
