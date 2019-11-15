@@ -459,7 +459,7 @@ class Property {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		// create query template
-		$query = "SELECT propertyId, propertyCity, propertyClass, propertyLatitude, propertyLongitude, propertyStreetAddress, propertyValue FROM property INNER JOIN star ON property.propertyId star.starPropertyId INNER JOIN 'user' ON star.starUserId 'user'.userId WHERE userId = :userId ";
+		$query = "SELECT propertyId, propertyCity, propertyClass, propertyLatitude, propertyLongitude, propertyStreetAddress, propertyValue FROM property INNER JOIN star ON property.propertyId = star.starPropertyId INNER JOIN `user` ON star.starUserId = `user`.userId WHERE userId = :userId ";
 		$statement = $pdo->prepare($query);
 		// bind the user uuid to template
 		$parameters = ["userId" => $userId->getBytes()];
