@@ -84,6 +84,29 @@ class StarTest extends ApciMapTest {
 
 		// grab the data from mySQL and enforce that the fields match our expectations
 		$pdoStar = Star::getStarByStarPropertyIdAndStarUserId($this->getPDO(), $this->user->getUserId(), $this->property->getPropertyId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("star"));
+		$this->assertEquals($pdoStar->getStarUserId(), $this->user->getUserId());
+		$this->assertEquals($pdoStar->getStarPropertyId(), $this->property->getPropertyId());
+	}
+	/**
+	 * test creating a Star and then deleting it
+	 **/
+	public function testDeleteValidStar() : void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("star");
+
+		// create a new Star and insert into mySQL
+		$star = new Star($this->user->getUserId(), $this->property->getPropertyId());
+		$star->insert($this->getPDO());
+
+		// delete the Star from mySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("star"));
+		$star->delete($this->getPDO());
+
+		// grab the data from mySQL and enforce the Property does not exist
+		$pdoStar = Star::getStarByStarPropertyIdAndStarUserId($this->getPDO(), $this->user->getUserId(), $this->property->getPropertyId());
+		$this->assertNull($pdoStar);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("star"));
 	}
 
 }
