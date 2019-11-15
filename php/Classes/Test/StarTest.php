@@ -50,6 +50,23 @@ class StarTest extends ApciMapTest {
 	 * @var string $VALID_USERACTIVATIONTOKEN
 	 **/
 	protected $VALID_USERACTIVATIONTOKEN;
+
+	/**
+	 * create dependent objects before running each test
+	 **/
+	public final function setUp() : void {
+		// run the default setUp() method first
+		parent::setUp();
+
+		// create a salt and hash for the mocked user
+		$password = "password123";
+		$this->VALID_USERHASH = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
+		$this->VALID_USERACTIVATIONTOKEN = bin2hex(random_bytes(16));
+
+		// create and insert the mocked user
+		$this->user = new User(generateUuidV4(), null, "@phpunit", "https://media.giphy.com/media/3og0INyCmHlNylks9O/giphy.gif", "test@phpunit.de",$this->VALID_USERHASH, "+12125551212");
+	}
+
 }
 
 
