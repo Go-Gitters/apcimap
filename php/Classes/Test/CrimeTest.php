@@ -51,7 +51,7 @@ class CrimeTest extends ApciMapTest {
 	/**
 	 * valid longitude to use as crimeLongitude
 	 * MySQL type - DECIMAL(9, 6): xxx.xxxxxx
-	 * @var string $VALID_CRIMELONGITUDE
+	 * @var float $VALID_CRIMELONGITUDE
 	 **/
 	protected $VALID_CRIMELONGITUDE = -106.606071;
 
