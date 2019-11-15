@@ -138,6 +138,29 @@ class StarTest extends ApciMapTest {
 		$this->assertNull($star);
 	}
 
+	/**
+	 * test grabbing a Star by property id
+	 **/
+	public function testGetValidStarByPropertyId() : void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("star");
+
+		// create a new Star and insert to into mySQL
+		$star = new Star($this->user->getUserId(), $this->property->getPropertyId());
+		$star->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = Star::getStarByStarPropertyId($this->getPDO(), $this->property->getPropertyId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("star"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("GoGitters\\ApciMap\\Star", $results);
+
+		// grab the result from the array and validate it
+		$pdoStar = $results[0];
+		$this->assertEquals($pdoStar->getStarUserId(), $this->user->getUserId());
+		$this->assertEquals($pdoStar->getStarPropertyId(), $this->property->getPropertyId());
+	}
+
 }
 
 
