@@ -86,7 +86,7 @@ class StarTest extends ApciMapTest {
 		$star->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce that the fields match our expectations
-		$pdoStar = Star::getStarByStarPropertyIdAndStarUserId($this->getPDO(), $this->user->getUserId(), $this->property->getPropertyId());
+		$pdoStar = Star::getStarByStarPropertyIdAndStarUserId($this->getPDO(), $this->property->getPropertyId(), $this->user->getUserId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("star"));
 		$this->assertEquals($pdoStar->getStarUserId(), $this->user->getUserId());
 		$this->assertEquals($pdoStar->getStarPropertyId(), $this->property->getPropertyId());
@@ -181,7 +181,7 @@ class StarTest extends ApciMapTest {
 
 		// create a new Star and insert to into mySQL
 		$star = new Star($this->property->getPropertyId(), $this->user->getUserId());
-vis		$star->insert($this->getPDO());
+		$star->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$results = Star::getStarByUserId($this->getPDO(), $this->user->getUserId());
