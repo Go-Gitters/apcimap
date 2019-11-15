@@ -161,6 +161,15 @@ class StarTest extends ApciMapTest {
 		$this->assertEquals($pdoStar->getStarPropertyId(), $this->property->getPropertyId());
 	}
 
+	/**
+	 * test grabbing a Star by a property id that does not exist
+	 **/
+	public function testGetInvalidStarByPropertyId() : void {
+		// grab a property id that exceeds the maximum allowable property id
+		$star = Star::getStarByStarPropertyId($this->getPDO(), generateUuidV4());
+		$this->assertCount(0, $star);
+	}
+
 }
 
 
