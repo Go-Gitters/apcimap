@@ -326,10 +326,10 @@ class Crime implements \JsonSerializable {
 	 * gets the crime incident reports by distance
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param float $userLatitude latitude coordinate of where crime report occurred
-	 * @param float $userLongitude longitude coordinate of where crime report occurred
+	 * @param float $userLatitude latitude coordinate of where user is
+	 * @param float $userLongitude longitude coordinate of where where user is
 	 * @param float $distance distance in miles that the user is searching by
-	 * @return \SplFixedArray SplFixedArray of crimes found
+	 * @return \SplFixedArray SplFixedArray of crimes if found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 * **/
