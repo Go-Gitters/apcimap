@@ -115,7 +115,7 @@ class Property {
 	 * @return Uuid value of property id
 	 **/
 	public function getPropertyId() : Uuid {
-		return($this->PropertyId);
+		return($this->propertyId);
 	}
 
 	/**
@@ -134,7 +134,7 @@ class Property {
 		}
 
 		//store the property uuid
-		$this->PropertyId = $uuid;
+		$this->propertyId = $uuid;
 	}
 
 	/*****************
@@ -354,11 +354,11 @@ class Property {
 	 */
 	public function insert(\PDO $pdo) : void {
 		//create query template
-		$query = "INSERT INTO property(PropertyId, propertyCity, propertyClass, propertyLatitude, propertyLongitude, propertyStreetAddress, propertyValue) VALUES(:PropertyId, :propertyCity, :propertyClass, :propertyLatitude, :propertyLongitude, :propertyStreetAddress, :propertyValue)";
+		$query = "INSERT INTO property(propertyId, propertyCity, propertyClass, propertyLatitude, propertyLongitude, propertyStreetAddress, propertyValue) VALUES(:propertyId, :propertyCity, :propertyClass, :propertyLatitude, :propertyLongitude, :propertyStreetAddress, :propertyValue)";
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the place holders in the template
-		$parameters = ["PropertyId" => $this->PropertyId->getBytes(), "propertyCity" => $this->propertyCity, "propertyClass" => $this->propertyClass, "propertyLatitude" => $this->propertyLatitude, "propertyLongitude" => $this->propertyLongitude, "propertyStreetAddress" => $this->propertyStreetAddress, "propertyValue" => $this->propertyValue];
+		$parameters = ["propertyId" => $this->propertyId->getBytes(), "propertyCity" => $this->propertyCity, "propertyClass" => $this->propertyClass, "propertyLatitude" => $this->propertyLatitude, "propertyLongitude" => $this->propertyLongitude, "propertyStreetAddress" => $this->propertyStreetAddress, "propertyValue" => $this->propertyValue];
 		$statement->execute($parameters);
 	}
 
@@ -372,11 +372,12 @@ class Property {
 
 	public function delete(\PDO $pdo) : void {
 		//create query template
-		$query = "DELETE FROM property WHERE PropertyId = :PropertyId";
+		$query = "DELETE FROM property WHERE propertyId = :propertyId";
 		$statement = $pdo->prepare($query);
 
 		//bind the member variable to the place holder in the template
-		$parameters = ["PropertyId" => $this->PropertyId->getBytes()];
+		$parameters = ["propertyId" => $this->propertyId->getBytes()];
+		$statement->execute($parameters);
 	}
 
 	/**
@@ -388,11 +389,11 @@ class Property {
 	 **/
 	public function update(\PDO $pdo) : void {
 		//create query template
-		$query = "UPDATE property SET PropertyId = :PropertyId, propertyCity = :propertyCity, propertyClass = :propertyClass, propertyLatitude = :propertyLatitud, propertyLongitude = :propertyLongitude, propertyStreetAddress = :propertyStreetAddress, propertyValue = :propertyValue WHERE PropertyId = :PropertyId";
+		$query = "UPDATE property SET propertyId = :propertyId, propertyCity = :propertyCity, propertyClass = :propertyClass, propertyLatitude = :propertyLatitude, propertyLongitude = :propertyLongitude, propertyStreetAddress = :propertyStreetAddress, propertyValue = :propertyValue WHERE propertyId = :propertyId";
 		$statement = $pdo->prepare($query);
 
 		//bind member variables to template
-		$parameters = ["PropertyId" => $this->PropertyId->getBytes(), "propertyCity" => $this->propertyCity, "propertyClass" => $this->propertyClass, "propertyLatitude" => $this->propertyLatitude, "propertyLongitude" => $this->propertyLongitude, "propertyStreetAddress" => $this->propertyStreetAddress, "propertyValue" => $this->propertyValue];
+		$parameters = ["propertyId" => $this->propertyId->getBytes(), "propertyCity" => $this->propertyCity, "propertyClass" => $this->propertyClass, "propertyLatitude" => $this->propertyLatitude, "propertyLongitude" => $this->propertyLongitude, "propertyStreetAddress" => $this->propertyStreetAddress, "propertyValue" => $this->propertyValue];
 		$statement->execute($parameters);
 	}
 
@@ -418,11 +419,11 @@ class Property {
 		}
 
 		//create query template
-		$query = "SELECT PropertyId, propertyCity, propertyClass, propertyLatitude, propertyLongitude, propertyStreetAddress, propertyValue FROM property WHERE PropertyId = :PropertyId";
+		$query = "SELECT propertyId, propertyCity, propertyClass, propertyLatitude, propertyLongitude, propertyStreetAddress, propertyValue FROM property WHERE propertyId = :propertyId";
 		$statement = $pdo->prepare($query);
 
 		//bind the property uuid to the place holder
-		$parameters = ["PropertyId" => $propertyId->getBytes()];
+		$parameters = ["propertyId" => $propertyId->getBytes()];
 		$statement->execute($parameters);
 
 		// grab the property from mySQL
@@ -431,7 +432,7 @@ class Property {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$property = new Property($row["PropertyId"], $row["propertyCity"], $row["propertyClass"], $row["propertyLatitude"], $row["propertyLongitude"], $row["propertyStreetAddress"], $row["propertyValue"]);
+				$property = new Property($row["propertyId"], $row["propertyCity"], $row["propertyClass"], $row["propertyLatitude"], $row["propertyLongitude"], $row["propertyStreetAddress"], $row["propertyValue"]);
 			}
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
@@ -458,17 +459,17 @@ class Property {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		// create query template
-		$query = "SELECT PropertyId, propertyCity, propertyClass, propertyLatitude, propertyLongitude, propertyStreetAddress, propertyValue FROM property INNER JOIN star ON property.PropertyId star.starPropertyId INNER JOIN 'user' ON star.starUserId 'user'.UserId WHERE UserId = :UserId ";
+		$query = "SELECT propertyId, propertyCity, propertyClass, propertyLatitude, propertyLongitude, propertyStreetAddress, propertyValue FROM property INNER JOIN star ON property.propertyId = star.starPropertyId INNER JOIN `user` ON star.starUserId = `user`.userId WHERE userId = :userId ";
 		$statement = $pdo->prepare($query);
 		// bind the user uuid to template
-		$parameters = ["UserId" => $userId->getBytes()];
+		$parameters = ["userId" => $userId->getBytes()];
 		$statement->execute($parameters);
 		// build an array of properties
 		$properties = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$property = new Property($row["PropertyId"], $row["propertyCity"], $row["propertyClass"], $row["propertyLatitude"], $row["propertyLongitude"], $row["propertyStreetAddress"], $row["propertyValue"]);
+				$property = new Property($row["propertyId"], $row["propertyCity"], $row["propertyClass"], $row["propertyLatitude"], $row["propertyLongitude"], $row["propertyStreetAddress"], $row["propertyValue"]);
 				$properties[$properties->key()] = $property;
 				$properties->next();
 			} catch(\Exception $exception) {
@@ -488,7 +489,7 @@ class Property {
 	 */
 	public static function getAllProperties(\PDO $pdo) : \SplFixedArray {
 		// create query template
-		$query = "SELECT PropertyId, propertyCity, propertyClass, propertyLatitude, propertyLongitude, propertyStreetAddress, propertyValue FROM property";
+		$query = "SELECT propertyId, propertyCity, propertyClass, propertyLatitude, propertyLongitude, propertyStreetAddress, propertyValue FROM property";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 		// build an array of properties
@@ -496,7 +497,7 @@ class Property {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$property = new Property($row["PropertyId"], $row["propertyCity"], $row["propertyClass"], $row["propertyLatitude"], $row["propertyLongitude"], $row["propertyStreetAddress"], $row["propertyValue"]);
+				$property = new Property($row["propertyId"], $row["propertyCity"], $row["propertyClass"], $row["propertyLatitude"], $row["propertyLongitude"], $row["propertyStreetAddress"], $row["propertyValue"]);
 				$properties[$properties->key()] = $property;
 				$properties->next();
 			} catch(\Exception $exception) {
@@ -519,17 +520,19 @@ class Property {
 	 * @throws \PDOException for errors related to MySQL
 	 * @throws \TypeError when variables are not the correct data type
 	 */
-	public static function getPropertyByDistance(\PDO $pdo, float $userLong, float $userLat, float $distance) : \SplFixedArray {
+	public static function getPropertyByDistance(\PDO $pdo, float $userLat, float $userLong, float $distance) : \SplFixedArray {
 		// create query template
-		$query = "SELECT PropertyId, propertyCity, propertyClass, propertyLatitude, propertyLongitude, propertyStreetAddress, propertyValue FROM property WHERE haversine(:userLong, :userLat, artLong, artLat) < :distance";
+		$query = "SELECT propertyId, propertyCity, propertyClass, propertyLatitude, propertyLongitude, propertyStreetAddress, propertyValue FROM property WHERE haversine(:userLong, :userLat, propertyLongitude, propertyLatitude) < :distance";
 		$statement = $pdo->prepare($query);
-		$statement->execute();
+		//bind parameters
+		$parameters = ["userLong" => $userLong, "userLat" => $userLat , "distance" => $distance];
+		$statement->execute($parameters);
 		// build an array of properties
 		$properties = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$property = new Property($row["PropertyId"], $row["propertyCity"], $row["propertyClass"], $row["propertyLatitude"], $row["propertyLongitude"], $row["propertyStreetAddress"], $row["propertyValue"]);
+				$property = new Property($row["propertyId"], $row["propertyCity"], $row["propertyClass"], $row["propertyLatitude"], $row["propertyLongitude"], $row["propertyStreetAddress"], $row["propertyValue"]);
 				$properties[$properties->key()] = $property;
 				$properties->next();
 			} catch(\Exception $exception) {
