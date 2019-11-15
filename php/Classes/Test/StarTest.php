@@ -65,6 +65,25 @@ class StarTest extends ApciMapTest {
 
 		// create and insert the mocked user
 		$this->user = new User(generateUuidV4(), null, "@phpunit", "https://media.giphy.com/media/3og0INyCmHlNylks9O/giphy.gif", "test@phpunit.de",$this->VALID_USERHASH, "+12125551212");
+		$this->user->insert($this->getPDO());
+
+		// create and insert the mocked property
+		$this->property = new Property(generateUuidV4(), $this->user->getUserId(), "PHPUnit star test passing");
+		$this->property->insert($this->getPDO());
+	}
+	/**
+	 * test inserting a valid Star and verify that the actual mySQL data matches
+	 **/
+	public function testInsertValidStar() : void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("star");
+
+		// create a new Star and insert into mySQL
+		$star = new Star($this->user->getUserId(), $this->property->getPropertyId());
+		$star->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce that the fields match our expectations
+		$pdoStar = Star::getStarByStarPropertyIdAndStarUserId($this->getPDO(), $this->user->getUserId(), $this->property->getPropertyId());
 	}
 
 }
