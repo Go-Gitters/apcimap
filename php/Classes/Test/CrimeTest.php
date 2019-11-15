@@ -177,10 +177,9 @@ class CrimeTest extends ApciMapTest {
 	 **/
 	public function testGetInvalidCrimeByCrimeId(): void {
 		// grab a crime id that exceeds the maximum allowable crime id
-		echo "BBBBBBBBBBBBBBBBBBBBB" . "\n";
-		$fakeCrimeId = generateUuidV4();
-		$crime = Crime::getCrimeByCrimeId($this->getPDO(), generateUuidV4());
-		$this->assertNull($crime);
+		$CrimeId = generateUuidV4();
+		$pdoCrime = Crime::getCrimeByCrimeId($this->getPDO(), $CrimeId);
+		$this->assertNull($pdoCrime);
 	}
 
 	/**
@@ -200,77 +199,10 @@ class CrimeTest extends ApciMapTest {
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("crime"));
 		$this->assertEquals($pdoCrime->getCrimeId(), $crimeId);
 		$this->assertEquals($pdoCrime->getCrimeAddress(), $this->VALID_CRIMEADDRESS);
-		$this->assertEquals($pdoCrime->getCrimeDate(), $this->VALID_CRIMEDATE->getTimestamp());
+		$this->assertEquals($pdoCrime->getCrimeDate()->getTimestamp(), $this->VALID_CRIMEDATE->getTimestamp());
 		$this->assertEquals($pdoCrime->getCrimeLatitude(), $this->VALID_CRIMELATITUDE);
 		$this->assertEquals($pdoCrime->getCrimeLongitude(), $this->VALID_CRIMELONGITUDE);
 		$this->assertEquals($pdoCrime->getCrimeType(), $this->VALID_CRIMETYPE);
-	}
-
-	/**
-	 * test grabbing a Crime incident report by crime type
-	 **/
-	public function testGetValidCrimeByCrimeType(): void {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("crime");
-
-		// create a new Crime and insert into mySQL
-		$crimeId = generateUuidV4();
-		$crime = new Crime($crimeId, $this->VALID_CRIMEADDRESS, $this->VALID_CRIMEDATE, $this->VALID_CRIMELATITUDE, $this->VALID_CRIMELONGITUDE, $this->VALID_CRIMETYPE);
-		$crime->insert($this->getPDO());
-
-		// grab the data from mySQL and enforce the fields match our expectations
-		$results = Crime::getCrimeByCrimeType($this->getPDO(), $crime->getCrimeType());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("crime"));
-		$this->assertCount(1, $results);
-
-		// enforce no other objects are bleeding into the test
-		$this->assertContainsOnlyInstancesOf("GoGitters\ApciMap\Test", $results);
-
-		// grab the result from the array and validate it
-		$pdoCrime = $results[0];
-		$this->assertEquals($pdoCrime->getCrimeId(), $crimeId);
-		$this->assertEquals($pdoCrime->getCrimeAddress(), $this->VALID_CRIMEADDRESS);
-		$this->assertEquals($pdoCrime->getCrimeDate(), $this->VALID_CRIMEDATE);
-		$this->assertEquals($pdoCrime->getCrimeLatitude(), $this->VALID_CRIMELATITUDE);
-		$this->assertEquals($pdoCrime->getCrimeLongitude(), $this->VALID_CRIMELONGITUDE);
-		$this->assertEquals($pdoCrime->getCrimeType(), $this->VALID_CRIMETYPE);
-	}
-
-		/**
-		 * test grabbing a Crime incident report by a crime type that does not exist
-		 **/
-		public function testGetInvalidCrimeByCrimeType(): void {
-			// grab a crime by crime incident report type that does not exist
-			$crime = Crime::getCrimeByCrimeType($this->getPDO(), "kejalek jfalek fjeio aejl");
-			$this->assertCount(0, $crime);
-	}
-
-		/**
-		 * test grabbing all Crimes
-		 **/
-		public function testGetAllValidCrimes(): void {
-			// count the number of rows and save it for later
-			$numRows = $this->getConnection()->getRowCount("crime");
-
-			// create a new Crime and insert into mySQL
-			$crimeId = generateUuidV4();
-			$crime = new Crime($crimeId, $this->VALID_CRIMEADDRESS, $this->VALID_CRIMEDATE, $this->VALID_CRIMELATITUDE, $this->VALID_CRIMELONGITUDE, $this->VALID_CRIMETYPE);
-			$crime->insert($this->getPDO());
-
-			// grab the data from mySQL and enforce the fields match our expectations
-			$results = Crime::getAllCrimes($this->getPDO());
-			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("crime"));
-			$this->assertCount(1, $results);
-			$this->assertContainsOnlyInstancesOf("GoGitters\ApciMap\Test", $results);
-
-			// grab the result from the array and validate it
-			$pdoCrime = $results[0];
-			$this->assertEquals($pdoCrime->getCrimeId(), $crimeId);
-			$this->assertEquals($pdoCrime->getCrimeAddress(), $this->VALID_CRIMEADDRESS);
-			$this->assertEquals($pdoCrime->getCrimeDate(), $this->VALID_CRIMEDATE);
-			$this->assertEquals($pdoCrime->getCrimeLatitude(), $this->VALID_CRIMELATITUDE);
-			$this->assertEquals($pdoCrime->getCrimeLongitude(), $this->VALID_CRIMELONGITUDE);
-			$this->assertEquals($pdoCrime->getCrimeType(), $this->VALID_CRIMETYPE);
 	}
 
 	/**
@@ -294,13 +226,13 @@ class CrimeTest extends ApciMapTest {
 		$results = Crime::getCrimeByDistance($this->getPDO(), $this->VALID_USERLATITUDE, $this->VALID_USERLONGITUDE, $this->VALID_USERDISTANCE);
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("crime"));
 		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("GoGitters\\ApciMap\\Property", $results);
+		$this->assertContainsOnlyInstancesOf("GoGitters\\ApciMap\\Crime", $results);
 
 		//grab the property from the array and validate it
-		$pdoProperty = $results[0];
+		$pdoCrime = $results[0];
 		$this->assertEquals($pdoCrime->getCrimeId()->toString(), $crimeId->toString());
 		$this->assertEquals($pdoCrime->getCrimeAddress(), $this->VALID_CRIMEADDRESS);
-		$this->assertEquals($pdoCrime->getCrimeDate(), $this->VALID_CRIMEDATE->getTimestamp());
+		$this->assertEquals($pdoCrime->getCrimeDate()->getTimestamp(), $this->VALID_CRIMEDATE->getTimestamp());
 		$this->assertEquals($pdoCrime->getCrimeLatitude(), $this->VALID_CRIMELATITUDE);
 		$this->assertEquals($pdoCrime->getCrimeLongitude(), $this->VALID_CRIMELONGITUDE);
 		$this->assertEquals($pdoCrime->getCrimeType(), $this->VALID_CRIMETYPE);
