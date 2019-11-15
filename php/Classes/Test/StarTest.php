@@ -53,7 +53,9 @@ class StarTest extends ApciMapTest {
 
 	/**
 	 * create dependent objects before running each test
-	 **/
+	 *
+	 * @throws \Exception
+	 */
 	public final function setUp() : void {
 		// run the default setUp() method first
 		parent::setUp();
@@ -64,11 +66,11 @@ class StarTest extends ApciMapTest {
 		$this->VALID_USERACTIVATIONTOKEN = bin2hex(random_bytes(16));
 
 		// create and insert the mocked user
-		$this->user = new User(generateUuidV4(), null, "@phpunit", "https://media.giphy.com/media/3og0INyCmHlNylks9O/giphy.gif", "test@phpunit.de",$this->VALID_USERHASH, "+12125551212");
+		$this->user = new User(generateUuidV4(), $this->VALID_USERACTIVATIONTOKEN, "lisa@gmail.com", $this->VALID_USERHASH, "lisa.lee");
 		$this->user->insert($this->getPDO());
 
 		// create and insert the mocked property
-		$this->property = new Property(generateUuidV4(), $this->user->getUserId(), "PHPUnit star test passing");
+		$this->property = new Property(generateUuidV4(), "Albuquerque", "R", 35.093836, -106.640397, "343 Elm Street", 165999);
 		$this->property->insert($this->getPDO());
 	}
 
