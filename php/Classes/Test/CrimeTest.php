@@ -94,8 +94,10 @@ class CrimeTest extends ApciMapTest {
 	 * create dependent objects before running each test; set up function
 	 **/
 	public final function setUp(): void {
-		//run the default setUp() method first
+		// run the default setUp() method first
 		parent::setUp();
+
+		// run the default setUp() method first
 		$this->VALID_CRIMEDATE = new \DateTime();
 	}
 
