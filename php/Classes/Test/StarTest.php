@@ -82,7 +82,7 @@ class StarTest extends ApciMapTest {
 		$numRows = $this->getConnection()->getRowCount("star");
 
 		// create a new Star and insert into mySQL
-		$star = new Star($this->user->getUserId(), $this->property->getPropertyId());
+		$star = new Star($this->property->getPropertyId(), $this->user->getUserId());
 		$star->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce that the fields match our expectations
@@ -100,7 +100,7 @@ class StarTest extends ApciMapTest {
 		$numRows = $this->getConnection()->getRowCount("star");
 
 		// create a new Star and insert into mySQL
-		$star = new Star($this->user->getUserId(), $this->property->getPropertyId());
+		$star = new Star($this->property->getPropertyId(), $this->user->getUserId());
 		$star->insert($this->getPDO());
 
 		// delete the Star from mySQL
@@ -121,7 +121,7 @@ class StarTest extends ApciMapTest {
 		$numRows = $this->getConnection()->getRowCount("star");
 
 		// create a new Star and insert into mySQL
-		$star = new Star($this->user->getUserId(), $this->property->getPropertyId());
+		$star = new Star($this->property->getPropertyId(), $this->user->getUserId());
 		$star->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -148,7 +148,7 @@ class StarTest extends ApciMapTest {
 		$numRows = $this->getConnection()->getRowCount("star");
 
 		// create a new Star and insert to into mySQL
-		$star = new Star($this->user->getUserId(), $this->property->getPropertyId());
+		$star = new Star($this->property->getPropertyId(), $this->user->getUserId());
 		$star->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -180,8 +180,8 @@ class StarTest extends ApciMapTest {
 		$numRows = $this->getConnection()->getRowCount("star");
 
 		// create a new Star and insert to into mySQL
-		$star = new Star($this->user->getUserId(), $this->property->getPropertyId());
-		$star->insert($this->getPDO());
+		$star = new Star($this->property->getPropertyId(), $this->user->getUserId());
+vis		$star->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$results = Star::getStarByUserId($this->getPDO(), $this->user->getUserId());
