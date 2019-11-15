@@ -36,10 +36,10 @@ class CrimeTest extends ApciMapTest {
 	/**
 	 * valid datetime to use as crime report date
 	 * datetime from dataset is date that incident was reported as milliseconds since 1/1/1970 UTC (Note: This might be different to the date on which the incident took place)
-	 * max length = 13
-	 * @var string $VALID_CRIMEDATE
+	 * max length = 6
+	 * @var \DateTime $VALID_CRIMEDATE
 	 */
-	protected $VALID_CRIMEDATE = "2019-11-22 09:12:23.44";
+	protected $VALID_CRIMEDATE = null;
 
 	/**
 	 * valid latitude to use as crimeLatitude
