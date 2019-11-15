@@ -4,7 +4,7 @@
 namespace GoGitters\ApciMap\Test;
 
 //grab the Property Class
-use GoGitters\ApciMap\{Property};
+use GoGitters\ApciMap\{Property, User, Star};
 use Ramsey\Uuid\Uuid;
 
 require_once(dirname(__DIR__) . "/autoload.php");
@@ -279,7 +279,56 @@ class PropertyTest extends ApciMapTest {
 		$this->assertEquals($pdoProperty->getPropertyValue(), $this->VALID_PROPERTYVALUE);
 
 	}
-	//TODO: Test getPropertyByUserId
+
+	/**
+	 * Test getting properties by userId (via star table)
+	 * @throws \Exception
+	 */
+
+
+	public function testGetPropertyByUserId() : void {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("property");
+
+		//make a valid property uuid
+		$propertyId = generateUuidV4();
+
+		//make a new property with valid entries
+		$property = new Property($propertyId, $this->VALID_PROPERTYCITY, $this->VALID_PROPERTYCLASS, $this->VALID_PROPERTYLATITUDE, $this->VALID_PROPERTYLONGITUDE, $this->VALID_PROPERTYSTREETADDRESS, $this->VALID_PROPERTYVALUE);
+
+		//insert property
+		$property->insert($this->getPDO());
+
+		//make a user   & insert into db
+		$userId = generateUuidV4();
+		$userActivationToken = bin2hex(random_bytes(16));
+		$userPassword = "u9V45k";
+		$userUsername = "lindsey";
+		$userHash= password_hash($userPassword, PASSWORD_ARGON2I, ["time_cost" => 384]);
+		$user = new User($userId, $userActivationToken, "lindsey@ilovecats.com", $userHash, $userUsername);
+		$user->insert($this->getPDO());
+
+		// make a new star with the property and user we just made
+		$star = new Star($propertyId, $userId);
+		$star->insert($this->getPDO());
+
+		//grab data from MySQL and check expectations
+		$results = Property::getPropertyByUserId($this->getPDO(), $userId);
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("property"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("GoGitters\\ApciMap\\Property", $results);
+
+		//grab the property from the array and validate it
+		$pdoProperty = $results[0];
+		$this->assertEquals($pdoProperty->getPropertyId()->toString(), $propertyId->toString());
+		$this->assertEquals($pdoProperty->getPropertyCity(), $this->VALID_PROPERTYCITY);
+		$this->assertEquals($pdoProperty->getPropertyClass(), $this->VALID_PROPERTYCLASS);
+		$this->assertEquals($pdoProperty->getPropertyLatitude(), $this->VALID_PROPERTYLATITUDE);
+		$this->assertEquals($pdoProperty->getPropertyLongitude(), $this->VALID_PROPERTYLONGITUDE);
+		$this->assertEquals($pdoProperty->getPropertyStreetAddress(), $this->VALID_PROPERTYSTREETADDRESS);
+		$this->assertEquals($pdoProperty->getPropertyValue(), $this->VALID_PROPERTYVALUE);
+
+	}
 
 
 }
