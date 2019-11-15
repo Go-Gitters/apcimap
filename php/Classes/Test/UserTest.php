@@ -124,12 +124,6 @@ class UserTest extends ApciMapTest {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("user");
 		$userId = generateUuidV4();
-//		echo $userId . "\n";
-//		echo $this->VALID_ACTIVATION . "\n";
-//		echo $this->VALID_EMAIL . "\n";
-//		echo $this->VALID_HASH . "\n";
-//		echo $this->VALID_USERNAME . "\n";
-
 		$user = new User ($userId, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_USERNAME);
 		$user->insert($this->getPDO());
 	// grab the data from mySQL and enforce the fields match our expectations
