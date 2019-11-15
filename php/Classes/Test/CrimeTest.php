@@ -177,6 +177,8 @@ class CrimeTest extends ApciMapTest {
 	 **/
 	public function testGetInvalidCrimeByCrimeId(): void {
 		// grab a crime id that exceeds the maximum allowable crime id
+		echo "BBBBBBBBBBBBBBBBBBBBB" . "\n";
+		$fakeCrimeId = generateUuidV4();
 		$crime = Crime::getCrimeByCrimeId($this->getPDO(), generateUuidV4());
 		$this->assertNull($crime);
 	}
