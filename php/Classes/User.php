@@ -17,6 +17,7 @@ Class User implements \JsonSerializable {
  * id for this User; this is the primary key
  * @var Uuid $userId
  **/
+
 private
 $userId;
 /**
@@ -56,10 +57,9 @@ $userUsername;
  * @throws \Exception if some other exception occurs
  * @Documentation https://php.net/manual/en/language.oop5.decon.php
  **/
-public
-function __construct($newUserId, string $newUserActivationToken, string $newUserEmail, string $newUserHash, string $newUserUsername) {
+public function __construct($newUserId, $newUserActivationToken, $newUserEmail, $newUserHash, $newUserUsername) {
 	try {
-		$this->setuserId($newUserId);
+		$this->setUserId($newUserId);
 		$this->setUserActivationToken($newUserActivationToken);
 		$this->setUserEmail($newUserEmail);
 		$this->setUserHash($newUserHash);
@@ -74,7 +74,7 @@ function __construct($newUserId, string $newUserActivationToken, string $newUser
 /**
  * accessor method for user id
  *
- * @return Uuid value of profile id (or null if new Profile)
+ * @return Uuid value of user id (or null if new User)
  **/
 public function getUserId(): Uuid {
 	return ($this->userId);
@@ -85,7 +85,7 @@ public function getUserId(): Uuid {
  *
  * @param Uuid| string $newuserId value of new profile id
  * @throws \RangeException if $newUserId is not positive
- * @throws \TypeError if the user Id is not
+ * @throws \TypeError if the user Id is not a Uuid
  **/
 public
 function setUserId($newUserId): void {
@@ -220,10 +220,9 @@ function getUserUsername(): string {
  * @throws \RangeException if the username is more than 32 characters
  * @throws \TypeError if the username is not a string
  */
-public
-function setUserUsername(string $newUserUsername): void {
+public function setUserUsername(string $newUserUsername): void {
 	$newUserUsername = trim($newUserUsername);
-	$newUserUsername = filter_var($newUserUsername, FILTER_VALIDATE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$newUserUsername = filter_var($newUserUsername, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	if(empty($newUserUsername) === true) {
 		throw(new \InvalidArgumentException("username is empty or insecure"));
 	}
@@ -237,7 +236,7 @@ function setUserUsername(string $newUserUsername): void {
 	/**
 	 * gets the User by uuid
 	 * @param \PDO $pdo $pdo PDO connection object
-	 * @param  $userId user uuid to search for (the data type should be mixed/not specified)
+	 * @param  Uuid|string $userId user id to search for (the data type should be mixed/not specified)
 	 * @return User|null User or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
@@ -251,7 +250,7 @@ function setUserUsername(string $newUserUsername): void {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		// create query template
-		$query = "SELECT userId, userActivationToken, userEmail, userHash, userUsername FROM user WHERE userId = :userId";
+		$query = "SELECT userId, userActivationToken, userEmail, userHash, userUsername FROM `user` WHERE userId = :userId";
 		$statement = $pdo->prepare($query);
 		// bind the user id to the place holder in the template
 		$parameters = ["userId" => $userId->getBytes()];
@@ -288,7 +287,7 @@ function setUserUsername(string $newUserUsername): void {
 			throw(new \InvalidArgumentException("user activation token is empty or in the wrong format"));
 		}
 		//create the query template
-		$query = "SELECT  userId, userActivationToken,userEmail, userHash, userUsername FROM user WHERE userActivationToken = :userActivationToken";
+		$query = "SELECT  userId, userActivationToken,userEmail, userHash, userUsername FROM `user` WHERE userActivationToken = :userActivationToken";
 		$statement = $pdo->prepare($query);
 		// bind the user activation token to the placeholder in the template
 		$parameters = ["userActivationToken" => $userActivationToken];
@@ -326,7 +325,7 @@ function setUserUsername(string $newUserUsername): void {
 			throw(new \PDOException("not a valid email"));
 		}
 		// create query template
-		$query = "SELECT userId, userActivationToken, userEmail, userHash, userUsername FROM User WHERE userEmail = :userEmail";
+		$query = "SELECT userId, userActivationToken, userEmail, userHash, userUsername FROM `user` WHERE userEmail = :userEmail";
 		$statement = $pdo->prepare($query);
 		// bind the user id to the place holder in the template
 		$parameters = ["userEmail" => $userEmail];
@@ -355,45 +354,45 @@ function setUserUsername(string $newUserUsername): void {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public
-	static function getUserByUsername(\PDO $pdo, string $userUsername): ?User {
+	public static function getUserByUsername(\PDO $pdo, string $userUsername): \SPLFixedArray {
 		// sanitize the username before searching
 		$userUsername = trim($userUsername);
-		$userUsername = filter_var($userUsername);
+		$userUsername = filter_var($userUsername, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($userUsername) === true) {
 			throw(new \PDOException("not a valid username"));
 		}
 		// create query template
-		$query = "SELECT userId, userActivationToken, userEmail, userHash, userUsername FROM User WHERE userEmail = :userEmail";
+		$query = "SELECT userId, userActivationToken, userEmail, userHash, userUsername FROM `user` WHERE userUsername = :userUsername";
 		$statement = $pdo->prepare($query);
 		// bind the user id to the place holder in the template
 		$parameters = ["userUsername" => $userUsername];
 		$statement->execute($parameters);
-		// grab the User from mySQL
-		try {
-			$user = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$user = new User($row["userId"], $row["userActivationToken"], $row["userEmail"], $row["userHash"], $row["userUsername"]);
-			}
-		} catch(\Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
-		}
-		return ($user);
-	}
 
+		// grab the User from mySQL
+		$users = new \SPLFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+
+		while (($row = $statement->fetch()) !== false) {
+			try {
+				$user = new User($row["userId"], $row["userActivationToken"], $row["userEmail"], $row["userHash"], $row["userUsername"]);
+				$users[$users->key()] = $user;
+				$users->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($users);
+	}
 	/**
 	 * inserts this user into mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
 	 **/
-	public
-	function insert(\PDO $pdo): void {
+	public function insert(\PDO $pdo): void {
 		// create query template
-		$query = "INSERT INTO user(userId, userActivationToken, userEmail, userHash, userUsername) VALUES(:userId, :userActivationToken, :userEmail, :userHash, :userUsername)";
+		$query = "INSERT INTO `user` (userId, userActivationToken, userEmail, userHash, userUsername) VALUES(:userId, :userActivationToken, :userEmail, :userHash, :userUsername)";
 		$statement = $pdo->prepare($query);
 		// bind the member variables to the place holders in the template
 		$parameters = ["userId" => $this->userId->getBytes(), "userActivationToken"=>$this->userActivationToken, "userEmail" => $this->userEmail, "userHash"=> $this->userHash, "userUsername"=>$this->userUsername];
