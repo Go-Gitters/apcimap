@@ -7,9 +7,9 @@ require_once dirname(__DIR__, 3) . "/lib/uuid.php";
 require_once("/etc/apache2/capstone-mysql/Secrets.php");
 use UssHopper\DataDesign\Profile;
 /**
- * api for signing up too DDC Twitter
+ * api for signing up to ApciMap
  *
- * @author Gkephart <GKephart@cnm.edu>
+ * @author Kyla Bendt
  **/
 //verify the session, start if not active
 if(session_status() !== PHP_SESSION_ACTIVE) {
@@ -21,7 +21,7 @@ $reply->status = 200;
 $reply->data = null;
 try {
 	//grab the mySQL connection
-	$secrets = new \Secrets("/etc/apache2/capstone-mysql/ddctwitter.ini");
+	$secrets = new \Secrets("/etc/apache2/capstone-mysql/map.ini");
 	$pdo = $secrets->getPdoObject();
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
@@ -29,32 +29,29 @@ try {
 		//decode the json and turn it into a php object
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
-		//profile at handle is a required field
-		if(empty($requestObject->profileAtHandle) === true) {
-			throw(new \InvalidArgumentException ("No profile @handle", 405));
+		//verify required fields and password matches
+		//user email is a required field
+		if(empty($requestObject->userEmail) === true) {
+			throw(new \InvalidArgumentException ("No user email present", 405));
 		}
-		//profile email is a required field
-		if(empty($requestObject->profileEmail) === true) {
-			throw(new \InvalidArgumentException ("No profile email present", 405));
-		}
-		//verify that profile password is present
-		if(empty($requestObject->profilePassword) === true) {
+		//verify that user password is present
+		if(empty($requestObject->userPassword) === true) {
 			throw(new \InvalidArgumentException ("Must input valid password", 405));
 		}
 		//verify that the confirm password is present
-		if(empty($requestObject->profilePasswordConfirm) === true) {
+		if(empty($requestObject->userPasswordConfirm) === true) {
 			throw(new \InvalidArgumentException ("Must input valid password", 405));
 		}
-		//if phone is empty set it too null
-		if(empty($requestObject->profilePhone) === true) {
-			$requestObject->profilePhone = null;
+		//user username is a required field
+		if(empty($requestObject->userUsername) === true) {
+			throw(new \InvalidArgumentException ("No user username", 405));
 		}
 		//make sure the password and confirm password match
-		if ($requestObject->profilePassword !== $requestObject->profilePasswordConfirm) {
+		if ($requestObject->userPassword !== $requestObject->userPasswordConfirm) {
 			throw(new \InvalidArgumentException("passwords do not match"));
 		}
-		$hash = password_hash($requestObject->profilePassword, PASSWORD_ARGON2I, ["time_cost" => 384]);
-		$profileActivationToken = bin2hex(random_bytes(16));
+		$hash = password_hash($requestObject->userPassword, PASSWORD_ARGON2I, ["time_cost" => 384]);
+		$userActivationToken = bin2hex(random_bytes(16));
 		//create the profile object and prepare to insert into the database
 		$profile = new Profile(generateUuidV4(), $profileActivationToken, $requestObject->profileAtHandle, "null", $requestObject->profileEmail, $hash, $requestObject->profilePhone);
 		//insert the profile into the database
