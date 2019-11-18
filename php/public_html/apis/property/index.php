@@ -7,7 +7,6 @@ require_once dirname(__DIR__, 3) . "/lib/xsrf.php";
 require_once dirname(__DIR__, 3) . "/lib/jwt.php";
 require_once dirname(__DIR__, 3) . "/lib/uuid.php";
 require_once("/etc/apache2/capstone-mysql/Secrets.php");
-use UssHopper\DataDesign\{Like, Profile, Tweet};
 use GoGitters\ApciMap\{Property};
 
 /**
@@ -142,7 +141,7 @@ try {
 		}
 		//enforce the end user has a JWT token
 		validateJwtHeader();
-		// delete tweet
+		// delete property
 		$property->delete($pdo);
 		// update reply
 		$reply->message = "Property deleted OK";
