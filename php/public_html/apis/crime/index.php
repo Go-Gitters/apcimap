@@ -36,14 +36,23 @@ try {
 	$id = filter_input(INPUT_GET, "id", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$lat = filter_input(INPUT_GET, "lat", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$long = filter_input(INPUT_GET, "long", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$distance = filter_input(INPUT_GET, "distance", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	// make sure the id is valid for methods that require it
 if(($method === "DELETE" || $method === "PUT") && (empty($id) === true)) {
 	throw(new InvalidArgumentException("id cannot be empty or negative", 402));
 }
 
+	// handle GET request - if id is present, that crime incident report is returned, otherwise all crime incident reports are returned
+	if($method === "GET") {
 
-}
+		//set XSRF cookie
+		setXsrfCookie();
 
+		// get a specific crime incident report or all crime incident reports and update reply
+		if(empty($id) === false) {
+			$reply->data = Crime::getCrimeByCrimeId($pdo, $id);
 
-
+		// get crime incident report by distance if there is a lat, long & distance
+		} else if((empty($lat) === false) && (empty($long === false) && (empty($distance === false)) {
+			$reply->data = Crime::getCrimeByDistance($pdo, $lat, $long, $distance)->toArray();
