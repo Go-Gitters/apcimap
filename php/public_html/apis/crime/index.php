@@ -26,4 +26,11 @@ $reply->status = 200;
 $reply->data = null;
 try {
 
-	$secrets =
+	$secrets = new \Secrets("/etc/apache2/capstone-mysql/map.ini");
+	$pdo = $secrets->getPdoObject();
+
+	// determine which HTTP method was used
+	$method = $_SERVER["HTTP_X_HTTP_METHOD"] ?? $_SERVER["REQUEST_METHOD"];
+
+
+
