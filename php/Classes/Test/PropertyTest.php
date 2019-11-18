@@ -22,8 +22,6 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
  *
  * @author Kyla Bendt
  */
-
-
 class PropertyTest extends ApciMapTest {
 
 
@@ -134,7 +132,6 @@ class PropertyTest extends ApciMapTest {
 		$this->assertEquals($pdoProperty->getPropertyValue(), $this->VALID_PROPERTYVALUE);
 	}
 
-
 	/**
 	 * Test updating valid property.
 	 *
@@ -212,7 +209,6 @@ class PropertyTest extends ApciMapTest {
 	 * Test getting all properties
 	 * @throws \Exception
 	 */
-
 	public function testGetAllProperties() : void {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("property");
@@ -241,14 +237,12 @@ class PropertyTest extends ApciMapTest {
 		$this->assertEquals($pdoProperty->getPropertyLongitude(), $this->VALID_PROPERTYLONGITUDE);
 		$this->assertEquals($pdoProperty->getPropertyStreetAddress(), $this->VALID_PROPERTYSTREETADDRESS);
 		$this->assertEquals($pdoProperty->getPropertyValue(), $this->VALID_PROPERTYVALUE);
-
 	}
 
 	/**
 	 * Test getting properties by distance
 	 * @throws \Exception
 	 */
-
 	public function testGetPropertyByDistance() : void {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("property");
@@ -277,15 +271,12 @@ class PropertyTest extends ApciMapTest {
 		$this->assertEquals($pdoProperty->getPropertyLongitude(), $this->VALID_PROPERTYLONGITUDE);
 		$this->assertEquals($pdoProperty->getPropertyStreetAddress(), $this->VALID_PROPERTYSTREETADDRESS);
 		$this->assertEquals($pdoProperty->getPropertyValue(), $this->VALID_PROPERTYVALUE);
-
 	}
 
 	/**
 	 * Test getting properties by userId (via star table)
 	 * @throws \Exception
 	 */
-
-
 	public function testGetPropertyByUserId() : void {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("property");
@@ -327,8 +318,6 @@ class PropertyTest extends ApciMapTest {
 		$this->assertEquals($pdoProperty->getPropertyLongitude(), $this->VALID_PROPERTYLONGITUDE);
 		$this->assertEquals($pdoProperty->getPropertyStreetAddress(), $this->VALID_PROPERTYSTREETADDRESS);
 		$this->assertEquals($pdoProperty->getPropertyValue(), $this->VALID_PROPERTYVALUE);
-
 	}
-
 
 }
