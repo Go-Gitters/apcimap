@@ -54,5 +54,17 @@ if(($method === "DELETE" || $method === "PUT") && (empty($id) === true)) {
 			$reply->data = Crime::getCrimeByCrimeId($pdo, $id);
 
 		// get crime incident report by distance if there is a lat, long & distance
-		} else if((empty($lat) === false) && (empty($long === false) && (empty($distance === false)) {
-			$reply->data = Crime::getCrimeByDistance($pdo, $lat, $long, $distance)->toArray();
+		} else if((empty($lat) === false) && (empty($long === false) && (empty($distance === false)){
+				$reply->data = Crime::getCrimeByDistance($pdo, $lat, $long, $distance)->toArray();
+
+		} else {
+			$crimes = Crime::getAllCrimes($pdo)->toArray();
+			$reply->data = Crime::getAllCrimes($pdo)->toArray();
+		}
+	} else if($method === "PUT" || $method === "POST") {
+		// enforce the user has a XSRF token
+		verifyXsrf();
+
+		// enforce the user is signed in
+	}
+}
