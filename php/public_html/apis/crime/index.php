@@ -66,5 +66,18 @@ if(($method === "DELETE" || $method === "PUT") && (empty($id) === true)) {
 		verifyXsrf();
 
 		// enforce the user is signed in
+		if(empty($_SESSION["user"]) === true) {
+			throw(new \InvalidArgumentException("you must be logged in to star properties", 401));
+		}
+
+		$requestContent = file_get_contents("php://input");
+		// retrieves the JSON package that the frontend sent, and stores it in $requestContent. Here we are using file_get_contents("php://input") to get the request from the frontend. file_get_contents() is a PHP function that reads a file into a string. The argument for the function, here, is "php://input". This is a read-only stream that allows raw data to be read from the frontend request which is, in this case, a JSON package.
+		$requestObject = json_decode($requestContent);
+
+		// this line then decodes the JSON package and stores that result in $requestObject
+		// make sure crime incident report type is available (required field)
+		if(empty($requestObject->crimeType) === true) {
+			throw(new \InvalidArgumentException ("No type for crime incident report.", 405));
+		}
 	}
 }
