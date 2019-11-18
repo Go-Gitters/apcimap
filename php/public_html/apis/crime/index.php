@@ -87,6 +87,7 @@ if(($method === "DELETE" || $method === "PUT") && (empty($id) === true)) {
 
 		// perform the actual put or post
 		if($method === "PUT") {
+
 			// retrieve the crime incident report type to update
 			$crime = Crime::getCrimeByCrimeId($pdo, $id);
 			if($crime === null) {
@@ -94,10 +95,12 @@ if(($method === "DELETE" || $method === "PUT") && (empty($id) === true)) {
 			}
 
 			//enforce the end user has a JWT token
-			//enforce the user is signed in and only trying to edit their own tweet
-			if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $tweet->getTweetProfileId()->toString()) {
-				throw(new \InvalidArgumentException("You are not allowed to edit this tweet", 403));
+
+			//enforce the user is signed in and only trying to edit a crime incident report type
+			if(empty($_SESSION["user"]) === true || $_SESSION["user"]->getUserId()->toString() !== $crime->getCrimeByCrimeId()->toString()) {
+				throw(new \InvalidArgumentException("You are not allowed to edit this crime incident report type", 403));
 			}
+
 			validateJwtHeader();
 			// update all attributes
 			//$tweet->setTweetDate($requestObject->tweetDate);
