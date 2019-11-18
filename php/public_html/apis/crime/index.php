@@ -102,10 +102,12 @@ if(($method === "DELETE" || $method === "PUT") && (empty($id) === true)) {
 			}
 
 			validateJwtHeader();
+
 			// update all attributes
-			//$tweet->setTweetDate($requestObject->tweetDate);
-			$tweet->setTweetContent($requestObject->tweetContent);
-			$tweet->update($pdo);
+			$crime->setCrimeDate($requestObject->crimeDate);
+			$crime->setCrimeType($requestObject->crimeType);
+			$crime->update($pdo);
+
 			// update reply
 			$reply->message = "Tweet updated OK";
 		} else if($method === "POST") {
