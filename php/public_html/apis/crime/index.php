@@ -8,10 +8,10 @@ require_once dirname(__DIR__, 3) . "/lib/jwt.php";
 require_once dirname(__DIR__, 3) . "/lib/uuid.php";
 require_once("/etc/apache2/capstone-mysql/Secrets.php");
 
-use GoGitters\ApciMap\{User, Property, Crime, Star};
+use GoGitters\ApciMap\Crime;
 
 /**
- * api for Crime class
+ * API for Crime class
  *
  * @author Lisa Lee
  **/
@@ -124,7 +124,7 @@ if(($method === "DELETE" || $method === "PUT") && (empty($id) === true)) {
 			// enforce the end user has a JWT token
 			validateJwtHeader();
 
-			// create new tweet and insert into the database
+			// create new crime and insert into the database
 			$tweet = new Tweet(generateUuidV4(), $_SESSION["profile"]->getProfileId(), $requestObject->tweetContent, null);
 			$tweet->insert($pdo);
 			// update reply
