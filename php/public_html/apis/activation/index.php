@@ -80,9 +80,10 @@ try {
 	$reply->message = $typeError->getMessage();
 }
 
-
-
-
-
+// prepare and send the reply
+header("Content-type: application/json");
+if($reply->data === null){
+	unset($reply->data);
 
 }
+echo json_encode($reply);
