@@ -71,7 +71,7 @@ try {
 		// Retrieves the JSON package that the front end sent, and stores it in $requestContent. Here we are using file_get_contents("php://input") to get the request from the front end. file_get_contents() is a PHP function that reads a file into a string. The argument for the function, here, is "php://input". This is a read only stream that allows raw data to be read from the front end request which is, in this case, a JSON package.
 		$requestObject = json_decode($requestContent);
 		// This Line Then decodes the JSON package and stores that result in $requestObject
-		// Make sure tweet value is available (required field & the only field that can be updated)
+		// Make sure property value is available (required field & the only field that can be updated)
 		if(empty($requestObject->propertyValue) === true) {
 			throw(new \InvalidArgumentException ("No value for property.", 405));
 		}
@@ -98,16 +98,32 @@ try {
 			//POST method
 		} else if($method === "POST") {
 			// enforce the user is signed in
-			if(empty($_SESSION["profile"]) === true) {
-				throw(new \InvalidArgumentException("you must be logged in to post tweets", 403));
+			if(empty($_SESSION["user"]) === true) {
+				throw(new \InvalidArgumentException("you must be logged in to add properties", 403));
 			}
 			//enforce the end user has a JWT token
 			validateJwtHeader();
-			// create new tweet and insert into the database
-			$tweet = new Tweet(generateUuidV4(), $_SESSION["profile"]->getProfileId(), $requestObject->tweetContent, null);
-			$tweet->insert($pdo);
+			//enforce the fields all have values
+			if(empty($requestObject->propertyCity) === true) {
+				throw(new \InvalidArgumentException ("No property city.", 405));
+			}
+			if(empty($requestObject->propertyClass) === true) {
+				throw(new \InvalidArgumentException ("No property class.", 405));
+			}
+			if(empty($requestObject->propertyLatitude) === true) {
+				throw(new \InvalidArgumentException ("No property latitude.", 405));
+			}
+			if(empty($requestObject->propertyLongitude) === true) {
+				throw(new \InvalidArgumentException ("No property longitude.", 405));
+			}
+			if(empty($requestObject->propertyStreetAddress) === true) {
+				throw(new \InvalidArgumentException ("No property street address.", 405));
+			}
+			// create new property and insert into the database
+			$property = new Property(generateUuidV4(), $requestObject->propertyCity, $requestObject->propertyClass, $requestObject->propertyLatitude, $requestObject->propertyLongitude, $requestObject->propertyStreetAddress, $requestObject->propertyValue);
+			$property->insert($pdo);
 			// update reply
-			$reply->message = "Tweet created OK";
+			$reply->message = "Property created";
 		}
 	//Delete method
 	} else if($method === "DELETE") {
@@ -120,8 +136,10 @@ try {
 		}
 		//this is where a test to control delete access for only admins would be- something like
 //		if(empty($_SESSION["user"]) === true || $_SESSION["user"]->getUserEmail() !== "kylabendt@gmail.com" {
-//			throw(new \InvalidArgumentException("You are not allowed to delete this property", 403));
-//		}
+		//in the mean time, we'll just  make sure someone is a logged in user
+		if(empty($_SESSION["user"]) === true) {
+			throw(new \InvalidArgumentException("You are not allowed to delete this property", 403));
+		}
 		//enforce the end user has a JWT token
 		validateJwtHeader();
 		// delete tweet
