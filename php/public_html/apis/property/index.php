@@ -10,4 +10,18 @@ require_once("/etc/apache2/capstone-mysql/Secrets.php");
 use UssHopper\DataDesign\{Like, Profile, Tweet};
 use GoGitters\ApciMap\{Property};
 
+/**
+ * api for the Property Class
+ * @author Kyla Bendt <kylabendt@gmail.com>
+ *
+ **/
 
+
+//verify the session, start if not active
+if(session_status() !== PHP_SESSION_ACTIVE) {
+	session_start();
+}
+//prepare an empty reply
+$reply = new stdClass();
+$reply->status = 200;
+$reply->data = null;
