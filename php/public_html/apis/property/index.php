@@ -43,20 +43,22 @@ try {
 	}
 
 
-	// handle GET request - if id is present, that tweet is returned, otherwise all tweets are returned
+	// handle GET request - if id is present, that property is returned,
+	// if lat long & distance are present, properties within that are area returned
+	//if nothing is present, all properties are returned
 	if($method === "GET") {
 		//set XSRF cookie
 		setXsrfCookie();
-		//get a specific tweet or all tweets and update reply
+		//get a specific property if there is an id
 		if(empty($id) === false) {
-			$reply->data = Tweet::getTweetByTweetId($pdo, $id);
-		} else if(empty($tweetProfileId) === false) {
-			// if the user is logged in grab all the tweets by that user based  on who is logged in
-			$reply->data = Tweet::getTweetByTweetProfileId($pdo, $tweetProfileId);
-		} else if(empty($tweetContent) === false) {
-			$reply->data = Tweet::getTweetByTweetContent($pdo, $tweetContent)->toArray();
+			$reply->data = Property::getPropertyByPropertyId($pdo, $id);
+			//get property by distance if there is a lat, long & distance
+		} else if((empty($lat) === false) && (empty($long) === false) && (empty($distance) === false)){
+			$reply->data = Property::getPropertyByDistance($pdo, $lat, $long, $distance)->toArray();;
+			//otherwise return all properties
 		} else {
-			$tweets = Tweet::getAllTweets($pdo)->toArray();
+			$properties = Property::getAllProperties($pdo)->toArray();
+			//TODO: edit starting here!
 			$tweetProfiles = [];
 			foreach($tweets as $tweet){
 				$profile = 	Profile::getProfileByProfileId($pdo, $tweet->getTweetProfileId());
