@@ -37,5 +37,13 @@ try {
 	$lat = filter_input(INPUT_GET, "lat", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$long = filter_input(INPUT_GET, "long", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
+	// make sure the id is valid for methods that require it
+if(($method === "DELETE" || $method === "PUT") && (empty($id) === true)) {
+	throw(new InvalidArgumentException("id cannot be empty or negative", 402));
+}
+
+
+}
+
 
 
