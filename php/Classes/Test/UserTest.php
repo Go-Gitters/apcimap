@@ -63,14 +63,8 @@ class UserTest extends ApciMapTest {
 	 */
 	public function testInsertValidUser() : void {
 		// count the number of rows and save it for later
-		echo "in test error function";
 		$numRows = $this->getConnection()->getRowCount("user");
 		$userId = generateUuidV4();
-		echo $userId . "\n";
-		echo $this->VALID_ACTIVATION . "\n";
-		echo $this->VALID_EMAIL . "\n";
-		echo $this->VALID_HASH . "\n";
-		echo $this->VALID_USERNAME . "\n";
 		$user = new User($userId, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_USERNAME);
 		$user->insert($this->getPDO());
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -130,12 +124,6 @@ class UserTest extends ApciMapTest {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("user");
 		$userId = generateUuidV4();
-		echo $userId . "\n";
-		echo $this->VALID_ACTIVATION . "\n";
-		echo $this->VALID_EMAIL . "\n";
-		echo $this->VALID_HASH . "\n";
-		echo $this->VALID_USERNAME . "\n";
-
 		$user = new User ($userId, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_USERNAME);
 		$user->insert($this->getPDO());
 	// grab the data from mySQL and enforce the fields match our expectations
@@ -196,9 +184,6 @@ $this->assertEquals($pdoUser->getUserUsername(), $this->VALID_USERNAME);
 		$user->insert($this->getPDO());
 			// grab the data from mySQL and enforce the fields match our expectations
 		$results = User::getUserByUsername($this->getPDO(), $this->VALID_USERNAME);
-//		var_dump($userId);
-			var_dump("hellooooo", $user);
-			var_dump($results[0]);
 			$this->assertEquals($numRows +1, $this->getConnection()->getRowCount("user"));
 
 //enforce no other objects are bleeding into user
