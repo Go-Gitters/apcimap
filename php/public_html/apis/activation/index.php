@@ -25,5 +25,15 @@ try{
 	// check the HTTP method being used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
+	// sanitize input (never trust the end user)
+	$activation = filter_input(INPUT_GET, "activation", FILTER_SANITIZE_STRING);
+
+	// make sure the activation token is the corect size
+	if(strlen($activation) !== 32){
+		throw(new InvalidArgumentException("activation has an incorrect length", 405));
+	}
+
+	//
+
 
 }
