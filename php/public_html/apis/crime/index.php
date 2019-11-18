@@ -123,6 +123,7 @@ if(($method === "DELETE" || $method === "PUT") && (empty($id) === true)) {
 
 			// enforce the end user has a JWT token
 			validateJwtHeader();
+
 			// create new tweet and insert into the database
 			$tweet = new Tweet(generateUuidV4(), $_SESSION["profile"]->getProfileId(), $requestObject->tweetContent, null);
 			$tweet->insert($pdo);
