@@ -17,7 +17,7 @@ if(session_status() !== PHP_SESSION_ACTIVE){
 $reply = new stdClass();
 $reply->status = 200;
 $reply->data = null;
-try{
+try {
 	// grab the MySQL connection
 	$secrets = new \Secrets("/etc/apache2/capstone-mysql/map.ini");
 	$pdo = $secrets->getPdoObject();
@@ -29,7 +29,7 @@ try{
 	$activation = filter_input(INPUT_GET, "activation", FILTER_SANITIZE_STRING);
 
 	// make sure the activation token is the correct size
-	if(strlen($activation) !== 32){
+	if(strlen($activation) !== 32) {
 		throw(new InvalidArgumentException("activation has an incorrect length", 405));
 	}
 
@@ -39,7 +39,7 @@ try{
 	}
 
 	// handle the GET HTTP request
-	if($method === "GET"){
+	if($method === "GET") {
 
 		// set XSRF Cookie
 		setXsrfCookie();
@@ -48,7 +48,7 @@ try{
 		$user = User::getUserByUserActivationToken($pdo, $activation);
 
 		// verify the user is not null
-		if($user !== null){
+		if($user !== null) {
 
 			// make sure the activation token matches
 			if($activation === $user->getUserActivationToken()) {
@@ -62,8 +62,25 @@ try{
 				// set the reply for the end user
 				$reply->data = "Thank you for activating your account, you will be auto-redirected to your profile shortly.";
 			}
-		} else {}
+		} else {
+			// throw an exception if the activation token does not exist
+			throw(new InvalidArgumentException("Invalid HTTP method request", 404));
+		}
+	} else {
+		// throw an exception if the HTTP request is not a GET
+		throw(new InvalidArgumentException("Invalid HTTP method request", 403));
 	}
+
+	// update the reply objects status and message state variables if an exception or type exception was thrown;
+} catch (Exception $exception){
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
+} catch (TypeError $typeError) {
+	$reply->status = $typeError->getCode();
+	$reply->message = $typeError->getMessage();
+}
+
+
 
 
 
