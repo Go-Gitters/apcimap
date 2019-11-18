@@ -53,7 +53,7 @@ try {
 		$userActivationToken = bin2hex(random_bytes(16));
 		//create the user object and prepare to insert into the database
 		$user = new User(generateUuidV4(), $userActivationToken, $requestObject->userEmail, $hash, $requestObject->userUsername);
-		//insert the profile into the database
+		//insert the user into the database
 		$user->insert($pdo);
 		//compose the email message to send with th activation token
 		$messageSubject = "ApciMap Account Activation";
@@ -74,8 +74,7 @@ EOF;
 		$swiftMessage = new Swift_Message();
 		// attach the sender to the message
 		// this takes the form of an associative array where the email is the key to a real name
-		//TODO: Figure out email to use
-		$swiftMessage->setFrom(["gkephart@cnm.edu" => "ApciMap Team"]);
+		$swiftMessage->setFrom(["team@apcimap.com" => "ApciMap Team"]);
 		/**
 		 * attach recipients to the message
 		 * notice this is an array that can include or omit the recipient's name
@@ -83,7 +82,7 @@ EOF;
 		 * this reduces the probability of the email is marked as spam
 		 */
 		//define who the recipient is
-		$recipients = [$requestObject->profileEmail];
+		$recipients = [$requestObject->userEmail];
 		//set the recipient to the swift message
 		$swiftMessage->setTo($recipients);
 		//attach the subject line to the email message
@@ -119,7 +118,7 @@ EOF;
 			throw(new RuntimeException("unable to send email", 400));
 		}
 		// update reply
-		$reply->message = "Thank you for creating a profile with ApciMap";
+		$reply->message = "Thank you for signing up with ApciMap";
 	} else {
 		throw (new InvalidArgumentException("invalid http request"));
 	}
