@@ -85,9 +85,10 @@ try {
 			}
 			//enforce the end user has a JWT token
 			//enforce the user is signed in -- This is also where we could enforce the user is a particular user like an admin
-			if(empty($_SESSION["user"]) === true) {
-				throw(new \InvalidArgumentException("You are not allowed to edit this property", 403));
-			}
+			//TODO: uncomment this.  commented for testing
+//			if(empty($_SESSION["user"]) === true) {
+//				throw(new \InvalidArgumentException("You are not allowed to edit this property", 403));
+//			}
 			validateJwtHeader();
 			// update property value
 			$property->setPropertyValue($requestObject->propertyValue);
@@ -97,9 +98,10 @@ try {
 			//POST method
 		} else if($method === "POST") {
 			// enforce the user is signed in
-			if(empty($_SESSION["user"]) === true) {
-				throw(new \InvalidArgumentException("you must be logged in to add properties", 403));
-			}
+			//TODO: uncomment this.  commented for testing
+//			if(empty($_SESSION["user"]) === true) {
+//				throw(new \InvalidArgumentException("you must be logged in to add properties", 403));
+//			}
 			//enforce the end user has a JWT token
 			validateJwtHeader();
 			//enforce the fields all have values
@@ -136,9 +138,10 @@ try {
 		//this is where a test to control delete access for only admins would be- something like
 //		if(empty($_SESSION["user"]) === true || $_SESSION["user"]->getUserEmail() !== "kylabendt@gmail.com" {
 		//in the mean time, we'll just  make sure someone is a logged in user
-		if(empty($_SESSION["user"]) === true) {
-			throw(new \InvalidArgumentException("You are not allowed to delete this property", 403));
-		}
+		//TODO: uncomment this.  commented out for testing .
+//		if(empty($_SESSION["user"]) === true) {
+//			throw(new \InvalidArgumentException("You are not allowed to delete this property", 403));
+//		}
 		//enforce the end user has a JWT token
 		validateJwtHeader();
 		// delete property
