@@ -57,60 +57,45 @@ try {
 			$reply->data = Property::getPropertyByDistance($pdo, $lat, $long, $distance)->toArray();;
 			//otherwise return all properties
 		} else {
-			$properties = Property::getAllProperties($pdo)->toArray();
-			//TODO: edit starting here!
-			$tweetProfiles = [];
-			foreach($tweets as $tweet){
-				$profile = 	Profile::getProfileByProfileId($pdo, $tweet->getTweetProfileId());
-				$tweetProfiles[] = (object)[
-					"tweetId"=>$tweet->getTweetId(),
-					"tweetProfileId"=>$tweet->getTweetProfileId(),
-					"tweetContent"=>$tweet->getTweetContent(),
-					"tweetDate"=>$tweet->getTweetDate()->format("U.u") * 1000,
-					"profileAtHandle"=>$profile->getProfileAtHandle(),
-					"profileAvatarUrl"=>$profile->getProfileAvatarUrl(),
-				];
-			}
-			$reply->data = $tweetProfiles;
+			$reply->data = Property::getAllProperties($pdo)->toArray();
 		}
+		//handle PUT and POST requests
 	} else if($method === "PUT" || $method === "POST") {
 		// enforce the user has a XSRF token
 		verifyXsrf();
 		// enforce the user is signed in
-		if(empty($_SESSION["profile"]) === true) {
-			throw(new \InvalidArgumentException("you must be logged in to post tweets", 401));
+		if(empty($_SESSION["user"]) === true) {
+			throw(new \InvalidArgumentException("you must be logged in to change or add properties", 401));
 		}
 		$requestContent = file_get_contents("php://input");
 		// Retrieves the JSON package that the front end sent, and stores it in $requestContent. Here we are using file_get_contents("php://input") to get the request from the front end. file_get_contents() is a PHP function that reads a file into a string. The argument for the function, here, is "php://input". This is a read only stream that allows raw data to be read from the front end request which is, in this case, a JSON package.
 		$requestObject = json_decode($requestContent);
 		// This Line Then decodes the JSON package and stores that result in $requestObject
-		//make sure tweet content is available (required field)
-		if(empty($requestObject->tweetContent) === true) {
-			throw(new \InvalidArgumentException ("No content for Tweet.", 405));
+		// Make sure tweet value is available (required field & the only field that can be updated)
+		if(empty($requestObject->propertyValue) === true) {
+			throw(new \InvalidArgumentException ("No value for property.", 405));
 		}
-		// make sure tweet date is accurate (optional field)
-		if(empty($requestObject->tweetDate) === true) {
-			$requestObject->tweetDate = null;
-		}
+
 		//perform the actual put or post
+		//PUT updates the property value for an existing property - id and property value are required
 		if($method === "PUT") {
-			// retrieve the tweet to update
-			$tweet = Tweet::getTweetByTweetId($pdo, $id);
-			if($tweet === null) {
-				throw(new RuntimeException("Tweet does not exist", 404));
+			// retrieve the property to update
+			$property = Property::getPropertyByPropertyId($pdo, $id);
+			if($property === null) {
+				throw(new RuntimeException("Property does not exist", 404));
 			}
 			//enforce the end user has a JWT token
-			//enforce the user is signed in and only trying to edit their own tweet
-			if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $tweet->getTweetProfileId()->toString()) {
-				throw(new \InvalidArgumentException("You are not allowed to edit this tweet", 403));
+			//enforce the user is signed in -- This is also where we could enforce the user is a particular user like an admin
+			if(empty($_SESSION["user"]) === true) {
+				throw(new \InvalidArgumentException("You are not allowed to edit this property", 403));
 			}
 			validateJwtHeader();
-			// update all attributes
-			//$tweet->setTweetDate($requestObject->tweetDate);
-			$tweet->setTweetContent($requestObject->tweetContent);
-			$tweet->update($pdo);
+			// update property value
+			$property->setPropertyValue($requestObject->propertyValue);
+			$property->update($pdo);
 			// update reply
-			$reply->message = "Tweet updated OK";
+			$reply->message = "Property updated OK";
+			//POST method
 		} else if($method === "POST") {
 			// enforce the user is signed in
 			if(empty($_SESSION["profile"]) === true) {
