@@ -4,8 +4,7 @@ require_once dirname(__DIR__, 3) . "/Classes/autoload.php";
 require_once("/etc/apache2/capstone-mysql/Secrets.php");
 require_once dirname(__DIR__, 3) . "/lib/xsrf.php";
 require_once dirname(__DIR__, 3) . "/lib/uuid.php";
-require_once("/etc/apache2/capstone-mysql/Secrets.php");
-use UssHopper\DataDesign\Profile;
+use GoGitters\ApciMap\{User};
 /**
  * api for signing up to ApciMap
  *
@@ -48,34 +47,35 @@ try {
 		}
 		//make sure the password and confirm password match
 		if ($requestObject->userPassword !== $requestObject->userPasswordConfirm) {
-			throw(new \InvalidArgumentException("passwords do not match"));
+			throw(new \InvalidArgumentException("Passwords do not match"));
 		}
 		$hash = password_hash($requestObject->userPassword, PASSWORD_ARGON2I, ["time_cost" => 384]);
 		$userActivationToken = bin2hex(random_bytes(16));
-		//create the profile object and prepare to insert into the database
-		$profile = new Profile(generateUuidV4(), $profileActivationToken, $requestObject->profileAtHandle, "null", $requestObject->profileEmail, $hash, $requestObject->profilePhone);
+		//create the user object and prepare to insert into the database
+		$user = new User(generateUuidV4(), $userActivationToken, $requestObject->userEmail, $hash, $requestObject->userUsername);
 		//insert the profile into the database
-		$profile->insert($pdo);
+		$user->insert($pdo);
 		//compose the email message to send with th activation token
-		$messageSubject = "One step closer to Sticky Head -- Account Activation";
+		$messageSubject = "ApciMap Account Activation";
 		//building the activation link that can travel to another server and still work. This is the link that will be clicked to confirm the account.
 		//make sure URL is /public_html/api/activation/$activation
 		$basePath = dirname($_SERVER["SCRIPT_NAME"], 3);
 		//create the path
-		$urlglue = $basePath . "/apis/activation/?activation=" . $profileActivationToken;
+		$urlglue = $basePath . "/apis/activation/?activation=" . $userActivationToken;
 		//create the redirect link
 		$confirmLink = "https://" . $_SERVER["SERVER_NAME"] . $urlglue;
 		//compose message to send with email
 		$message = <<< EOF
-<h2>Welcome to DDCTwitter.</h2>
-<p>In order to start posting tweets of cats you must confirm your account </p>
+<h2>Welcome to ApciMap</h2>
+<p>In order to complete the sign up process, you must confirm your account by clicking on the link.</p>
 <p><a href="$confirmLink">$confirmLink</a></p>
 EOF;
 		//create swift email
 		$swiftMessage = new Swift_Message();
 		// attach the sender to the message
 		// this takes the form of an associative array where the email is the key to a real name
-		$swiftMessage->setFrom(["gkephart@cnm.edu" => "Gkephart"]);
+		//TODO: Figure out email to use
+		$swiftMessage->setFrom(["gkephart@cnm.edu" => "ApciMap Team"]);
 		/**
 		 * attach recipients to the message
 		 * notice this is an array that can include or omit the recipient's name
@@ -119,7 +119,7 @@ EOF;
 			throw(new RuntimeException("unable to send email", 400));
 		}
 		// update reply
-		$reply->message = "Thank you for creating a profile with DDC-Twitter";
+		$reply->message = "Thank you for creating a profile with ApciMap";
 	} else {
 		throw (new InvalidArgumentException("invalid http request"));
 	}
