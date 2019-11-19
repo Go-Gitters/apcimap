@@ -8,10 +8,10 @@ require_once dirname(__DIR__, 3) . "/lib/jwt.php";
 require_once dirname(__DIR__, 3) . "/lib/uuid.php";
 require_once("/etc/apache2/capstone-mysql/Secrets.php");
 
-use GoGitters\ApciMap\Crime;
+use GoGitters\ApciMap\{Crime};
 
 /**
- * API for Crime class
+ * API for the Crime class
  *
  * @author Lisa Lee
  **/
