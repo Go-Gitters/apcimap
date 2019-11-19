@@ -136,16 +136,16 @@ if(($method === "DELETE" || $method === "PUT") && (empty($id) === true)) {
 			throw(new RuntimeException("Crime incident report does not exist", 404));
 		}
 
-		// enforce the user is signed in and only trying to edit their own tweet
-		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $tweet->getTweetProfileId()->toString()) {
-			throw(new \InvalidArgumentException("You are not allowed to delete this tweet", 403));
+		// enforce the user is signed in and only trying to edit their own crime incident
+		if(empty($_SESSION["user"]) === true {
+			throw(new \InvalidArgumentException("You are not allowed to delete this crime incident report", 403));
 		}
 
 		// enforce the end user has a JWT token
 		validateJwtHeader();
 
-		// delete tweet
-		$tweet->delete($pdo);
+		// delete crime incident report
+		$crime->delete($pdo);
 
 		// update reply
 		$reply->message = "Tweet deleted OK";
