@@ -117,6 +117,23 @@ if(($method === "DELETE" || $method === "PUT") && (empty($id) === true)) {
 			// enforce the end user has a JWT token
 			validateJwtHeader();
 
+			// enforce the fields all have values
+			if(empty($requestObject->crimeAddress) === true) {
+				throw(new \InvalidArgumentException("No crime incident address.", 405));
+			}
+			if(empty($requestObject->crimeDate) === true) {
+				throw(new \InvalidArgumentException("No crime incident date.", 405));
+			}
+			if(empty($requestObject->crimeLatitude) === true) {
+				throw(new \InvalidArgumentException("No crime incident latitude.", 405));
+			}
+			if(empty($requestObject->crimeLongitude) === true) {
+				throw(new \InvalidArgumentException("No crime incident longitude.", 405));
+			}
+			if(empty($requestObject->crimeType) === true) {
+				throw(new \InvalidArgumentException("No crime incident type.", 405));
+			}
+
 			// create new crime incident report and insert into the database
 			$crime = new Crime(generateUuidV4(), $requestObject->crimeAddress, $requestObject->crimeDate, $requestObject->crimeLatitude, $requestObject->crimeLongitude, $requestObject->crimeType);
 			$crime->insert($pdo);
