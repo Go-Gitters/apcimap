@@ -54,12 +54,8 @@ if(($method === "DELETE" || $method === "PUT") && (empty($id) === true)) {
 			$reply->data = Crime::getCrimeByCrimeId($pdo, $id);
 
 		// get crime incident report by distance if there is a lat, long & distance
-		} else if((empty($lat) === false) && (empty($long === false) && (empty($distance === false)){
-				$reply->data = Crime::getCrimeByDistance($pdo, $lat, $long, $distance)->toArray();
-
-			// otherwise, return all crime report incidents
-		} else {
-			$reply->data = Crime::getAllCrimes($pdo)->toArray();
+		} else if((empty($lat) === false) && (empty($long) === false) && (empty($distance) === false)) {
+			$reply->data = Crime::getCrimeByDistance($pdo, $lat, $long, $distance)->toArray();
 		}
 
 		// handle PUT and POST requests
@@ -154,7 +150,7 @@ if(($method === "DELETE" || $method === "PUT") && (empty($id) === true)) {
 		}
 
 		// enforce the user is signed in and only trying to edit their own crime incident
-		if(empty($_SESSION["user"]) === true {
+		if(empty($_SESSION["user"]) === true) {
 			throw(new \InvalidArgumentException("You are not allowed to delete this crime incident report", 403));
 		}
 
