@@ -148,7 +148,7 @@ if(($method === "DELETE" || $method === "PUT") && (empty($id) === true)) {
 		$crime->delete($pdo);
 
 		// update reply
-		$reply->message = "Tweet deleted OK";
+		$reply->message = "Crime incident report deleted OK";
 	} else {
 		throw (new InvalidArgumentException("Invalid HTTP method request", 418));
 	}
