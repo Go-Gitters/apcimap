@@ -83,9 +83,9 @@ if(($method === "DELETE" || $method === "PUT") && (empty($id) === true)) {
 			throw(new \InvalidArgumentException ("No type for crime incident report.", 405));
 		}
 
-		// perform the actual put or post
+		// perform the actual PUT or POST
+		// PUT updates the crime type for an incident report - id and type are required
 		if($method === "PUT") {
-
 			// retrieve the crime incident report type to update
 			$crime = Crime::getCrimeByCrimeId($pdo, $id);
 			if($crime === null) {
@@ -93,19 +93,14 @@ if(($method === "DELETE" || $method === "PUT") && (empty($id) === true)) {
 			}
 
 			// enforce the end user has a JWT token
-
-			// enforce the user is signed in and only trying to edit a crime incident report type
-			if(empty($_SESSION["user"]) === true || $_SESSION["user"]->getUserId()->toString() !== $crime->getCrimeByCrimeId()->toString()) {
+			// enforce the user is signed in
+			if(empty($_SESSION["user"]) === true {
 				throw(new \InvalidArgumentException("You are not allowed to edit this crime incident report type", 403));
 			}
 
 			validateJwtHeader();
 
-			// update all attributes
-			$crime->setCrimeAddress($requestObject->crimeAddress);
-			$crime->setCrimeDate($requestObject->crimeDate);
-			$crime->setCrimeLatitude($requestObject->crimeLatitude);
-			$crime->setCrimeLongitude($requestObject->crimeLongitude);
+			// update crime incident report type
 			$crime->setCrimeType($requestObject->crimeType);
 			$crime->update($pdo);
 
