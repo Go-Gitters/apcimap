@@ -130,10 +130,10 @@ if(($method === "DELETE" || $method === "PUT") && (empty($id) === true)) {
 		// enforce that the end user has a XSRF token
 		verifyXsrf();
 
-		// retrieve the Tweet to be deleted
-		$tweet = Tweet::getTweetByTweetId($pdo, $id);
-		if($tweet === null) {
-			throw(new RuntimeException("Tweet does not exist", 404));
+		// retrieve the Crime incident report to be deleted
+		$crime = Crime::getCrimeByCrimeId($pdo, $id);
+		if($crime === null) {
+			throw(new RuntimeException("Crime incident report does not exist", 404));
 		}
 
 		// enforce the user is signed in and only trying to edit their own tweet
