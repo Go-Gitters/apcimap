@@ -94,7 +94,7 @@ if(($method === "DELETE" || $method === "PUT") && (empty($id) === true)) {
 
 			// enforce the end user has a JWT token
 			// enforce the user is signed in
-			if(empty($_SESSION["user"]) === true {
+			if(empty($_SESSION["user"]) === true) {
 				throw(new \InvalidArgumentException("You are not allowed to edit this crime incident report type", 403));
 			}
 
@@ -105,13 +105,13 @@ if(($method === "DELETE" || $method === "PUT") && (empty($id) === true)) {
 			$crime->update($pdo);
 
 			// update reply
-			$reply->message = "Crime incident report updated OK";
+			$reply->message = "Crime incident report type updated OK";
 
 		} else if($method === "POST") {
 
 			// enforce the user is signed in
 			if(empty($_SESSION["user"]) === true) {
-				throw(new \InvalidArgumentException("you must be logged in to star properties", 403));
+				throw(new \InvalidArgumentException("you must be logged in to add crimes", 403));
 			}
 
 			// enforce the end user has a JWT token
