@@ -57,11 +57,14 @@ if(($method === "DELETE" || $method === "PUT") && (empty($id) === true)) {
 		} else if((empty($lat) === false) && (empty($long === false) && (empty($distance === false)){
 				$reply->data = Crime::getCrimeByDistance($pdo, $lat, $long, $distance)->toArray();
 
+			// otherwise, return all crime report incidents
 		} else {
-			$crimes = Crime::getAllCrimes($pdo)->toArray();
 			$reply->data = Crime::getAllCrimes($pdo)->toArray();
 		}
+
+		// handle PUT and POST requests
 	} else if($method === "PUT" || $method === "POST") {
+
 		// enforce the user has a XSRF token
 		verifyXsrf();
 
