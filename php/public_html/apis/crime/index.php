@@ -117,38 +117,48 @@ if(($method === "DELETE" || $method === "PUT") && (empty($id) === true)) {
 			// enforce the end user has a JWT token
 			validateJwtHeader();
 
-			// create new crime and insert into the database
-			$tweet = new Tweet(generateUuidV4(), $_SESSION["profile"]->getProfileId(), $requestObject->tweetContent, null);
-			$tweet->insert($pdo);
+			// create new crime incident report and insert into the database
+			$crime = new Crime(generateUuidV4(), $requestObject->crimeAddress, $requestObject->crimeDate, $requestObject->crimeLatitude, $requestObject->crimeLongitude, $requestObject->crimeType);
+			$crime->insert($pdo);
+
 			// update reply
-			$reply->message = "Tweet created OK";
+			$reply->message = "Crime incident report created OK";
 		}
+
 	} else if($method === "DELETE") {
-		// enforce that the end user has a XSRF token.
+
+		// enforce that the end user has a XSRF token
 		verifyXsrf();
+
 		// retrieve the Tweet to be deleted
 		$tweet = Tweet::getTweetByTweetId($pdo, $id);
 		if($tweet === null) {
 			throw(new RuntimeException("Tweet does not exist", 404));
 		}
+
 		// enforce the user is signed in and only trying to edit their own tweet
 		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $tweet->getTweetProfileId()->toString()) {
 			throw(new \InvalidArgumentException("You are not allowed to delete this tweet", 403));
 		}
+
 		// enforce the end user has a JWT token
 		validateJwtHeader();
+
 		// delete tweet
 		$tweet->delete($pdo);
+
 		// update reply
 		$reply->message = "Tweet deleted OK";
 	} else {
 		throw (new InvalidArgumentException("Invalid HTTP method request", 418));
 	}
+
 // update the $reply->status $reply->message
 } catch(\Exception | \TypeError $exception) {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
 }
+
 // encode and return reply to front end caller
 header("Content-type: application/json");
 echo json_encode($reply);
