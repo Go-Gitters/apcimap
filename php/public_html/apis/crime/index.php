@@ -83,11 +83,6 @@ if(($method === "DELETE" || $method === "PUT") && (empty($id) === true)) {
 			throw(new \InvalidArgumentException ("No type for crime incident report.", 405));
 		}
 
-		// make sure crime incident report date is accurate (optional field)
-		if(empty($requestObject->crimeDate) === true) {
-			$requestObject->crimeDate = null;
-		}
-
 		// perform the actual put or post
 		if($method === "PUT") {
 
