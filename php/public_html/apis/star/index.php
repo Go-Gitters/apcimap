@@ -9,9 +9,9 @@ require_once dirname(__DIR__, 3) . "/lib/uuid.php";
 
 use GoGitters\ApciMap\{Star};
 /**
- * Api for the Like class
+ * API for the Star class
  *
- * @author george kephart
+ * @author Lisa Lee
  */
 //verify the session, start if not active
 if(session_status() !== PHP_SESSION_ACTIVE) {
@@ -22,14 +22,17 @@ $reply = new stdClass();
 $reply->status = 200;
 $reply->data = null;
 try {
-	$secrets = new \Secrets("/etc/apache2/capstone-mysql/ddctwitter.ini");
+	$secrets = new \Secrets("/etc/apache2/capstone-mysql/map.ini");
 	$pdo = $secrets->getPdoObject();
+
 	//determine which HTTP method was used
 	$method = $_SERVER["HTTP_X_HTTP_METHOD"] ?? $_SERVER["REQUEST_METHOD"];
+
 	//sanitize the search parameters
 	$likeProfileId = $id = filter_input(INPUT_GET, "likeProfileId", FILTER_SANITIZE_STRING,FILTER_FLAG_NO_ENCODE_QUOTES);
 	$likeTweetId = $id = filter_input(INPUT_GET, "likeTweetId", FILTER_SANITIZE_STRING,FILTER_FLAG_NO_ENCODE_QUOTES);
 	if($method === "GET") {
+
 		//set XSRF cookie
 		setXsrfCookie();
 		//gets  a specific like associated based on its composite key
