@@ -40,20 +40,20 @@ try {
 		//set XSRF cookie
 		setXsrfCookie();
 
-		//gets  a specific like associated based on its composite key
-		if ($likeProfileId !== null && $likeTweetId !== null) {
-			$like = Like::getLikeByLikeTweetIdAndLikeProfileId($pdo, $likeProfileId, $likeTweetId);
+		//gets a specific star associated based on its composite key
+		if ($starPropertyId !== null && $starUserId !== null) {
+			$star = Star::getStarByStarTweetIdAndStarProfileId($pdo, $likeProfileId, $likeTweetId);
 
 			if($like!== null) {
 				$reply->data = $like;
 			}
 			//if none of the search parameters are met throw an exception
 		} else if(empty($likeProfileId) === false) {
-			$reply->data = Like::getLikeByLikeProfileId($pdo, $likeProfileId)->toArray();
+			$reply->data = Star::getStarByStarProfileId($pdo, $likeProfileId)->toArray();
 
 			//get all the likes associated with the tweetId
 		} else if(empty($likeTweetId) === false) {
-			$reply->data = Like::getLikeByLikeTweetId($pdo, $likeTweetId)->toArray();
+			$reply->data = Star::getStarByStarTweetId($pdo, $likeTweetId)->toArray();
 		} else {
 			throw new InvalidArgumentException("incorrect search parameters ", 404);
 		}
@@ -65,15 +65,15 @@ try {
 		$requestObject = json_decode($requestContent);
 
 		if(empty($requestObject->likeProfileId) === true) {
-			throw (new \InvalidArgumentException("No Profile linked to the Like", 405));
+			throw (new \InvalidArgumentException("No Profile linked to the Star", 405));
 		}
 
 		if(empty($requestObject->likeTweetId) === true) {
-			throw (new \InvalidArgumentException("No tweet linked to the Like", 405));
+			throw (new \InvalidArgumentException("No tweet linked to the Star", 405));
 		}
 
 		if(empty($requestObject->likeDate) === true) {
-			$requestObject->LikeDate =  date("y-m-d H:i:s");
+			$requestObject->StarDate =  date("y-m-d H:i:s");
 		}
 
 		if($method === "POST") {
@@ -90,7 +90,7 @@ try {
 
 			validateJwtHeader();
 
-			$like = new Like($_SESSION["profile"]->getProfileId(), $requestObject->likeTweetId);
+			$like = new Star($_SESSION["profile"]->getProfileId(), $requestObject->likeTweetId);
 			$like->insert($pdo);
 			$reply->message = "liked tweet successful";
 
@@ -103,13 +103,13 @@ try {
 			validateJwtHeader();
 
 			//grab the like by its composite key
-			$like = Like::getLikeByLikeTweetIdAndLikeProfileId($pdo, $requestObject->likeProfileId, $requestObject->likeTweetId);
+			$like = Star::getStarByStarTweetIdAndStarProfileId($pdo, $requestObject->likeProfileId, $requestObject->likeTweetId);
 			if($like === null) {
-				throw (new RuntimeException("Like does not exist"));
+				throw (new RuntimeException("Star does not exist"));
 			}
 
 			//enforce the user is signed in and only trying to edit their own like
-			if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $like->getLikeProfileId()->toString()) {
+			if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $like->getStarProfileId()->toString()) {
 				throw(new \InvalidArgumentException("You are not allowed to delete this tweet", 403));
 			}
 
@@ -119,7 +119,7 @@ try {
 			$like->delete($pdo);
 
 			//update the message
-			$reply->message = "Like successfully deleted";
+			$reply->message = "Star successfully deleted";
 		}
 
 		// if any other HTTP request is sent throw an exception
