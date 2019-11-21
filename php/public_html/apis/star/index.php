@@ -71,7 +71,7 @@ try {
 		if(empty($requestObject->starPropertyId) === true) {
 			throw (new \InvalidArgumentException("No property linked to the star", 405));
 		}
-		// remove date request - since date not used in star class
+// remove date request - since date not used in star class
 //		if(empty($requestObject->starDate) === true) {
 //			$requestObject->StarDate =  date("y-m-d H:i:s.u");
 //		}
