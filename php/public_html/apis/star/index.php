@@ -33,7 +33,7 @@ try {
 	$method = $_SERVER["HTTP_X_HTTP_METHOD"] ?? $_SERVER["REQUEST_METHOD"];
 
 	//sanitize the search parameters
-	$starPropertyId = $id = filter_input(INPUT_GET, "starPropertyId", FILTER_SANITIZE_STRING,FILTER_FLAG_NO_ENCODE_QUOTES);
+	$starUserId = $id = filter_input(INPUT_GET, "starUserId", FILTER_SANITIZE_STRING,FILTER_FLAG_NO_ENCODE_QUOTES);
 	$starPropertyId = $id = filter_input(INPUT_GET, "starPropertyId", FILTER_SANITIZE_STRING,FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	if($method === "GET") {
@@ -71,10 +71,10 @@ try {
 		if(empty($requestObject->starPropertyId) === true) {
 			throw (new \InvalidArgumentException("No property linked to the star", 405));
 		}
-
-		if(empty($requestObject->starDate) === true) {
-			$requestObject->StarDate =  date("y-m-d H:i:s.u");
-		}
+		// remove date request - since date not used in star class
+//		if(empty($requestObject->starDate) === true) {
+//			$requestObject->StarDate =  date("y-m-d H:i:s.u");
+//		}
 
 		if($method === "POST") {
 			//enforce that the end user has a XSRF token.
