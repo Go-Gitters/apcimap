@@ -64,16 +64,16 @@ try {
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
-		if(empty($requestObject->starProfileId) === true) {
-			throw (new \InvalidArgumentException("No Profile linked to the Star", 405));
+		if(empty($requestObject->starUserId) === true) {
+			throw (new \InvalidArgumentException("No user linked to the star", 405));
 		}
 
-		if(empty($requestObject->starTweetId) === true) {
-			throw (new \InvalidArgumentException("No tweet linked to the Star", 405));
+		if(empty($requestObject->starPropertyId) === true) {
+			throw (new \InvalidArgumentException("No property linked to the star", 405));
 		}
 
 		if(empty($requestObject->starDate) === true) {
-			$requestObject->StarDate =  date("y-m-d H:i:s");
+			$requestObject->StarDate =  date("y-m-d H:i:s.u");
 		}
 
 		if($method === "POST") {
@@ -84,13 +84,13 @@ try {
 			//validateJwtHeader();
 
 			// enforce the user is signed in
-			if(empty($_SESSION["profile"]) === true) {
+			if(empty($_SESSION["user"]) === true) {
 				throw(new \InvalidArgumentException("you must be logged in to star posts", 403));
 			}
 
 			validateJwtHeader();
 
-			$star = new Star($_SESSION["profile"]->getProfileId(), $requestObject->starTweetId);
+			$star = new Star($_SESSION["user"]->getUserId(), $requestObject->starPropertyId);
 			$star->insert($pdo);
 			$reply->message = "starred property successful";
 
@@ -103,14 +103,14 @@ try {
 			validateJwtHeader();
 
 			//grab the star by its composite key
-			$star = Star::getStarByStarTweetIdAndStarProfileId($pdo, $requestObject->starProfileId, $requestObject->starTweetId);
+			$star = Star::getStarByStarPropertyIdAndStarUserId($pdo, $requestObject->starPropertyId, $requestObject->starUserId);
 			if($star === null) {
 				throw (new RuntimeException("Star does not exist"));
 			}
 
 			//enforce the user is signed in and only trying to edit their own star
-			if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $star->getStarProfileId()->toString()) {
-				throw(new \InvalidArgumentException("You are not allowed to delete this tweet", 403));
+			if(empty($_SESSION["user"]) === true || $_SESSION["user"]->getUserId()->toString() !== $star->getStarUserId()->toString()) {
+				throw(new \InvalidArgumentException("You are not allowed to delete this property", 403));
 			}
 
 			//validateJwtHeader();
