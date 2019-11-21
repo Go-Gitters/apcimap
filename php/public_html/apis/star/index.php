@@ -42,18 +42,18 @@ try {
 
 		//gets a specific star associated based on its composite key
 		if ($starPropertyId !== null && $starUserId !== null) {
-			$star = Star::getStarByStarTweetIdAndStarProfileId($pdo, $starProfileId, $starTweetId);
+			$star = Star::getStarByStarPropertyIdAndStarUserId($pdo, $starPropertyId, $starUserId);
 
 			if($star!== null) {
 				$reply->data = $star;
 			}
 			//if none of the search parameters are met throw an exception
-		} else if(empty($starProfileId) === false) {
-			$reply->data = Star::getStarByStarProfileId($pdo, $starProfileId)->toArray();
+		} else if(empty($starUserId) === false) {
+			$reply->data = Star::getStarByUserId($pdo, $starUserId)->toArray();
 
-			//get all the stars associated with the tweetId
-		} else if(empty($starTweetId) === false) {
-			$reply->data = Star::getStarByStarTweetId($pdo, $starTweetId)->toArray();
+			//get all the stars associated with the property Id
+		} else if(empty($starPropertyId) === false) {
+			$reply->data = Star::getStarByStarPropertyId($pdo, $starPropertyId)->toArray();
 		} else {
 			throw new InvalidArgumentException("incorrect search parameters ", 404);
 		}
