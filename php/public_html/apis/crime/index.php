@@ -66,7 +66,7 @@ if(($method === "DELETE" || $method === "PUT") && (empty($id) === true)) {
 
 		// enforce the user is signed in
 		if(empty($_SESSION["user"]) === true) {
-			throw(new \InvalidArgumentException("you must be logged in to star properties", 401));
+			throw(new \InvalidArgumentException("you must be logged in to change or add crime(s)", 401));
 		}
 
 		$requestContent = file_get_contents("php://input");
