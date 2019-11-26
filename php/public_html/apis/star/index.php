@@ -41,7 +41,7 @@ try {
 		setXsrfCookie();
 
 		//gets a specific star associated based on its composite key
-		if ($starPropertyId !== null && $starUserId !== null) {
+		if (($starPropertyId !== null) && ($starUserId !== null)) {
 			$star = Star::getStarByStarPropertyIdAndStarUserId($pdo, $starPropertyId, $starUserId);
 
 			if($star!== null) {
@@ -90,7 +90,7 @@ try {
 
 			validateJwtHeader();
 
-			$star = new Star($_SESSION["user"]->getUserId(), $requestObject->starPropertyId);
+			$star = new Star($requestObject->starPropertyId, $_SESSION["user"]->getUserId());
 			$star->insert($pdo);
 			$reply->message = "starred property successful";
 

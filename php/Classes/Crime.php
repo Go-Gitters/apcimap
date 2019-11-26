@@ -364,7 +364,6 @@ class Crime implements \JsonSerializable {
 	public function jsonSerialize() {
 		$fields = get_object_vars($this);
 		$fields["crimeId"] = $this->crimeId->toString();
-		return ($fields);
 		//format the date so that the front end can consume it
 		$fields["crimeDate"] = round(floatval($this->crimeDate->format("U.u")) * 1000);
 		return ($fields);

@@ -17,7 +17,7 @@ use Ramsey\Uuid\Uuid;
  * @version 0.0.1
  */
 
-class Star {
+class Star Implements \JsonSerializable {
 	use ValidateUuid;
 
 	/**
@@ -290,5 +290,10 @@ class Star {
 		return ($star);
 	}
 
-	//Closing bracket for Class!!!!!!!!!!!!!!!!!!!
+	public function jsonSerialize() {
+		$fields = get_object_vars($this);
+		$fields["starPropertyId"] = $this->starPropertyId->toString();
+		$fields["starUserId"] = $this->starUserId->toString();
+		return ($fields);
+	}
 }
