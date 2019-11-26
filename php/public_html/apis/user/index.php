@@ -24,7 +24,7 @@ $reply->status = 200;
 $reply->data = null;
 try {
 	//grab the mySQL connection
-	$secrets = new \Secrets("/etc/apache2/capstone-mysql/ddctwitter.ini");
+	$secrets = new \Secrets("/etc/apache2/capstone-mysql/map.ini");
 	$pdo = $secrets->getPdoObject();
 	//determine which HTTP method was used
 	$method = $_SERVER["HTTP_X_HTTP_METHOD"] ?? $_SERVER["REQUEST_METHOD"];
@@ -45,7 +45,7 @@ try {
 		if(empty($id) === false) {
 			$reply->data = User::getUserbyUserId($pdo, $id);
 		} else if(empty($userUsername) === false) {
-			$reply->data = User::getUserByUserUsername($pdo, $userUsername);
+			$reply->data = User::getUserByUsername($pdo, $userUsername);
 		} else if(empty($userEmail) === false) {
 			$reply->data = User::getUserByUserEmail($pdo, $userEmail);
 		}
