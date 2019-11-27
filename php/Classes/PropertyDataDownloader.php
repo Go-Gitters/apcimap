@@ -22,8 +22,18 @@ class PropertyDataDownloader {
 
 		foreach($newProperties as $value) {
 			$propertyId = generateUuidV4();
-			$property
-
+			$propertyCity = $value->propertyCity;
+			$propertyClass = $value->propertyClass;
+			$propertyLatitude= $value->propertyLatitude;
+			$propertyLongitude = $value->propertyLongitude;
+			$propertyStreetAddress = $value->propertyStreetAddress;
+			$propertyValue = $value->propertyValue;
+			try {
+				$property = new Property($propertyId, $propertyCity, $propertyClass, $propertyLatitude, $propertyLongitude, $propertyStreetAddress, $propertyValue);
+				$property->insert($pdo);
+			} catch(\TypeError $typeError) {
+				echo("Error Connecting to database");
+			}
 
 		}
 
