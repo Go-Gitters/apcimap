@@ -4,6 +4,8 @@
 namespace GoGitters\ApciMap;
 require_once(dirname(__DIR__) . "/vendor/autoload.php");
 require_once(dirname(__DIR__, 1) . "/lib/uuid.php");
+require_once("/etc/apache2/capstone-mysql/Secrets.php");
+require_once("./Property.php");
 
 
 /**
@@ -28,6 +30,11 @@ class PropertyDataDownloader {
 			$propertyId = generateUuidV4();
 			$propertyCity = $value->propertyCity;
 			$propertyClass = $value->propertyClass;
+			if ($propertyClass === "RES") {
+				$propertyClass = "R";
+			} else {
+				$propertyClass = "C";
+			}
 			$propertyLatitude= $value->propertyLatitude;
 			$propertyLongitude = $value->propertyLongitude;
 			$propertyStreetAddress = $value->propertyStreetAddress;
