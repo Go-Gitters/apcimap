@@ -19,7 +19,7 @@ class PropertyDataDownloader {
 	public static function pullProperties() {
 		$newProperties = null;
 		//url to get json data from
-		$urlBase = "https://bootcamp-coders.cnm.edu/~kbendt/apcimap/data/prop-small.json";
+		$urlBase = "https://bootcamp-coders.cnm.edu/~kbendt/apcimap/data/prop.json";
 		$secrets = new \Secrets("/etc/apache2/capstone-mysql/map.ini");
 		$pdo = $secrets->getPdoObject();
 
@@ -46,6 +46,7 @@ class PropertyDataDownloader {
 				echo("Error Connecting to database");
 			}
 		}
+		echo("Done");
 	}
 
 
