@@ -17,7 +17,7 @@ class PropertyDataDownloader {
 	public static function pullProperties() {
 		$newProperties = null;
 		//url to get json data from
-		$urlBase = "https://bootcamp-coders.cnm.edu/~kbendt/apcimap/data/prop.json";
+		$urlBase = "https://bootcamp-coders.cnm.edu/~kbendt/apcimap/data/prop-small.json";
 		$secrets = new \Secrets("/etc/apache2/capstone-mysql/map.ini");
 		$pdo = $secrets->getPdoObject();
 
@@ -42,28 +42,23 @@ class PropertyDataDownloader {
 	}
 
 
-	public static function readDataJson($url, $secret) {
+	public static function readDataJson($url) {
 		$context = stream_context_create(["http" => ["ignore_errors" => true, "method" => "GET"]]);
-		try {
-			//file-get-contents returns file in string context
-			if(($jsonData = file_get_contents($url, null, $context)) === false) {
-				throw(new \RuntimeException("url doesn't produce results"));
-			}
-			//decode the Json file
-			$jsonConverted = json_decode($jsonData);
-			//format
-			if(empty($jsonConverted->businesses) === false) {
-				$jsonFeatures = $jsonConverted->businesses;
-			} else {
-				$jsonFeatures = $jsonConverted->photos;
-			}
-			var_dump($jsonFeatures);
-			$newProperties = \SplFixedArray::fromArray($jsonFeatures);
-		} catch(\Exception $exception) {
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		//file-get-contents returns file in string context
+		if(($jsonData = file_get_contents($url, null, $context)) === false) {
+			throw(new \RuntimeException("url doesn't produce results"));
 		}
+		//decode the Json file
+		$jsonConverted = json_decode($jsonData);
+
+		//pull out the property array
+		$jsonFeatures = $jsonConverted->properties;
+		var_dump($jsonFeatures);
+		$newProperties = \SplFixedArray::fromArray($jsonFeatures);
 		return ($newProperties);
 	}
 
 
 }
+
+echo PropertyDataDownloader::pullProperties().PHP_EOL;
