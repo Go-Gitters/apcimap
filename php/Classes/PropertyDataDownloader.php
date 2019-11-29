@@ -67,6 +67,20 @@ class PropertyDataDownloader {
 		return ($newProperties);
 	}
 
+	/**
+	 * This function returns a count of rows in the property table
+	 * */
+	public static function propertyCount() {
+		$secrets = new \Secrets("/etc/apache2/capstone-mysql/map.ini");
+		$pdo = $secrets->getPdoObject();
+		$query = "SELECT COUNT(*) FROM property";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		$row = $statement->fetch();
+		echo("property count = " . $row['COUNT(*)']);
+	}
+
 
 }
 //url to get json data from
@@ -83,3 +97,4 @@ $url5 = "https://bootcamp-coders.cnm.edu/~kbendt/apcimap/data/prop5.json";
 //echo PropertyDataDownloader::pullProperties($url3).PHP_EOL;
 //echo PropertyDataDownloader::pullProperties($url4).PHP_EOL;
 //echo PropertyDataDownloader::pullProperties($url5).PHP_EOL;
+echo PropertyDataDownloader::propertyCount();
