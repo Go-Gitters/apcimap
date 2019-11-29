@@ -164,9 +164,12 @@ class Property implements \JsonSerializable {
 		//Right now, we're feeding in the data, but we'll do this anyway just in case that changes
 		$newPropertyCity = trim($newPropertyCity);
 		$newPropertyCity = filter_var($newPropertyCity, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newPropertyCity) === true) {
-			throw(new \InvalidArgumentException("property city is empty or insecure"));
-		}
+		//empty check is commented out so datadownloader can run
+		//plus, users can't make properties
+		//right now, we don't actually care if this field is empty
+		//		if(empty($newPropertyCity) === true) {
+//			throw(new \InvalidArgumentException("property city is empty or insecure"));
+//		}
 
 		//verify the content will fit in the database
 		if(strlen($newPropertyCity) > 80) {
@@ -295,9 +298,10 @@ class Property implements \JsonSerializable {
 		//Right now, we're feeding in the data, but we'll do this anyway just in case that changes
 		$newPropertyStreetAddress = trim($newPropertyStreetAddress);
 		$newPropertyStreetAddress = filter_var($newPropertyStreetAddress, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newPropertyStreetAddress) === true) {
-			throw(new \InvalidArgumentException("property street address is empty or insecure"));
-		}
+		//Commented out so datadownloader can run.  Plus, we don't care if the street address is empty
+//		if(empty($newPropertyStreetAddress) === true) {
+//			throw(new \InvalidArgumentException("property street address is empty or insecure"));
+//		}
 
 		//verify the content will fit in the database
 		if(strlen($newPropertyStreetAddress) > 134) {
