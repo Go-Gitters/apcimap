@@ -61,7 +61,6 @@ class PropertyDataDownloader {
 
 		//pull out the property array
 		$jsonFeatures = $jsonConverted->properties;
-		var_dump($jsonFeatures);
 		$newProperties = \SplFixedArray::fromArray($jsonFeatures);
 		return ($newProperties);
 	}
