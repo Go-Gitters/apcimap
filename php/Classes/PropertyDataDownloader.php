@@ -14,12 +14,14 @@ require_once("./Property.php");
 class PropertyDataDownloader {
 
 	/**
-	* This function loops through the properties and puts each one in the database
-	**/
-	public static function pullProperties() {
+	 * This function loops through the properties and puts each one in the database
+	 *
+	 * @param $urlBase string url to get json data from
+	 * @throws \Exception
+	 */
+	public static function pullProperties($urlBase) {
 		$newProperties = null;
-		//url to get json data from
-		$urlBase = "https://bootcamp-coders.cnm.edu/~kbendt/apcimap/data/prop.json";
+
 		$secrets = new \Secrets("/etc/apache2/capstone-mysql/map.ini");
 		$pdo = $secrets->getPdoObject();
 
@@ -67,5 +69,17 @@ class PropertyDataDownloader {
 
 
 }
+//url to get json data from
+$url1 = "https://bootcamp-coders.cnm.edu/~kbendt/apcimap/data/prop1.json";
+$url2 = "https://bootcamp-coders.cnm.edu/~kbendt/apcimap/data/prop2.json";
+$url3 = "https://bootcamp-coders.cnm.edu/~kbendt/apcimap/data/prop3.json";
+$url4 = "https://bootcamp-coders.cnm.edu/~kbendt/apcimap/data/prop4.json";
+$url5 = "https://bootcamp-coders.cnm.edu/~kbendt/apcimap/data/prop5.json";
 
-echo PropertyDataDownloader::pullProperties().PHP_EOL;
+//TODO: uncomment 5 lines below to rerun import
+
+//echo PropertyDataDownloader::pullProperties($url1).PHP_EOL;
+//echo PropertyDataDownloader::pullProperties($url2).PHP_EOL;
+//echo PropertyDataDownloader::pullProperties($url3).PHP_EOL;
+//echo PropertyDataDownloader::pullProperties($url4).PHP_EOL;
+//echo PropertyDataDownloader::pullProperties($url5).PHP_EOL;
