@@ -31,7 +31,18 @@ class CrimeDataDownloader {
 			$crimeId = generateUuidV4();
 			$crimeAddress = $value->crimeAddress;
 			$crimeDate = $value->crimeDate;
-			$crimeLatitude =
+			$crimeLatitude = $value->crimeLatitude;
+			$crimeLongitude = $value->crimeLongitude;
+			$crimeType = $value->crimeType;
+			try {
+				$crime = new Crime($crimeId, $crimeAddress, $crimeDate, $crimeLatitude, $crimeLongitude, $crimeType);
+				$crime->insert($pdo);
+			} catch(\TypeError $typeError) {
+				echo("Error connecting to database");
+			}
 		}
-		}
+		echo("Done");
+	}
+
+	public static function read
 }
