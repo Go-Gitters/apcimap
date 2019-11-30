@@ -1,27 +1,37 @@
 <?php
 
 namespace GoGitters\ApciMap;
-
-/**
- * Documenting our crime class identifiers compared to our data class identifiers
- *
- * $crimeId = "OBJECTID"
- * $crimeAddress = "CV_BLOCK_ADD"
- * $crimeDate = "date"
- * $crimeLatitude = ""
- * $crimeLongitude = ""
- * $crimeType = "CVINC_TYPE"
- **/
-
 require_once("autoload.php");
 require_once(dirname(__DIR__) . "/vendor/autoload.php");
+require_once(dirname(__DIR__, 1) . "/lib/uuid.php");
 require_once("/etc/apache2/capstone-mysql/Secrets.php");
-require_once(dirname(__DIR__, 2) . "/php/lib/uuid.php");
+require_once("./Crime.php");
 
-class DataDownloader {
-	public static function pullCrime() {
+/**
+ * This class takes the crime incident reports data as a JSON format and sticks it in the database
+ */
+class CrimeDataDownloader {
+
+	/**
+	 * This function loops through the crime incident reports and puts each one in the database
+	 *
+	 * @param $urlBase string url to get json data from
+	 * @throws \Exception
+	 */
+	public static function pullCrimes($urlBase) {
 		$newCrimes = null;
-		$urlBase = "../../images/crimes.json";
-		$secrets = new \Secrets("/etc/apache2/capstone-mysql/")
-	}
+
+		$secrets = new \Secrets("/etc/apache2/capstone-mysql/map.ini");
+		$pdo = $secrets->getPdoObject();
+
+		$crimes = self::readDataJson($urlBase);
+
+		// loop through crime incident reports and put each one in the database
+		foreach($newCrimes as $value) {
+			$crimeId = generateUuidV4();
+			$crimeAddress = $value->crimeAddress;
+			$crimeDate = $value->crimeDate;
+			$crimeLatitude =
+		}
+		}
 }
