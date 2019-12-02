@@ -116,8 +116,7 @@ function getUserActivationToken(): ?string {
  * @throws \RangeException if the token is not exactly 32 characters
  * @throws \TypeError if the activation token is not a string
  */
-public
-function setUserActivationToken(?string $newUserActivationToken): void {
+public function setUserActivationToken(?string $newUserActivationToken): void {
 	if($newUserActivationToken === null) {
 		$this->userActivationToken = null;
 		return;
@@ -207,9 +206,8 @@ function setUserHash(string $newUserHash): void {
 /**Accessor method for userUsername
  * @return string value of username
  **/
-Public
-function getUserUsername(): string {
-	return $this->userUsername;
+Public function getUserUsername(): string {
+	return ($this->userUsername);
 }
 
 /**
@@ -354,7 +352,7 @@ public function setUserUsername(string $newUserUsername): void {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getUserByUsername(\PDO $pdo, string $userUsername): \SPLFixedArray {
+	public static function getUserByUserUsername(\PDO $pdo, string $userUsername): \SPLFixedArray {
 		// sanitize the username before searching
 		$userUsername = trim($userUsername);
 		$userUsername = filter_var($userUsername, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);

@@ -1,4 +1,5 @@
 <?php
+
 require_once dirname(__DIR__, 3) . "/vendor/autoload.php";
 require_once dirname(__DIR__, 3) . "/Classes/autoload.php";
 require_once("/etc/apache2/capstone-mysql/Secrets.php");
@@ -6,6 +7,7 @@ require_once dirname(__DIR__, 3) . "/lib/xsrf.php";
 require_once dirname(__DIR__, 3) . "/lib/jwt.php";
 require_once dirname(__DIR__, 3) . "/lib/uuid.php";
 require_once("/etc/apache2/capstone-mysql/Secrets.php");
+
 use GoGitters\ApciMap\User;
 
 /**
@@ -22,12 +24,15 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 $reply = new stdClass();
 $reply->status = 200;
 $reply->data = null;
+
 try {
 	//grab the mySQL connection
 	$secrets = new \Secrets("/etc/apache2/capstone-mysql/map.ini");
 	$pdo = $secrets->getPdoObject();
+
 	//determine which HTTP method was used
 	$method = $_SERVER["HTTP_X_HTTP_METHOD"] ?? $_SERVER["REQUEST_METHOD"];
+
 	// sanitize input
 	$id = filter_input(INPUT_GET, "userId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$userUsername = filter_input(INPUT_GET, "userUsername", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -44,8 +49,10 @@ try {
 		//gets a post by content
 		if(empty($id) === false) {
 			$reply->data = User::getUserbyUserId($pdo, $id);
+
 		} else if(empty($userUsername) === false) {
-			$reply->data = User::getUserByUsername($pdo, $userUsername);
+			$reply->data = User::getUserByUserUsername($pdo, $userUsername);
+
 		} else if(empty($userEmail) === false) {
 			$reply->data = User::getUserByUserEmail($pdo, $userEmail);
 		}
@@ -55,6 +62,7 @@ try {
 		verifyXsrf();
 		//enforce the end user has a JWT token
 		//validateJwtHeader();
+
 		//enforce the user is signed in and only trying to edit their own user account
 		if(empty($_SESSION["user"]) === true || $_SESSION["user"]->getUserId()->toString() !== $id) {
 			throw(new \InvalidArgumentException("You are not allowed to access this user account", 403));
@@ -64,6 +72,7 @@ try {
 		//decode the response from the front end
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
+
 		//retrieve the user to be updated
 		$user = User::getUserByUserId($pdo, $id);
 		if($user === null) {
@@ -89,8 +98,7 @@ try {
 	} elseif($method === "DELETE") {
 		//verify the XSRF Token
 		verifyXsrf();
-		//enforce the end user has a JWT token
-		//validateJwtHeader();
+
 		$user = User::getUserByUserId($pdo, $id);
 		if($user === null) {
 			throw (new RuntimeException("User does not exist"));
