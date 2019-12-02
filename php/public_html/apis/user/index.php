@@ -83,6 +83,7 @@ try {
 		if(empty($requestObject->userUsername) === true) {
 			throw(new \InvalidArgumentException ("No username", 405));
 		}
+
 		//user email is a required field
 		if(empty($requestObject->userEmail) === true) {
 			throw(new \InvalidArgumentException ("No user email present", 405));
