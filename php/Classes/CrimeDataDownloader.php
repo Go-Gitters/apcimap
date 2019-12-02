@@ -28,6 +28,7 @@ class CrimeDataDownloader {
 
 		// loop through crime incident reports and put each one in the database
 		foreach($newCrimes as $value) {
+			if(empty($value->geometry) === false) {
 			$crimeId = generateUuidV4();
 			$crimeAddress = $value->attributes->BlockAddress;
 			$mil = $value->attributes->date;
@@ -40,7 +41,11 @@ class CrimeDataDownloader {
 				$crime = new Crime($crimeId, $crimeAddress, $crimeDate, $crimeLatitude, $crimeLongitude, $crimeType);
 				$crime->insert($pdo);
 			} catch(\TypeError $typeError) {
-				echo("Error connecting to database");
+//				echo("Error connecting to database");
+				echo(var_dump($crimeAddress));
+			}
+			} else {
+				continue;
 			}
 		}
 		echo("Done");
@@ -76,7 +81,7 @@ class CrimeDataDownloader {
 	}
 }
 // url to get json data from
-$url = "https://bootcamp-coders.cnm.edu/~llee28/apcimap/data/crime.json";
+$url = "https://bootcamp-coders.cnm.edu/~llee28/apcimap/data/crimeAll.json";
 
 echo CrimeDataDownloader::pullCrimes($url).PHP_EOL;
 echo CrimeDataDownloader::crimeCount();
