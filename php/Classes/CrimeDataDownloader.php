@@ -24,16 +24,18 @@ class CrimeDataDownloader {
 		$secrets = new \Secrets("/etc/apache2/capstone-mysql/map.ini");
 		$pdo = $secrets->getPdoObject();
 
-		$crimes = self::readDataJson($urlBase);
+		$newCrimes = self::readDataJson($urlBase);
 
 		// loop through crime incident reports and put each one in the database
 		foreach($newCrimes as $value) {
 			$crimeId = generateUuidV4();
-			$crimeAddress = $value->crimeAddress;
-			$crimeDate = $value->crimeDate;
-			$crimeLatitude = $value->crimeLatitude;
-			$crimeLongitude = $value->crimeLongitude;
-			$crimeType = $value->crimeType;
+			$crimeAddress = $value->attributes->BlockAddress;
+			$mil = $value->attributes->date;
+			$seconds = $mil / 1000;
+			$crimeDate = date("Y-m-d H:i:s", $seconds);
+			$crimeLatitude = $value->geometry->y;
+			$crimeLongitude = $value->geometry->x;
+			$crimeType = $value->attributes->IncidentType;
 			try {
 				$crime = new Crime($crimeId, $crimeAddress, $crimeDate, $crimeLatitude, $crimeLongitude, $crimeType);
 				$crime->insert($pdo);
@@ -54,7 +56,7 @@ class CrimeDataDownloader {
 		$jsonConverted = json_decode($jsonData);
 
 		// pull out the crime incident reports array
-		$jsonFeatures = $jsonConverted->crimes;
+		$jsonFeatures = $jsonConverted->features;
 		$newCrimes = \SplFixedArray::fromArray($jsonFeatures);
 		return ($newCrimes);
 	}
@@ -74,6 +76,7 @@ class CrimeDataDownloader {
 	}
 }
 // url to get json data from
-$url1 = "https://bootcamp-coders.cnm.edu/~llee28/apcimap/data/crime.json";
+$url = "https://bootcamp-coders.cnm.edu/~llee28/apcimap/data/crime.json";
 
+echo CrimeDataDownloader::pullCrimes($url).PHP_EOL;
 echo CrimeDataDownloader::crimeCount();
