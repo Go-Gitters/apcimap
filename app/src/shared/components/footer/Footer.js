@@ -2,7 +2,8 @@ import React from "react";
 
 import {Link} from "react-router-dom";
 
-import "../../../index.css";
+
+// import "../../../index.css";
 
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
@@ -15,12 +16,11 @@ export const Footer = () => (
 	<>
 		<footer className="page-footer text-muted py-2 py-md-4">
 			<Row>
-				<Col>About Us</Col>
-				<Col>Source Code on GitHub</Col>
-				<Col>License</Col>
+				<Col class="footer-link" href="#about-us">About Us</Col>
+				<Col class="footer-link" href="#github">Source Code on GitHub</Col>
 			</Row>
 			<Row>
-				<Col>by Go-Gitters – a CNM Deep Dive Bootcampp group</Col>
+				<Col id="group-name">by Go-Gitters – a CNM Deep Dive Bootcamp group</Col>
 			</Row>
 			{/*<Container fluid="true">*/}
 			{/*	<Row>*/}
