@@ -6,6 +6,10 @@ import {Route, Switch} from "react-router";
 import {FourOhFour} from "./pages/four-oh-four/FourOhFour";
 import {Home} from "./pages/home/Home";
 
+
+
+import {Footer} from "./shared/components/footer/Footer";
+
 const Routing = () => (
 	<>
 		<BrowserRouter>
@@ -13,6 +17,7 @@ const Routing = () => (
 				<Route exact path="/" component={Home}/>
 				<Route component={FourOhFour}/>
 			</Switch>
+			<Footer/>
 		</BrowserRouter>
 	</>
 );
