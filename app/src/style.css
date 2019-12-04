@@ -15,6 +15,6 @@
 	text-align: center;
 }
 
-h2 Card.Body {
+.dataset-name {
 	text-decoration: underline;
 }
