@@ -11,12 +11,14 @@ import {Home} from "./pages/home/Home";
 // import ModalFooter from 'react-bootstrap/ModalFooter';
 
 import {Footer} from "./shared/components/footer/Footer";
+import {About} from "./pages/about/About";
 
 const Routing = () => (
 	<>
 		<BrowserRouter>
 			<Switch>
 				<Route exact path="/" component={Home}/>
+				<Route exact path="/about" component={About}/>
 				<Route component={FourOhFour}/>
 			</Switch>
 			<Footer/>
