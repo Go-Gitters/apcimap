@@ -7,6 +7,7 @@ import {FourOhFour} from "./pages/four-oh-four/FourOhFour";
 import {Home} from "./pages/home/Home";
 
 
+// import ModalFooter from 'react-bootstrap/ModalFooter';
 
 import {Footer} from "./shared/components/footer/Footer";
 
