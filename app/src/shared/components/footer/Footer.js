@@ -20,27 +20,27 @@ library.add(faInfoCircle, faGithub, faEnvelope, faUserFriends);
 
 export const Footer = () => (
 	<>
-		<footer className="page-footer bg-dark fixed-bottom justify-content-center">
+		<footer className="page-footer bg-dark fixed-bottom">
 			<Container className="container">
 				<Row id="icons">
 					<Col>
 						<a href="https://apcimap.com">
-							<i><FontAwesomeIcon icon={faInfoCircle} size="2x" justify-content-center /></i>
+							<i><FontAwesomeIcon icon={faInfoCircle} size="2x" /></i>
 						</a>
 					</Col>
 					<Col>
 						<a href="https://github.com/Go-Gitters/apcimap">
-							<i><FontAwesomeIcon icon={faGithub} size="2x" justify-content-center /></i>
+							<i><FontAwesomeIcon icon={faGithub} size="2x" /></i>
 						</a>
 					</Col>
 					<Col>
 						<a href="mailto:apcimap@gmail.com">
-							<i><FontAwesomeIcon icon={faEnvelope} size="2x" justify-content-center /></i>
+							<i><FontAwesomeIcon icon={faEnvelope} size="2x" /></i>
 						</a>
 					</Col>
 					<Col>
 						<a href="https://apcimap.com">
-							<i><FontAwesomeIcon icon={faUserFriends} size="2x" justify-content-center /></i>
+							<i><FontAwesomeIcon icon={faUserFriends} size="2x" /></i>
 						</a>
 					</Col>
 				</Row>
