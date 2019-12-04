@@ -4,6 +4,8 @@ import {Link} from "react-router-dom";
 
 
 // import "../../../index.css";
+import "../../../style.css";
+
 
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
@@ -15,9 +17,9 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 export const Footer = () => (
 	<>
 		<footer className="page-footer text-muted py-2 py-md-4">
-			<Row>
-				<Col class="footer-link" href="#about-us">About Us</Col>
-				<Col class="footer-link" href="#github">Source Code on GitHub</Col>
+			<Row id="footer-links">
+				<Col id="about-link" href="#about-us">About Us</Col>
+				<Col id="github-link" href="#github">Source Code on GitHub</Col>
 			</Row>
 			<Row>
 				<Col id="group-name">by Go-Gitters – a CNM Deep Dive Bootcamp group</Col>
