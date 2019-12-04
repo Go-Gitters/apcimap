@@ -1,7 +1,8 @@
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {FormDebugger} from "../../FormDebugger";
 import React from "react";
 
-export const SignInFormContent = (props) => {
+export const LoginFormContent = (props) => {
 	const {
 		status,
 		values,
@@ -87,3 +88,6 @@ export const SignInFormContent = (props) => {
 		</>
 	)
 };
+
+export class loginFormContent {
+}

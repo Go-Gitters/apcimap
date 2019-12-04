@@ -1,12 +1,13 @@
 import React from 'react';
+import {httpConfig} from "../../../utils/http-config";
 import {Formik} from "formik/dist/index";
 import * as Yup from "yup";
-import {SignInFormContent} from "./SignInFormContent";
-import {httpConfig} from "../../utils/http-config";
+import {loginFormContent} from "./loginFormContent";
 
-export const SignInForm = () => {
+
+export const loginForm = () => {
 	//the initial values object defines what the request payload is.
-	const signIn = {
+	const login = {
 		userEmail: "",
 		userHash: ""
 	};
@@ -19,7 +20,7 @@ export const SignInForm = () => {
 			.min(8, "Password must be at least 8 characters")
 	});
 
-	const submitSignIn = (values, {resetForm, setStatus}) => {
+	const submitLogin = (values, {resetForm, setStatus}) => {
 		httpConfig.post("/apis/log-in/", values)
 			.then(reply => {
 				let {message, type} = reply;
@@ -46,7 +47,7 @@ export const SignInForm = () => {
 			onSubmit={submitLogin}
 			validationSchema={validator}
 		>
-			{SignInFormContent}
+			{loginFormContent}
 		</Formik>
 	)
 };
