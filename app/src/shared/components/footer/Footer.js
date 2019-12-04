@@ -3,7 +3,6 @@ import React from "react";
 import {Link} from "react-router-dom";
 
 
-// import "../../../index.css";
 import "../../../style.css";
 
 
@@ -16,24 +15,45 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 export const Footer = () => (
 	<>
-		<footer className="page-footer text-muted py-2 py-md-4">
-			<Row id="footer-links">
-				<Col id="about-link" href="#about-us">About Us</Col>
-				<Col id="github-link" href="#github">Source Code on GitHub</Col>
-			</Row>
-			<Row>
-				<Col id="group-name">by Go-Gitters – a CNM Deep Dive Bootcamp group</Col>
-			</Row>
-			{/*<Container fluid="true">*/}
-			{/*	<Row>*/}
-			{/*		<Col className="text-center">*/}
-			{/*			<FontAwesomeIcon icon={['fab', 'github']}/> &nbsp;*/}
+		<footer className="page-footer bg-dark fixed-bottom">
+			{/*<Row id="footer-links">*/}
+			{/*	<Col id="about-link" href="#about-us">About Us</Col>*/}
+			{/*	<Col id="github-link" href="#github">Source Code on GitHub</Col>*/}
+			{/*</Row>*/}
 
-			{/*			<a href="https://github.com/Go-Gitters/apcimap" className="text-muted" target="_blank"*/}
-			{/*				rel="noopener noreferrer">Source Code on GitHub</a>*/}
-			{/*		</Col>*/}
-			{/*	</Row>*/}
-			{/*</Container>*/}
+			<Container fluid="true">
+				<Row>
+					<Col>
+						<a className="d-none d-lg-block float-left"
+							rel="noopener noreferrer">APCIMAP Project Information</a>
+
+						<FontAwesomeIcon icon={['fab', 'github']}/> &nbsp;
+						<a href="https://github.com/Go-Gitters/apcimap" className="text-muted" target="_blank"
+							rel="noopener noreferrer">Source Code on GitHub</a>
+					</Col>
+					<Col>
+						<FontAwesomeIcon icon={['fab', 'github']}/> &nbsp;
+						<a href="https://github.com/Go-Gitters/apcimap" className="text-muted" target="_blank"
+							rel="noopener noreferrer">Source Code on GitHub</a>
+					</Col>
+					<Col>
+						<FontAwesomeIcon icon={['fab', 'github']}/> &nbsp;
+						<a href="https://github.com/Go-Gitters/apcimap" className="text-muted" target="_blank"
+							rel="noopener noreferrer">Source Code on GitHub</a>
+					</Col>
+					<Col>
+						<FontAwesomeIcon icon={['fab', 'github']}/> &nbsp;
+						<a href="https://github.com/Go-Gitters/apcimap" className="text-muted" target="_blank"
+							rel="noopener noreferrer">Source Code on GitHub</a>
+					</Col>
+				</Row>
+
+				<Row>
+					<Col id="group-name">by Go-Gitters – a CNM Deep Dive Bootcamp group</Col>
+				</Row>
+
+			</Container>
+
 		</footer>
 	</>
 );
