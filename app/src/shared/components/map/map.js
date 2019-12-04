@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import ReactMapGL from 'react-map-gl';
+import ReactMapGL, {Source, Layer} from 'react-map-gl';
 
 
 export const Map = () => {
@@ -20,7 +20,11 @@ export const Map = () => {
 				onViewportChange={(viewport) => {
 					setMapboxViewport((viewport))
 				}}
-			/>
+			>
+				<Source type="geojson" data={data}>
+					<Layer {...dataLayer} />
+				</Source>
+			</ReactMapGL>
 		</>
 	);
 }
