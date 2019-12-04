@@ -47,7 +47,7 @@ export const Footer = () => (
 					</Row>
 				</div>
 				<Row>
-					<Col id="group-name">By Go-Gitters – CNM Deep Dive Bootcamp Group</Col>
+					<Col id="group-name">By Go-Gitters – CNM Ingenuity Deep Dive Bootcamp Group</Col>
 				</Row>
 			</Container>
 		</footer>
