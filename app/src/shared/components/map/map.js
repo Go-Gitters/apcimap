@@ -1,5 +1,7 @@
 import React, {useState} from "react";
-import ReactMapGL, {Source, Layer} from 'react-map-gl';
+import MapGL, {Marker, Source, Layer} from 'react-map-gl';
+import {crimeLayer, dataLayer} from "./map-style";
+import CRIMES from './crimes';
 
 
 export const Map = () => {
@@ -12,7 +14,7 @@ export const Map = () => {
 	});
 	return (
 		<>
-			<ReactMapGL
+			<MapGL
 				className="border border-dark d-inline-block"
 				mapboxApiAccessToken='pk.eyJ1Ijoia3lsYWJlbmR0IiwiYSI6ImNrM25oZW5hMjFnYm4zbG40d3ljNWRwMTUifQ.vZe28vwUNPkzafr1vuHDtQ'
 				mapStyle={'mapbox://styles/kylabendt/ck3ni0wwo4fxi1cpv0qchtsml'}
@@ -21,10 +23,11 @@ export const Map = () => {
 					setMapboxViewport((viewport))
 				}}
 			>
-				<Source type="geojson" data={data}>
-					<Layer {...dataLayer} />
-				</Source>
-			</ReactMapGL>
+				<Marker longitude={-106.5670637} latitude={35.1129685}>
+				<div>hi</div>
+				</Marker>
+
+			</MapGL>
 		</>
 	);
 }
