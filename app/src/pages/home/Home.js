@@ -1,9 +1,14 @@
-import React from "react"
+import React, {useState} from "react";
+import {Map} from "../../shared/components/map/map";
+
 
 export const Home = () => {
+
 	return (
-		<>
-			<h1>Home</h1>
-		</>
-	)
+
+				<div className="d-flex justify-content-center p-5">
+					<Map />
+				</div>
+
+	);
 }
