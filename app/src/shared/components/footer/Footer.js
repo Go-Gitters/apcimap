@@ -1,6 +1,6 @@
 import React from "react";
 
-import {Link} from "react-router-dom";
+// import {Link} from "react-router-dom";
 
 
 import "../../../style.css";
@@ -10,38 +10,44 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faEnvelope} from "@fortawesome/free-solid-svg-icons";
 import {library} from "@fortawesome/fontawesome-svg-core";
-import {faUserFriends} from "@fortawesome/free-solid-svg-icons";
+import {faInfoCircle, faUserFriends} from "@fortawesome/free-solid-svg-icons";
+import {faGithub} from "@fortawesome/free-brands-svg-icons";
 
 library.add(faInfoCircle, faGithub, faEnvelope, faUserFriends);
 
 export const Footer = () => (
 	<>
-		<footer className="page-footer bg-dark fixed-bottom">
-
-			<Container fluid="true">
-				<Row>
+		<footer className="page-footer bg-dark fixed-bottom justify-content-center">
+			<Container className="container">
+				<Row id="icons">
 					<Col>
-						<a href="#">
-							<i><FontAwesomeIcon icon={faInfoCircle} size="2x" /></i>
+						<a href="https://apcimap.com">
+							<i><FontAwesomeIcon icon={faInfoCircle} size="2x" justify-content-center /></i>
 						</a>
 					</Col>
 					<Col>
 						<a href="https://github.com/Go-Gitters/apcimap">
-							<i><FontAwesomeIcon icon={faGithub} size="2x" /></i>
+							<i><FontAwesomeIcon icon={faGithub} size="2x" justify-content-center /></i>
 						</a>
 					</Col>
 					<Col>
 						<a href="mailto:apcimap@gmail.com">
-							<i><FontAwesomeIcon icon={faEnvelope} size="2x" /></i>
+							<i><FontAwesomeIcon icon={faEnvelope} size="2x" justify-content-center /></i>
 						</a>
 					</Col>
 					<Col>
-						<a href="#">
-							<i><FontAwesomeIcon icon={faUserFriends} size="2x" /></i>
+						<a href="https://apcimap.com">
+							<i><FontAwesomeIcon icon={faUserFriends} size="2x" justify-content-center /></i>
 						</a>
 					</Col>
 				</Row>
+				<Row>
+					<Col id="group-name">By Go-Gitters – CNM Deep Dive Bootcamp Group</Col>
+				</Row>
+
 			</Container>
 
 			{/*<Row id="footer-links">*/}
@@ -70,11 +76,6 @@ export const Footer = () => (
 			{/*				<i className="fas fa-user-friends"</i></a>*/}
 			{/*		</Col>*/}
 			{/*	</Row>*/}
-
-			{/*	<Row>*/}
-			{/*		<Col id="group-name">by Go-Gitters – a CNM Deep Dive Bootcamp group</Col>*/}
-			{/*	</Row>*/}
-			{/*</Container>*/}
 
 		</footer>
 	</>

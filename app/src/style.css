@@ -1,16 +1,11 @@
-#about-link {
-	text-align: right;
-	margin-right: px;
-}
 
-#github-link {
-	text-align: left;
+#icons {
+	padding: 10px;
 }
 
 #group-name {
-	text-align: right;
-	padding-right: 50px;
-	padding-top: 10px;
+	text-align: center;
+	padding: 10px;
 	font-size: 75%;
-
+	color: azure;
 }
