@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import MapGL, {Marker, Source, Layer} from 'react-map-gl';
 import {crimeLayer, dataLayer} from "./map-style";
 import CRIMES from './crimes';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faMapMarker} from "@fortawesome/free-solid-svg-icons";
 
 
 export const Map = () => {
@@ -24,7 +26,7 @@ export const Map = () => {
 				}}
 			>
 				<Marker longitude={-106.5670637} latitude={35.1129685}>
-				<div>hi</div>
+					<FontAwesomeIcon icon={faMapMarker} size="2x" className="text-danger"/>
 				</Marker>
 
 			</MapGL>
