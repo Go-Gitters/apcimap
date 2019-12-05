@@ -45,10 +45,9 @@ export const LoginFormContent = (props) => {
 								{errors.userEmail}
 							</div>
 						)
-
 					}
-
 				</div>
+
 				{/*controlId must match what is defined by the initialValues object*/}
 				<div className="form-group">
 					<label htmlFor="userPassword">Password</label>
