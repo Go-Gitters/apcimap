@@ -1,10 +1,10 @@
 import React, {useState} from "react";
 import {Button} from "react-bootstrap";
 import {Modal} from "react-bootstrap";
-import {loginForm} from "./loginForm";
+import {loginForm} from "./LoginForm";
 
 
-export const SignInModal = () => {
+export const LoginModal = () => {
 	const [show, setShow] = useState(false);
 
 	const handleClose = () => setShow(false);
@@ -34,4 +34,4 @@ export const SignInModal = () => {
 			</Modal>
 		</>
 	);
-}
+};

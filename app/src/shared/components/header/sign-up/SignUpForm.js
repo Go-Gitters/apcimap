@@ -7,30 +7,25 @@ import {SignUpFormContent} from "./SignUpFormContent";
 
 export const SignUpForm = () => {
 	const signUp = {
-		profileEmail: "",
-		profileAtHandle: "",
-		profilePassword: "",
-		profilePasswordConfirm: "",
-		profilePhone: "",
-		profileAvatar: "",
+		userEmail: "",
+		userUsername: "",
+		userPassword: "",
+		userPasswordConfirm: "",
 	};
 
 	const [status, setStatus] = useState(null);
 	const validator = Yup.object().shape({
-		profileEmail: Yup.string()
+		userEmail: Yup.string()
 			.email("email must be a valid email")
 			.required('email is required'),
-		profileAtHandle: Yup.string()
-			.required("profile handle is required"),
-		profilePassword: Yup.string()
+		userUsername: Yup.string()
+			.required("username is required"),
+		userPassword: Yup.string()
 			.required("Password is required")
 			.min(8, "Password must be at least eight characters"),
-		profilePasswordConfirm: Yup.string()
+		userPasswordConfirm: Yup.string()
 			.required("Password Confirm is required")
 			.min(8, "Password must be at least eight characters"),
-		profilePhone: Yup.string()
-			.min(10, "phone number is to short")
-			.max(10, "phone Number is to long")
 	});
 
 	const submitSignUp = (values, {resetForm}) => {

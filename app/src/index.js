@@ -6,21 +6,17 @@ import {Route, Switch} from "react-router";
 import {FourOhFour} from "./pages/four-oh-four/FourOhFour";
 import {Home} from "./pages/home/Home";
 
-import {header} from "./shared/components/header/header";
-import {loginForm} from "./shared/components/main-nav/login/loginForm";
-import {loginFormContent} from "./shared/components/main-nav/login/loginFormContent";
+import {Header} from "./shared/components/header/Header";
 
 const Routing = () => (
 	<>
 		<BrowserRouter>
+			<Header/>
 			<Switch>
 				<Route exact path="/" component={Home}/>
 				<Route component={FourOhFour}/>
 			</Switch>
-			<header/>
-			<loginForm/>
-			<loginFormContent/>
 		</BrowserRouter>
 	</>
 );
-ReactDOM.render(<Routing/>, document.querySelector('#root'));
+ReactDOM.render(Routing() , document.querySelector('#root'));

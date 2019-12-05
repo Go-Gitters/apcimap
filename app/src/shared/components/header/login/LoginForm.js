@@ -2,7 +2,7 @@ import React from 'react';
 import {httpConfig} from "../../../utils/http-config";
 import {Formik} from "formik/dist/index";
 import * as Yup from "yup";
-import {loginFormContent} from "./loginFormContent";
+import {LoginFormContent} from "./LoginFormContent";
 
 
 export const loginForm = () => {
@@ -21,7 +21,7 @@ export const loginForm = () => {
 	});
 
 	const submitLogin = (values, {resetForm, setStatus}) => {
-		httpConfig.post("/apis/log-in/", values)
+		httpConfig.post("/apis/login/", values)
 			.then(reply => {
 				let {message, type} = reply;
 				console.log(reply);
@@ -47,7 +47,7 @@ export const loginForm = () => {
 			onSubmit={submitLogin}
 			validationSchema={validator}
 		>
-			{loginFormContent}
+			{LoginFormContent}
 		</Formik>
 	)
 };

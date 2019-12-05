@@ -20,7 +20,7 @@ export const SignUpFormContent = (props) => {
 			<form onSubmit={handleSubmit}>
 				{/*controlId must match what is passed to the initialValues prop*/}
 				<div className="form-group">
-					<label htmlFor="profileEmail">Email Address</label>
+					<label htmlFor="userEmail">Email Address</label>
 					<div className="input-group">
 						<div className="input-group-prepend">
 							<div className="input-group-text">
@@ -29,9 +29,9 @@ export const SignUpFormContent = (props) => {
 						</div>
 						<input
 							className="form-control"
-							id="profileEmail"
+							id="userEmail"
 							type="email"
-							value={values.profileEmail}
+							value={values.userEmail}
 							placeholder="Enter email"
 							onChange={handleChange}
 							onBlur={handleBlur}
@@ -39,9 +39,9 @@ export const SignUpFormContent = (props) => {
 						/>
 					</div>
 					{
-						errors.profileEmail && touched.profileEmail && (
+						errors.userEmail && touched.userEmail && (
 							<div className="alert alert-danger">
-								{errors.profileEmail}
+								{errors.userEmail}
 							</div>
 						)
 
@@ -49,7 +49,7 @@ export const SignUpFormContent = (props) => {
 				</div>
 				{/*controlId must match what is defined by the initialValues object*/}
 				<div className="form-group">
-					<label htmlFor="profilePassword">Password</label>
+					<label htmlFor="userPassword">Password</label>
 					<div className="input-group">
 						<div className="input-group-prepend">
 							<div className="input-group-text">
@@ -57,21 +57,21 @@ export const SignUpFormContent = (props) => {
 							</div>
 						</div>
 						<input
-							id="profilePassword"
+							id="userPassword"
 							className="form-control"
 							type="password"
 							placeholder="Password"
-							value={values.profilePassword}
+							value={values.userPassword}
 							onChange={handleChange}
 							onBlur={handleBlur}
 						/>
 					</div>
-					{errors.profilePassword && touched.profilePassword && (
-						<div className="alert alert-danger">{errors.profilePassword}</div>
+					{errors.userPassword && touched.userPassword && (
+						<div className="alert alert-danger">{errors.userPassword}</div>
 					)}
 				</div>
 				<div className="form-group">
-					<label htmlFor="profilePasswordConfirm">Confirm Your Password</label>
+					<label htmlFor="userPasswordConfirm">Confirm Your Password</label>
 					<div className="input-group">
 						<div className="input-group-prepend">
 							<div className="input-group-text">
@@ -82,75 +82,49 @@ export const SignUpFormContent = (props) => {
 
 							className="form-control"
 							type="password"
-							id="profilePasswordConfirm"
+							id="userPasswordConfirm"
 							placeholder="Password Confirm"
-							value={values.profilePasswordConfirm}
+							value={values.userPasswordConfirm}
 							onChange={handleChange}
 							onBlur={handleBlur}
 						/>
 					</div>
-					{errors.profilePasswordConfirm && touched.profilePasswordConfirm && (
-						<div className="alert alert-danger">{errors.profilePasswordConfirm}</div>
+					{errors.userPasswordConfirm && touched.userPasswordConfirm && (
+						<div className="alert alert-danger">{errors.userPasswordConfirm}</div>
 					)}
 				</div>
 
 
 				<div className="form-group">
-					<label htmlFor="profileHandle">@Handle</label>
+					<label htmlFor="userUsername">Username</label>
 					<div className="input-group">
 						<div className="input-group-prepend">
 							<div className="input-group-text">
 								<FontAwesomeIcon icon="dove"/>
 							</div>
 						</div>
+						<div>
 						<input
 							className="form-control"
-							id="profileHandle"
+							id=""
 							type="text"
-							value={values.profileAtHandle}
-							placeholder="@Handle"
+							value={values.userUsername}
+							placeholder="username"
 							onChange={handleChange}
 							onBlur={handleBlur}
-
 						/>
-					</div>
-					{
-						errors.profileAtHandle && touched.profileAtHandle && (
-							<div className="alert alert-danger">
-								{errors.profileAtHandle}
-							</div>
-						)
-					}
-				</div>
-
-
-				<div className="form-group">
-					<label htmlFor="profilePhone">Phone Number</label>
-					<div className="input-group">
-						<div className="input-group-prepend">
-							<div className="input-group-text">
-								<FontAwesomeIcon icon="phone"/>
-							</div>
 						</div>
-						<input
-							className="form-control"
-							id="profilePhone"
-							type="text"
-							value={values.profilePhone}
-							placeholder="Enter email"
-							onChange={handleChange}
-							onBlur={handleBlur}
-						/>
-					</div>
 					{
-						errors.profilePhone && touched.profilePhone && (
+						errors.userUsername && touched.userUsername && (
 							<div className="alert alert-danger">
-								{errors.profilePhone}
+								{errors.userUsername}
 							</div>
 						)
-
 					}
 				</div>
+
+
+					}
 				<div className="form-group">
 					<button className="btn btn-primary mb-2" type="submit">Submit</button>
 					<button

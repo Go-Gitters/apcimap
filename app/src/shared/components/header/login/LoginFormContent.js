@@ -88,6 +88,3 @@ export const LoginFormContent = (props) => {
 		</>
 	)
 };
-
-export class loginFormContent {
-}

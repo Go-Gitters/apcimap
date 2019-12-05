@@ -3,9 +3,9 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import {LinkContainer} from "react-router-bootstrap";
 import {SignUpModal} from "./sign-up/SignUpModal";
-import {LoginModal} from "/LoginModal";
+import {LoginModal} from "./login/LoginModal";
 
-export const MainNav = (props) => {
+export const Header = (props) => {
 	return(
 		<Navbar bg="primary" variant="dark">
 			<LinkContainer exact to="/" >
