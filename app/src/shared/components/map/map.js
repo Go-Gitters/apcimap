@@ -5,6 +5,13 @@ import CRIMES from './crimes';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMapMarker} from "@fortawesome/free-solid-svg-icons";
 
+function renderCrimeMarker(crime) {
+	return (
+		<Marker longitude={crime.longitude} latitude={crime.latitude}>
+			<FontAwesomeIcon icon={faMapMarker} size="2x" className="text-danger"/>
+		</Marker>
+	);
+}
 
 export const Map = () => {
 	const [mapboxViewport, setMapboxViewport] = useState({
@@ -25,9 +32,7 @@ export const Map = () => {
 					setMapboxViewport((viewport))
 				}}
 			>
-				<Marker longitude={-106.5670637} latitude={35.1129685}>
-					<FontAwesomeIcon icon={faMapMarker} size="2x" className="text-danger"/>
-				</Marker>
+				{CRIMES.map((crime) => renderCrimeMarker(crime))}
 
 			</MapGL>
 		</>
