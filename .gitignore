@@ -9,3 +9,8 @@
 /app/src/setupProxy.js
 /npm-debug.log
 /data
+docker-compose.env
+docker-compose.yml
+/php/config/secrets/map.php
+/php/Classes/config/secrets
+php/Dockerfile
