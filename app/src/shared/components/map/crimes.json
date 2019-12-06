@@ -1,0 +1,22 @@
+[
+  {
+    "type": "Some crime",
+    "longitude": -106.5670637,
+    "latitude": 35.1129685
+  },
+  {
+    "type": "Another crime",
+    "longitude": -106.568,
+    "latitude": 35.115
+  },
+  {
+    "type": "More Crime",
+    "longitude": -106.57,
+    "latitude": 35.2
+  },
+  {
+    "type": "Something else bad",
+    "longitude": -106.6,
+    "latitude": 35.3
+  }
+]
