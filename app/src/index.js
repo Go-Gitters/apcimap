@@ -6,6 +6,7 @@ import {BrowserRouter} from "react-router-dom";
 import {Route, Switch} from "react-router";
 import {FourOhFour} from "./pages/four-oh-four/FourOhFour";
 import {Home} from "./pages/home/Home";
+import {Legend} from "./shared/components/legend/Legend";
 
 
 // import ModalFooter from 'react-bootstrap/ModalFooter';
@@ -19,6 +20,7 @@ const Routing = () => (
 		<BrowserRouter>
 			<Switch>
 				<Route exact path="/" component={Home}/>
+				<Route exact path="/legend" component={Legend}/>
 				<Route exact path="/about" component={About}/>
 				<Route exact path="/team" component={Team}/>
 				<Route component={FourOhFour}/>
