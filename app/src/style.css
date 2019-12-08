@@ -1,7 +1,9 @@
+/*FOOTER STYLES*/
 #icons {
 	padding: 10px;
 }
 
+/*ABOUT APCIMAP STYLES*/
 #group-name {
 	text-align: center;
 	padding: 10px;
@@ -17,4 +19,73 @@
 
 .dataset-name {
 	text-decoration: underline;
+}
+
+/*LEGEND*/
+#legend-name {
+	font-weight: bold;
+	font-size: 100%;
+}
+
+#color-box-bracket-1 {
+	background-color: rgb(234, 250, 241);
+	/*width: 10em;*/
+	height: 2em;
+}
+
+#color-box-bracket-2 {
+	background-color: rgb(213, 245, 227);
+	/*width: 10em;*/
+	height: 2em;
+}
+
+#color-box-bracket-3 {
+	background-color: rgb(171, 235, 198);
+	/*width: 10em;*/
+	height: 2em;
+}
+
+#color-box-bracket-4 {
+	background-color: rgb(130, 224, 170);
+	/*width: 10em;*/
+	height: 2em;
+}
+#color-box-bracket-5 {
+	background-color: rgb(88, 214, 141);
+	/*width: 10em;*/
+	height: 2em;
+}
+
+#color-box-bracket-6 {
+	background-color: rgb(46, 204, 113);
+	/*width: 10em;*/
+	height: 2em;
+}
+
+#color-box-bracket-7 {
+	background-color: rgb(40, 180, 99);
+	/*width: 10em;*/
+	height: 2em;
+}
+
+#color-box-bracket-8 {
+	background-color: rgb(35, 155, 86);
+	/*width: 10em;*/
+	height: 2em;
+}
+
+#color-box-bracket-9 {
+	background-color: rgb(29, 131, 72);
+	/*width: 10em;*/
+	height: 2em;
+}
+#color-box-bracket-10 {
+	background-color: rgb(24, 106, 59);
+	/*width: 10em;*/
+	height: 2em;
+}
+
+#footnote {
+	font-style: italic;
+	font-size: smaller;
 }

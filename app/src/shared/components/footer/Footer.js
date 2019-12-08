@@ -20,7 +20,7 @@ library.add(faInfoCircle, faGithub, faEnvelope, faUserFriends);
 
 export const Footer = () => (
 	<>
-		<footer className="page-footer bg-dark fixed-bottom">
+		<footer className="page-footer bg-dark fixed-bottom py-2">
 			<Container className="container">
 				<div class="d-flex justify-content-center">
 					<Row id="icons">
