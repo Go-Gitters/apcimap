@@ -12,5 +12,5 @@
 docker-compose.env
 docker-compose.yml
 /php/config/secrets/map.php
-/php/Classes/config/secrets
+/php/config/secrets
 php/Dockerfile
