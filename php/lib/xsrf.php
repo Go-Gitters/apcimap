@@ -19,7 +19,7 @@ if(function_exists("apache_request_headers") === false) {
 			$headerNameArray = explode("_" , $header);
 			// request headers always are prefixed by HTTP_
 			if(array_shift($headerNameArray) === "HTTP") {
-				// convert HTTP_FOO_HEADER to Foo-Header
+				// convert HTTP_FOO_HEADER to Foo-header
 				array_walk($headerNameArray, function(&$headerName) {
 					$headerName = ucfirst(strtolower($headerName));
 				});

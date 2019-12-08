@@ -5,6 +5,7 @@ import {Legend} from "../../shared/components/legend/legend";
 //REACT BOOTSTRAP CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+
 export const Home = () => {
 
 	return (

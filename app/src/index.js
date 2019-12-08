@@ -16,9 +16,12 @@ import {Footer} from "./shared/components/footer/Footer";
 import {About} from "./pages/about/About";
 import {Team} from "./pages/team/Team";
 
+import {Header} from "./shared/components/header/Header";
+
 const Routing = () => (
 	<>
 		<BrowserRouter>
+			<Header/>
 			<Switch>
 				<Route exact path="/" component={Home}/>
 				<Route exact path="/" component={Legend}/>
@@ -30,4 +33,4 @@ const Routing = () => (
 		</BrowserRouter>
 	</>
 );
-ReactDOM.render(<Routing/>, document.querySelector('#root'));
+ReactDOM.render(Routing() , document.querySelector('#root'));
