@@ -103,11 +103,11 @@ export const SignUpFormContent = (props) => {
 								<FontAwesomeIcon icon="dove"/>
 							</div>
 						</div>
-						<div>
+
 						<input
 							className="form-control"
-							id=""
 							type="text"
+							id="username"
 							value={values.userUsername}
 							placeholder="username"
 							onChange={handleChange}
@@ -124,7 +124,7 @@ export const SignUpFormContent = (props) => {
 				</div>
 
 
-					}
+
 				<div className="form-group">
 					<button className="btn btn-primary mb-2" type="submit">Submit</button>
 					<button

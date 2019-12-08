@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Button} from "react-bootstrap";
 import {Modal} from "react-bootstrap";
-import {loginForm} from "./LoginForm";
+import {LoginForm} from "./LoginForm";
 
 
 export const LoginModal = () => {
@@ -18,10 +18,10 @@ export const LoginModal = () => {
 
 			<Modal show={show} onHide={handleClose}>
 				<Modal.Header closeButton>
-					<Modal.Title>Login</Modal.Title>
+					<Modal.Title>Sign In</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<loginForm/>
+					<LoginForm/>
 				</Modal.Body>
 				<Modal.Footer>
 					<Button variant="secondary" onClick={handleClose}>
@@ -34,4 +34,4 @@ export const LoginModal = () => {
 			</Modal>
 		</>
 	);
-};
+}

@@ -2,15 +2,15 @@ import React, {useState} from 'react';
 import {httpConfig} from "../../../utils/http-config";
 import * as Yup from "yup";
 import {Formik} from "formik";
-
 import {SignUpFormContent} from "./SignUpFormContent";
+
 
 export const SignUpForm = () => {
 	const signUp = {
 		userEmail: "",
-		userUsername: "",
 		userPassword: "",
 		userPasswordConfirm: "",
+		userUsername: "",
 	};
 
 	const [status, setStatus] = useState(null);
@@ -18,14 +18,15 @@ export const SignUpForm = () => {
 		userEmail: Yup.string()
 			.email("email must be a valid email")
 			.required('email is required'),
-		userUsername: Yup.string()
-			.required("username is required"),
 		userPassword: Yup.string()
 			.required("Password is required")
 			.min(8, "Password must be at least eight characters"),
 		userPasswordConfirm: Yup.string()
 			.required("Password Confirm is required")
 			.min(8, "Password must be at least eight characters"),
+		userUsername: Yup.string()
+			.required("username is required")
+			.min(3,"username must be at least three characters"),
 	});
 
 	const submitSignUp = (values, {resetForm}) => {
