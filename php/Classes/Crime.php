@@ -93,7 +93,7 @@ class Crime implements \JsonSerializable {
 	 * @throws \RangeException if $newCrimeId is not positive
 	 * @throws \TypeError if the Crime Id is not a uuid or a string
 	 **/
-	public function setcrimeId($newCrimeId): void {
+	public function setCrimeId($newCrimeId): void {
 		try {
 			$uuid = self::validateUuid($newCrimeId);
 			//determine what exception type was thrown
@@ -364,7 +364,6 @@ class Crime implements \JsonSerializable {
 	public function jsonSerialize() {
 		$fields = get_object_vars($this);
 		$fields["crimeId"] = $this->crimeId->toString();
-		return ($fields);
 		//format the date so that the front end can consume it
 		$fields["crimeDate"] = round(floatval($this->crimeDate->format("U.u")) * 1000);
 		return ($fields);
