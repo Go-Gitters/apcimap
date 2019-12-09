@@ -2,7 +2,7 @@
 
 /*BODY STYLES*/
 body {
-	margin: 0;
+	/*margin: 0;*/
 	min-height: 400px;
 	margin-bottom: 100px;
 	clear: both;
@@ -35,6 +35,10 @@ body {
 #legend-name {
 	font-weight: bold;
 	font-size: 100%;
+}
+
+.col {
+	white-space: nowrap;
 }
 
 #color-box-bracket-1 {
