@@ -1,22 +1,26 @@
 [
   {
-    "type": "Some crime",
-    "longitude": -106.5670637,
-    "latitude": 35.1129685
+    "crimeId": "0008ac41-1c5b-4467-8d59-d4bc6020fd62",
+    "crimeAddress": "6000 BLOCK LOMAS BL NE",
+    "crimeDate": 1573171200000,
+    "crimeLatitude": 35.087332,
+    "crimeLongitude": -106.579411,
+    "crimeType": "DISTURBANCE"
   },
   {
-    "type": "Another crime",
-    "longitude": -106.568,
-    "latitude": 35.115
+    "crimeId": "0008ed6f-9868-42a3-a03a-37a1db783f45",
+    "crimeAddress": "MONTGOMERY BL NE \/ SAN PEDRO DR NE",
+    "crimeDate": 1573171200000,
+    "crimeLatitude": 35.130848,
+    "crimeLongitude": -106.577649,
+    "crimeType": "DISTURBANCE"
   },
   {
-    "type": "More Crime",
-    "longitude": -106.57,
-    "latitude": 35.2
-  },
-  {
-    "type": "Something else bad",
-    "longitude": -106.6,
-    "latitude": 35.3
+    "crimeId": "00298343-a6e0-4d55-879d-944882d81196",
+    "crimeAddress": "PENNSYLVANIA ST NE \/ DELLWOOD RD NE",
+    "crimeDate": 1562889600000,
+    "crimeLatitude": 35.120048,
+    "crimeLongitude": -106.559857,
+    "crimeType": "SUSP PERS\/VEHS"
   }
 ]

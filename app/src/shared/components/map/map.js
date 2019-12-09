@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import MapGL, {Marker, Source, Layer, Popup} from 'react-map-gl';
 import {crimeLayer, dataLayer} from "./map-style";
-import CRIMES from './crimes';
+import CRIMES from './crimes3';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMapMarker} from "@fortawesome/free-solid-svg-icons";
 
@@ -19,7 +19,7 @@ export const Map = () => {
 
 	function renderCrimeMarker(crime) {
 		return (
-			<Marker longitude={crime.longitude} latitude={crime.latitude}>
+			<Marker longitude={crime.crimeLongitude} latitude={crime.crimeLatitude}>
 				<FontAwesomeIcon icon={faMapMarker} size="2x" className="text-danger" onClick={() => setPopupInfo(crime)}/>
 			</Marker>
 		);
@@ -33,12 +33,13 @@ export const Map = () => {
 			<Popup
 				tipSize={5}
 				anchor="top"
-				longitude={popupInfo.longitude}
-				latitude={popupInfo.latitude}
+				longitude={popupInfo.crimeLongitude}
+				latitude={popupInfo.crimeLatitude}
 				closeOnClick={false}
 				onClose={() => setPopupInfo(null)}
 			>
-				<div><strong>Crime Type: </strong>{popupInfo.type}</div>
+				<div><strong>Report Type: </strong>{popupInfo.crimeType}</div>
+				<div><strong>Report Address: </strong>{popupInfo.crimeAddress}</div>
 				{/*<div><strong>Crime Date: </strong>{popupInfo.type}</div>*/}
 			</Popup>
 
