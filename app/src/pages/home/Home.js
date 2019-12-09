@@ -13,7 +13,7 @@ export const Home = () => {
 			<div className="container">
 				<div className="row">
 					<div className="col-lg-8">
-			<div className="d-flex justify-content-center p-3">
+			<div className="d-flex justify-content-center py-3">
 				<Map/>
 			</div>
 					</div>

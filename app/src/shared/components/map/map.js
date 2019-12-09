@@ -20,8 +20,8 @@ export const Map = () => {
 	useEffect(effects, inputs);
 
 	const [mapboxViewport, setMapboxViewport] = useState({
-		width: 800,
-		height: 700,
+		width: "100%",
+		height: "80vh",
 		latitude: 35.1129685,
 		longitude: -106.5670637,
 		zoom: 12
