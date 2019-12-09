@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Black+Ops+One&display=swap');
+
 /*BODY STYLES*/
 body {
 	margin: 0;
@@ -96,4 +98,8 @@ body {
 #footnote {
 	font-style: italic;
 	font-size: smaller;
+}
+
+.navbar {
+	font-family: 'Black Ops One', cursive;
 }

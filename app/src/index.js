@@ -9,14 +9,13 @@ import {FourOhFour} from "./pages/four-oh-four/FourOhFour";
 import {Home} from "./pages/home/Home";
 import {Legend} from "./shared/components/legend/legend";
 
-
 import ModalFooter from 'react-bootstrap/ModalFooter';
 
 import {Footer} from "./shared/components/footer/Footer";
 import {About} from "./pages/about/About";
 import {Team} from "./pages/team/Team";
-
 import {Header} from "./shared/components/header/Header";
+import './style.css';
 
 const Routing = () => (
 	<>
