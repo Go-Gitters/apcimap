@@ -1,8 +1,6 @@
 import React from "react";
-import {About} from 'react-router';
-import {Team} from 'react-router';
 
-// import {Link} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 
 import "../../../style.css";
@@ -27,9 +25,9 @@ export const Footer = () => (
 				<div className="d-flex justify-content-center">
 					<Row id="icons">
 						<Col>
-							<a href="../../../../../../index.js {About}">APCIMap Project Information
+							<Link to='/about'>APCIMap Project Information
 								<i><FontAwesomeIcon icon={faInfoCircle} size="2x"/></i>
-							</a>
+							</Link>
 						</Col>
 						<Col>
 							<a href="https://github.com/Go-Gitters/apcimap"
@@ -44,9 +42,9 @@ export const Footer = () => (
 							</a>
 						</Col>
 						<Col>
-							<a href="https://apcimap.com">
+							<Link to='/team'>APCIMap Team
 								<i><FontAwesomeIcon icon={faUserFriends} size="2x"/></i>
-							</a>
+							</Link>
 						</Col>
 					</Row>
 				</div>
