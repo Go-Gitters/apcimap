@@ -11,6 +11,6 @@ export const getAllCrime = () => async dispatch => {
 };
 
 export const getCrimeByCrimeLocation = (lat, long, distance) => async dispatch => {
-	const {data} = await httpConfig('/apis/crime/?lat=${lat}&long=${long}&distance=${distance}');
+	const {data} = await httpConfig(`/apis/crime/?lat=${lat}&long=${long}&distance=${distance}`);
 	dispatch({type: "GET_CRIME_BY_CRIME_LOCATION", payload: data });
 };

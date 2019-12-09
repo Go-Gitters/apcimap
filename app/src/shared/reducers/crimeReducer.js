@@ -5,7 +5,7 @@ export default (state = [], action) => {
 			return action.payload;
 		case "GET_CRIME_BY_CRIME_ID":
 			return [...state, action.payload];
-		case "GET_CRIME_BY_LOCATION":
+		case "GET_CRIME_BY_CRIME_LOCATION":
 			return action.payload;
 		default:
 			return state;
