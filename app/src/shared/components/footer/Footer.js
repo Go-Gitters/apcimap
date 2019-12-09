@@ -25,8 +25,8 @@ export const Footer = () => (
 				<div className="d-flex justify-content-center">
 					<Row id="icons">
 						<Col>
-							<Link to='/about'>APCIMap Project Information
-								<i><FontAwesomeIcon icon={faInfoCircle} size="2x"/></i>
+							<Link to='/about'>
+								<i><FontAwesomeIcon icon={faInfoCircle} size="2x" alt="APCIMap Project Information"/></i>
 							</Link>
 						</Col>
 						<Col>
@@ -42,8 +42,8 @@ export const Footer = () => (
 							</a>
 						</Col>
 						<Col>
-							<Link to='/team'>APCIMap Team
-								<i><FontAwesomeIcon icon={faUserFriends} size="2x"/></i>
+							<Link to='/team'>
+								<i><FontAwesomeIcon icon={faUserFriends} size="2x" alt="APCIMap Team"/></i>
 							</Link>
 						</Col>
 					</Row>
