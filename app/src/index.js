@@ -10,17 +10,17 @@ import {Home} from "./pages/home/Home";
 import {Legend} from "./shared/components/legend/legend";
 import reducers from "./shared/reducers/reducers"
 
-
-// import ModalFooter from 'react-bootstrap/ModalFooter';
+import ModalFooter from 'react-bootstrap/ModalFooter';
 
 import {Footer} from "./shared/components/footer/Footer";
 import {About} from "./pages/about/About";
 import {Team} from "./pages/team/Team";
-
 import {Header} from "./shared/components/header/Header";
 import {applyMiddleware, createStore} from "redux";
 import thunk from "redux-thunk";
 import {Provider} from "react-redux";
+import './style.css';
+
 
 const store = createStore(reducers, applyMiddleware(thunk));
 
