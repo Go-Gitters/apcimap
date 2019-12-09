@@ -1,4 +1,5 @@
 import React from "react";
+
 import {Link} from "react-router-dom";
 
 
@@ -21,27 +22,29 @@ export const Footer = () => (
 	<>
 		<footer className="page-footer bg-dark fixed-bottom py-2">
 			<Container className="container">
-				<div class="d-flex justify-content-center">
+				<div className="d-flex justify-content-center">
 					<Row id="icons">
 						<Col>
-							<a href="https://apcimap.com">
-								<i><FontAwesomeIcon icon={faInfoCircle} size="2x"/></i>
-							</a>
+							<Link to='/about'>
+								<i><FontAwesomeIcon icon={faInfoCircle} size="2x" alt="APCIMap Project Information"/></i>
+							</Link>
 						</Col>
 						<Col>
-							<a href="https://github.com/Go-Gitters/apcimap">
+							<a href="https://github.com/Go-Gitters/apcimap"
+							title="Go-Gitters' APCIMap repository on GitHub">
 								<i><FontAwesomeIcon icon={faGithub} size="2x"/></i>
 							</a>
 						</Col>
 						<Col>
-							<a href="mailto:apcimap@gmail.com">
+							<a href="mailto:apcimap@gmail.com"
+							title="APCIMap's email">
 								<i><FontAwesomeIcon icon={faEnvelope} size="2x"/></i>
 							</a>
 						</Col>
 						<Col>
-							<a href="https://apcimap.com">
-								<i><FontAwesomeIcon icon={faUserFriends} size="2x"/></i>
-							</a>
+							<Link to='/team'>
+								<i><FontAwesomeIcon icon={faUserFriends} size="2x" alt="APCIMap Team"/></i>
+							</Link>
 						</Col>
 					</Row>
 				</div>
