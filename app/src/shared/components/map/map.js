@@ -1,11 +1,25 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
+import {Link} from "react-router-dom";
 import MapGL, {Marker, Source, Layer, Popup} from 'react-map-gl';
 import {crimeLayer, dataLayer} from "./map-style";
-import CRIMES from './crimes3';
+// import CRIMES from './crimes3';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMapMarker} from "@fortawesome/free-solid-svg-icons";
+import {useDispatch, useSelector} from "react-redux";
+import {getCrimeByCrimeLocation} from "../../actions/get-crime";
 
 export const Map = () => {
+
+	const crimes = useSelector(state => (state.crimes ? state.crimes : []));
+	const dispatch = useDispatch();
+	const effects = () => {
+		dispatch(getCrimeByCrimeLocation(35.1129685, -106.5670637, .25));
+	};
+
+	const inputs = [];
+
+	useEffect(effects, inputs);
+
 	const [mapboxViewport, setMapboxViewport] = useState({
 		width: 800,
 		height: 700,
@@ -58,7 +72,7 @@ export const Map = () => {
 					setMapboxViewport((viewport))
 				}}
 			>
-				{CRIMES.map((crime) => renderCrimeMarker(crime))}
+				{crimes.map((crime) => renderCrimeMarker(crime))}
 				{renderPopup()}
 
 			</MapGL>
