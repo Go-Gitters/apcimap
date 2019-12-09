@@ -10,7 +10,7 @@ import {Home} from "./pages/home/Home";
 import {Legend} from "./shared/components/legend/legend";
 
 
-// import ModalFooter from 'react-bootstrap/ModalFooter';
+import ModalFooter from 'react-bootstrap/ModalFooter';
 
 import {Footer} from "./shared/components/footer/Footer";
 import {About} from "./pages/about/About";

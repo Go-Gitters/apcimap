@@ -107,9 +107,9 @@ export const SignUpFormContent = (props) => {
 						<input
 							className="form-control"
 							type="text"
-							id="username"
-							value={values.userUsername}
+							id="userUsername"
 							placeholder="username"
+							value={values.userUsername}
 							onChange={handleChange}
 							onBlur={handleBlur}
 						/>
