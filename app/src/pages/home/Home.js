@@ -23,11 +23,11 @@ export const Home = () => {
 						</div>
 					</div>
 
-					{/*<div className="col-lg-2">*/}
-					{/*	<div className="p-3">*/}
-					{/*		/!*<Legend/>*!/*/}
-					{/*	</div>*/}
-					{/*</div>*/}
+					<div className="col-lg-2">
+						<div className="p-3">
+							{/*<Legend/>*/}
+						</div>
+					</div>
 
 				</div>
 			</div>
