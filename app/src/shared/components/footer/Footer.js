@@ -1,4 +1,6 @@
 import React from "react";
+import {About} from 'react-router';
+import {Team} from 'react-router';
 
 // import {Link} from "react-router-dom";
 
@@ -22,20 +24,22 @@ export const Footer = () => (
 	<>
 		<footer className="page-footer bg-dark fixed-bottom py-2">
 			<Container className="container">
-				<div class="d-flex justify-content-center">
+				<div className="d-flex justify-content-center">
 					<Row id="icons">
 						<Col>
-							<a href="https://apcimap.com">
+							<a href="../../../../../../index.js {About}">APCIMap Project Information
 								<i><FontAwesomeIcon icon={faInfoCircle} size="2x"/></i>
 							</a>
 						</Col>
 						<Col>
-							<a href="https://github.com/Go-Gitters/apcimap">
+							<a href="https://github.com/Go-Gitters/apcimap"
+							title="Go-Gitters' APCIMap repository on GitHub">
 								<i><FontAwesomeIcon icon={faGithub} size="2x"/></i>
 							</a>
 						</Col>
 						<Col>
-							<a href="mailto:apcimap@gmail.com">
+							<a href="mailto:apcimap@gmail.com"
+							title="APCIMap's email">
 								<i><FontAwesomeIcon icon={faEnvelope} size="2x"/></i>
 							</a>
 						</Col>
