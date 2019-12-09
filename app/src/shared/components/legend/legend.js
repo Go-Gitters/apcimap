@@ -20,100 +20,100 @@ export const Legend = () => {
 
 			<div className="container">
 				<div className="row">
-					<div className="col-4" id="color-box-bracket-1">
+					<div className="col-2" id="color-box-bracket-1">
 					</div>
 					<div className="col">
-						$xx,xxx.xx - $xxx,xxx.xx
+						$0 - $35,100
 					</div>
 				</div>
 			</div>
 
 			<div className="container">
 				<div className="row">
-					<div className="col-4" id="color-box-bracket-2">
+					<div className="col-2" id="color-box-bracket-2">
 					</div>
 					<div className="col">
-						$xx,xxx.xx - $xxx,xxx.xx
+						> $35,100 - $89,696
 					</div>
 				</div>
 			</div>
 
 			<div className="container">
 				<div className="row">
-					<div className="col-4" id="color-box-bracket-3">
+					<div className="col-2" id="color-box-bracket-3">
 					</div>
 					<div className="col">
-						$xx,xxx.xx - $xxx,xxx.xx
+						> $89,696 - $114,076
 					</div>
 				</div>
 			</div>
 
 			<div className="container">
 				<div className="row">
-					<div className="col-4" id="color-box-bracket-4">
+					<div className="col-2" id="color-box-bracket-4">
 					</div>
 					<div className="col">
-						$xx,xxx.xx - $xxx,xxx.xx
+						> $114,076 - $134,200
 					</div>
 				</div>
 			</div>
 
 			<div className="container">
 				<div className="row">
-					<div className="col-4" id="color-box-bracket-5">
+					<div className="col-2" id="color-box-bracket-5">
 					</div>
 					<div className="col">
-						$xx,xxx.xx - $xxx,xxx.xx
+						> $134,200 - $153,742
 					</div>
 				</div>
 			</div>
 
 			<div className="container">
 				<div className="row">
-					<div className="col-4" id="color-box-bracket-6">
+					<div className="col-2" id="color-box-bracket-6">
 					</div>
 					<div className="col">
-						$xx,xxx.xx - $xxx,xxx.xx
+						> $153,742 - $175,159
 					</div>
 				</div>
 			</div>
 
 			<div className="container">
 				<div className="row">
-					<div className="col-4" id="color-box-bracket-7">
+					<div className="col-2" id="color-box-bracket-7">
 					</div>
 					<div className="col">
-						$xx,xxx.xx - $xxx,xxx.xx
+						> $175,159 - $201,500
 					</div>
 				</div>
 			</div>
 
 			<div className="container">
 				<div className="row">
-					<div className="col-4" id="color-box-bracket-8">
+					<div className="col-2" id="color-box-bracket-8">
 					</div>
 					<div className="col">
-						$xx,xxx.xx - $xxx,xxx.xx
+						> $201,500 - $242,700
 					</div>
 				</div>
 			</div>
 
 			<div className="container">
 				<div className="row">
-					<div className="col-4" id="color-box-bracket-9">
+					<div className="col-2" id="color-box-bracket-9">
 					</div>
 					<div className="col">
-						$xx,xxx.xx - $xxx,xxx.xx
+						> $242,700 - $334,319
 					</div>
 				</div>
 			</div>
 
 			<div className="container">
 				<div className="row">
-					<div className="col-4" id="color-box-bracket-10">
+					<div className="col-2" id="color-box-bracket-10">
 					</div>
 					<div className="col">
-						$xx,xxx.xx - $xxx,xxx.xx
+						> $334,319
 					</div>
 				</div>
 			</div>
