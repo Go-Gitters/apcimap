@@ -20,7 +20,7 @@ export const Legend = () => {
 
 			<div className="container">
 				<div className="row">
-					<div className="col-4" id="color-box-bracket-1">
+					<div className="col-2" id="color-box-bracket-1">
 					</div>
 					<div className="col">
 						$0 - $35,100
@@ -30,7 +30,7 @@ export const Legend = () => {
 
 			<div className="container">
 				<div className="row">
-					<div className="col-4" id="color-box-bracket-2">
+					<div className="col-2" id="color-box-bracket-2">
 					</div>
 					<div className="col">
 						> $35,100 - $89,696
@@ -40,7 +40,7 @@ export const Legend = () => {
 
 			<div className="container">
 				<div className="row">
-					<div className="col-4" id="color-box-bracket-3">
+					<div className="col-2" id="color-box-bracket-3">
 					</div>
 					<div className="col">
 						> $89,696 - $114,076
@@ -50,7 +50,7 @@ export const Legend = () => {
 
 			<div className="container">
 				<div className="row">
-					<div className="col-4" id="color-box-bracket-4">
+					<div className="col-2" id="color-box-bracket-4">
 					</div>
 					<div className="col">
 						> $114,076 - $134,200
@@ -60,7 +60,7 @@ export const Legend = () => {
 
 			<div className="container">
 				<div className="row">
-					<div className="col-4" id="color-box-bracket-5">
+					<div className="col-2" id="color-box-bracket-5">
 					</div>
 					<div className="col">
 						> $134,200 - $153,742
@@ -70,7 +70,7 @@ export const Legend = () => {
 
 			<div className="container">
 				<div className="row">
-					<div className="col-4" id="color-box-bracket-6">
+					<div className="col-2" id="color-box-bracket-6">
 					</div>
 					<div className="col">
 						> $153,742 - $175,159
@@ -80,7 +80,7 @@ export const Legend = () => {
 
 			<div className="container">
 				<div className="row">
-					<div className="col-4" id="color-box-bracket-7">
+					<div className="col-2" id="color-box-bracket-7">
 					</div>
 					<div className="col">
 						> $175,159 - $201,500
@@ -90,7 +90,7 @@ export const Legend = () => {
 
 			<div className="container">
 				<div className="row">
-					<div className="col-4" id="color-box-bracket-8">
+					<div className="col-2" id="color-box-bracket-8">
 					</div>
 					<div className="col">
 						> $201,500 - $242,700
@@ -100,7 +100,7 @@ export const Legend = () => {
 
 			<div className="container">
 				<div className="row">
-					<div className="col-4" id="color-box-bracket-9">
+					<div className="col-2" id="color-box-bracket-9">
 					</div>
 					<div className="col">
 						> $242,700 - $334,319
@@ -110,10 +110,10 @@ export const Legend = () => {
 
 			<div className="container">
 				<div className="row">
-					<div className="col-4" id="color-box-bracket-10">
+					<div className="col-2" id="color-box-bracket-10">
 					</div>
 					<div className="col">
-						> $334,319 - $510,097,400
+						> $334,319
 					</div>
 				</div>
 			</div>
