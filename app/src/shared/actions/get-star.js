@@ -1,4 +1,4 @@
-import {httpConfig} from "../misc/http-config";
+import {httpConfig} from "../utils/http-config";
 
 export const getStarsByUserId = (id) => async dispatch => {
 	const {data} = await httpConfig('/apis/star/?userId=${id}');

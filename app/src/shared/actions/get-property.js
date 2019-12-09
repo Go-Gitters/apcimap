@@ -1,4 +1,4 @@
-import {httpConfig} from "../misc/http-config";
+import {httpConfig} from "../utils/http-config";
 
 export const getPropertyByPropertyId = (id) => async dispatch => {
 	const {data} = await httpConfig('/apis/property/?propertyId=${id}');
