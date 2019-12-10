@@ -122,7 +122,7 @@ export const Map = () => {
 	);
 }
 
-export const starProperty = ({starPropertyId, starUserId}) => {
+export const Star = ({propertyId, userId}) => {
 	// grab the jwt for logged in users
 	const jwt = UseJwt();
 
@@ -132,17 +132,17 @@ export const starProperty = ({starPropertyId, starUserId}) => {
 	 * "active" is a bootstrap class that will be added to the button
 	 */
 
-	const [isStarProperty, setIsStarProperty] = useState(null);
+	const [isStarred, setIsStarred] = useState(null);
 
 	// return all logged in user's starred properties from the redux store
-	const starProperty = useSelector(state => (state.starProperties ? state.starProperties : []));
+	const stars = useSelector(state => (state.stars ? state.stars : []));
 
 	const effects = () => {
-		initializeStarProperty(starUserId);
+		initializeStars(userId);
 	};
 
 	// add starred properties to inputs - this informs React that stars are being updated from Redux - ensures proper component rendering
-	const inputs = [stars, userId, propertyId];
+	const inputs = [stars, propertyId, userId];
 	useEffects(effects, inputs);
 
 	/**
@@ -152,14 +152,14 @@ export const starProperty = ({starPropertyId, starUserId}) => {
 	 *
 	 * See: Lodash https://lodash.com
 	 */
-	const initializeStarProperty = (userId) => {
-		const userStarProperties = stars.filter(star => star.starUserId === userId);
-		const starred = _.find(userStarProperties, {'starPropertyId' : propertyId});
+	const initializeStars = (userId) => {
+		const userStars = stars.filter(star => star.starUserId === userId);
+		const starred = _.find(userStars, {'starPropertyId' : propertyId});
 		return (_.isEmpty(starred) === false) && setIsStarred("active");
 	};
 
 	/**
-	 * This function filters over the stars properties from the store, creating a subset of stars for the propertyId.
+	 * This function filters over the stars properties from the store, creating a subset of stars for the userId
 	 */
 	const data = {
 		starPropertyId: propertyId,
@@ -186,12 +186,34 @@ export const starProperty = ({starPropertyId, starUserId}) => {
 			});
 	};
 
+	const deleteStar = () => {
+		const headers = {'X-JWT-TOKEN': jwt};
+		httpConfig.delete("apis/star/", {
+			headers, data})
+			.then(reply => {
+				let {message, type} = reply;
+				if(reply.status === 200) {
+					toggleStar();
+				}
+				// if there's an issue with a $_SESSION mismatch with xsrf or jwt, alert user and do a sign out
+				if(reply.status === 401) {
+					handleSessionTimeout();
+				}
+			});
+	};
 
+	// fire this function onclick
+	const clickStar = () => {
+		(isStarred === "active") ? deleteStar() : submitStar();
+	};
 
-
-
-
-
-
-
-}
+	return (
+		<>
+			<Button variant="outline-primary" size="sm"
+					  className={`post-like-btn ${(isStarProperty !== null ? isStarProperty : "")}`}
+					  onClick={clickStar} disabled={!jwt && true}>
+			<FontAwesomeIcon icon="star"/>&nbsp;
+			</Button>
+		</>
+	)
+};
