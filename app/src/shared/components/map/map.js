@@ -15,7 +15,7 @@ export const Map = () => {
 	const dispatch = useDispatch();
 	const effects = () => {
 		dispatch(getCrimeByCrimeLocation(35.1129685, -106.5670637, 1));
-		dispatch(getPropertyByPropertyLocation(35.1129685, -106.5670637, .1))
+		dispatch(getPropertyByPropertyLocation(35.1129685, -106.5670637, .1));
 	};
 
 	const inputs = [];
@@ -90,7 +90,6 @@ export const Map = () => {
 				>
 					<div><strong>Property Address: </strong>{propPopupInfo.propertyStreetAddress}</div>
 					<div><strong>Assessed Property Value: </strong>{propPopupInfo.propertyValue}</div>
-					{/*<div><strong>Crime Date: </strong>{popupInfo.type}</div>*/}
 				</Popup>
 
 			)
