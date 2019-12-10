@@ -12,7 +12,7 @@ export const Map = () => {
 	const crimes = useSelector(state => (state.crimes ? state.crimes : []));
 	const dispatch = useDispatch();
 	const effects = () => {
-		dispatch(getCrimeByCrimeLocation(35.1129685, -106.5670637, .5));
+		dispatch(getCrimeByCrimeLocation(35.1129685, -106.5670637, 1));
 	};
 
 	const inputs = [];
@@ -24,7 +24,7 @@ export const Map = () => {
 		height: "80vh",
 		latitude: 35.1129685,
 		longitude: -106.5670637,
-		zoom: 12
+		zoom: 15
 	});
 
 	const[popupInfo, setPopupInfo] = useState(null);
