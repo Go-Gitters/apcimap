@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from "react";
 import MapGL, {Marker, Source, Layer, Popup} from 'react-map-gl';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faDotCircle, faMapMarker} from "@fortawesome/free-solid-svg-icons";
+import {faDotCircle, faMapMarker, faStar} from "@fortawesome/free-solid-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
+import {httpConfig} from "../../utils/http-config";
 import {getCrimeByCrimeLocation} from "../../actions/get-crime";
 import {getPropertyByPropertyLocation} from "../../actions/get-property";
 
@@ -112,4 +113,22 @@ export const Map = () => {
 			</MapGL>
 		</>
 	);
+}
+
+export const starProperty = ({starPropertyId, starUserId}) => {
+	// grab the jwt for logged in users
+	const jwt = UseJwt();
+
+	/**
+	 * the starProperty state variable sets whether or not the logged in user has starred the property
+	 */
+
+	const [isStarProperty, setIsStarProperty] = useState(null);
+
+	// return all starProperties that logged in user has starred from the redux store
+	const starProperty = useSelector(state => (state.starProperties ? state.starProperties : []));
+
+	const effects = () => {
+		initializeStarProperty(starUserId);
+	}
 }
