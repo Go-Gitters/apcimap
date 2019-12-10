@@ -35,19 +35,24 @@ export const Map = () => {
 
 
 	function renderCrimeMarker(crime) {
-		return (
-			<Marker longitude={crime.crimeLongitude} latitude={crime.crimeLatitude}>
-				<FontAwesomeIcon icon={faMapMarker} size="2x" className="text-danger" onClick={() => setPopupInfo(crime)}/>
-			</Marker>
-		);
+		if(mapboxViewport.zoom > 12) {
+			return (
+				<Marker longitude={crime.crimeLongitude} latitude={crime.crimeLatitude}>
+					<FontAwesomeIcon icon={faMapMarker} size="2x" className="text-danger"
+										  onClick={() => setPopupInfo(crime)}/>
+				</Marker>
+			);
+		}
 	}
 
 	function renderPropertyMarker(property) {
-		return (
-			<Marker longitude={property.propertyLongitude} latitude={property.propertyLatitude}>
-				<FontAwesomeIcon icon={faDotCircle}  onClick={() => setPropPopupInfo(property)}/>
-			</Marker>
-		);
+		if(mapboxViewport.zoom > 14) {
+			return (
+				<Marker longitude={property.propertyLongitude} latitude={property.propertyLatitude}>
+					<FontAwesomeIcon icon={faDotCircle} onClick={() => setPropPopupInfo(property)}/>
+				</Marker>
+			);
+		}
 	}
 
 	function renderPopup() {
