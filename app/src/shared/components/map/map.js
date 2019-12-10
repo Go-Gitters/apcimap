@@ -12,7 +12,7 @@ export const Map = () => {
 	const crimes = useSelector(state => (state.crimes ? state.crimes : []));
 	const dispatch = useDispatch();
 	const effects = () => {
-		dispatch(getCrimeByCrimeLocation(35.1129685, -106.5670637, .1));
+		dispatch(getCrimeByCrimeLocation(35.1129685, -106.5670637, .5));
 	};
 
 	const inputs = [];

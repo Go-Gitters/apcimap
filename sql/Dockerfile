@@ -1,2 +1,4 @@
-FROM mysql:5.7
-COPY ./data-design.sql /docker-entrypoint-initdb.d/
+FROM mysql
+COPY ./dump.sql /docker-entrypoint-initdb.d/
+COPY ./haversine.sql /docker-entrypoint-initdb.d/
+COPY grants.sql /docker-entrypoint-initdb.d/
