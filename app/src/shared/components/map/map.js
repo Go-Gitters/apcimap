@@ -1,12 +1,18 @@
 import React, {useState, useEffect} from "react";
 import MapGL, {Marker, Source, Layer, Popup} from 'react-map-gl';
+import Badge from "react-bootstrap/Badge";
+import Button from "react-bootstrap/Button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDotCircle, faMapMarker, faStar} from "@fortawesome/free-solid-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
 import {httpConfig} from "../../utils/http-config";
-import {UseJwt} from "../JwtHelpers";
+import {UseJwt} from "../../misc/JwtHelpers";
+import {handleSessionTimeout} from "../../misc/handle-session-timeout";
+import _ from "lodash";
 import {getCrimeByCrimeLocation} from "../../actions/get-crime";
 import {getPropertyByPropertyLocation} from "../../actions/get-property";
+
+
 
 
 export const Map = () => {
@@ -121,15 +127,33 @@ export const starProperty = ({starPropertyId, starUserId}) => {
 	const jwt = UseJwt();
 
 	/**
-	 * the starProperty state variable sets whether or not the logged in user has starred the property
+	 * the isStarred state variable sets the button color to blue whether or not the logged in user has starred the property
+	 *
+	 * "active" is a bootstrap class that will be added to the button
 	 */
 
 	const [isStarProperty, setIsStarProperty] = useState(null);
 
-	// return all starProperties that logged in user has starred from the redux store
+	// return all logged in user's starred properties from the redux store
 	const starProperty = useSelector(state => (state.starProperties ? state.starProperties : []));
 
 	const effects = () => {
 		initializeStarProperty(starUserId);
-	}
+	};
+
+	// add starred properties to inputs - this informs React that stars are being updated from Redux - ensures proper component rendering
+	const inputs = [stars, userId, propertyId];
+	useEffects(effects, inputs);
+
+	/**
+	 * This function filters over the starred properties from the store, and sets the isStarred state variable to "active" if the logged-in user has already starred the property
+	 *
+	 * This makes the button blue
+	 *
+	 * See: Lodash https://lodash.com
+	 */
+
+
+
+
 }
