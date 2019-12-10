@@ -152,6 +152,14 @@ export const starProperty = ({starPropertyId, starUserId}) => {
 	 *
 	 * See: Lodash https://lodash.com
 	 */
+	const initializeStarProperty = (userId) => {
+		const userStarProperties = stars.filter(star => star.starUserId === userId);
+		const starred = _.find(userStarProperties, {'starPropertyId' : propertyId});
+		return (_.isEmpty(starred) === false) && setIsStarred("active");
+	};
+
+
+
 
 
 
