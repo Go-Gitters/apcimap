@@ -526,10 +526,16 @@ class Property implements \JsonSerializable {
 	 */
 	public static function getPropertyByDistance(\PDO $pdo, float $userLat, float $userLong, float $distance) : \SplFixedArray {
 		// create query template
-		$query = "SELECT propertyId, propertyCity, propertyClass, propertyLatitude, propertyLongitude, propertyStreetAddress, propertyValue FROM property WHERE haversine(:userLong, :userLat, propertyLongitude, propertyLatitude) < :distance";
+		$latchange = $distance/68.703;
+		$longchange = $distance/66.4;
+		$maxlat = $userLat + $latchange;
+		$minlat = $userLat - $latchange;
+		$maxlong = $userLong + $longchange;
+		$minlong = $userLong - $longchange;
+		$query = "SELECT propertyId, propertyCity, propertyClass, propertyLatitude, propertyLongitude, propertyStreetAddress, propertyValue FROM property WHERE (propertyLongitude BETWEEN :minlong AND :maxlong) AND (propertyLatitude BETWEEN :minlat AND :maxlat)";
 		$statement = $pdo->prepare($query);
 		//bind parameters
-		$parameters = ["userLong" => $userLong, "userLat" => $userLat , "distance" => $distance];
+		$parameters = ["minlong" => $minlong, "maxlong" => $maxlong, "minlat" => $minlat, "maxlat" => $maxlat];
 		$statement->execute($parameters);
 		// build an array of properties
 		$properties = new \SplFixedArray($statement->rowCount());
