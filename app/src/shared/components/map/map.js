@@ -1,18 +1,21 @@
 import React, {useState, useEffect} from "react";
 import MapGL, {Marker, Source, Layer, Popup} from 'react-map-gl';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faMapMarker} from "@fortawesome/free-solid-svg-icons";
+import {faDotCircle, faMapMarker} from "@fortawesome/free-solid-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
 import {getCrimeByCrimeLocation} from "../../actions/get-crime";
+import {getPropertyByPropertyLocation} from "../../actions/get-property";
 
 
 export const Map = () => {
 
 
 	const crimes = useSelector(state => (state.crimes ? state.crimes : []));
+	const properties = useSelector(state => (state.properties ? state.properties : []));
 	const dispatch = useDispatch();
 	const effects = () => {
 		dispatch(getCrimeByCrimeLocation(35.1129685, -106.5670637, 1));
+		dispatch(getPropertyByPropertyLocation(35.1129685, -106.5670637, .1))
 	};
 
 	const inputs = [];
@@ -28,6 +31,7 @@ export const Map = () => {
 	});
 
 	const[popupInfo, setPopupInfo] = useState(null);
+	const[propPopupInfo, setPropPopupInfo] = useState(null);
 
 
 	function renderCrimeMarker(crime) {
@@ -38,8 +42,15 @@ export const Map = () => {
 		);
 	}
 
-	function renderPopup() {
+	function renderPropertyMarker(property) {
+		return (
+			<Marker longitude={property.propertyLongitude} latitude={property.propertyLatitude}>
+				<FontAwesomeIcon icon={faDotCircle}  onClick={() => setPropPopupInfo(property)}/>
+			</Marker>
+		);
+	}
 
+	function renderPopup() {
 		if(popupInfo){
 		return (
 
@@ -59,7 +70,28 @@ export const Map = () => {
 		)
 		}
 	}
-	console.info(crimes);
+
+	function renderPropPopup() {
+		if(propPopupInfo){
+			return (
+
+				<Popup
+					tipSize={5}
+					anchor="top"
+					longitude={propPopupInfo.propertyLongitude}
+					latitude={propPopupInfo.propertyLatitude}
+					closeOnClick={false}
+					onClose={() => setPropPopupInfo(null)}
+				>
+					<div><strong>Property Address: </strong>{propPopupInfo.propertyStreetAddress}</div>
+					<div><strong>Assessed Property Value: </strong>{propPopupInfo.propertyValue}</div>
+					{/*<div><strong>Crime Date: </strong>{popupInfo.type}</div>*/}
+				</Popup>
+
+			)
+		}
+	}
+
 
 	return (
 		<>
@@ -73,6 +105,8 @@ export const Map = () => {
 				}}
 			>
 				{crimes.map((crime) => renderCrimeMarker(crime))}
+				{properties.map((property) => renderPropertyMarker(property))}
+				{renderPropPopup()}
 				{renderPopup()}
 
 			</MapGL>
