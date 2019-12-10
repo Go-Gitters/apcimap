@@ -148,7 +148,7 @@ export const starProperty = ({starPropertyId, starUserId}) => {
 	/**
 	 * This function filters over the starred properties from the store, and sets the isStarred state variable to "active" if the logged-in user has already starred the property
 	 *
-	 * This makes the button blue
+	 * This makes the button red
 	 *
 	 * See: Lodash https://lodash.com
 	 */
@@ -157,6 +157,36 @@ export const starProperty = ({starPropertyId, starUserId}) => {
 		const starred = _.find(userStarProperties, {'starPropertyId' : propertyId});
 		return (_.isEmpty(starred) === false) && setIsStarred("active");
 	};
+
+	/**
+	 * This function filters over the stars properties from the store, creating a subset of stars for the propertyId.
+	 */
+	const data = {
+		starPropertyId: propertyId,
+		starUserId: userId
+	};
+
+	const toggleStar = () => {
+		setIsStarred(isStarred === null ? "active" : null);
+	};
+
+	const submitStar = () => {
+		const headers = {'X-JWT-TOKEN': jwt};
+		httpConfig.property("apis/star/", data, {
+			headers: headers})
+			.then(reply => {
+				let {message, type} = reply;
+				if(reply.status === 200) {
+					toggleStar();
+				}
+				// if there's an issue with a $_SESSION mismatch with xsrf or jwt, alert user and do a sign out
+				if(reply.status === 401) {
+					handleSessionTimeout();
+				}
+			});
+	};
+
+
 
 
 
