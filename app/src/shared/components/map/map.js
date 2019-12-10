@@ -4,6 +4,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDotCircle, faMapMarker, faStar} from "@fortawesome/free-solid-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
 import {httpConfig} from "../../utils/http-config";
+import {UseJwt} from "../JwtHelpers";
 import {getCrimeByCrimeLocation} from "../../actions/get-crime";
 import {getPropertyByPropertyLocation} from "../../actions/get-property";
 
