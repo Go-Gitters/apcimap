@@ -334,10 +334,19 @@ class Crime implements \JsonSerializable {
 	 * **/
 	public static function getCrimeByDistance(\PDO $pdo, float $userLatitude, float $userLongitude, float $distance) : \SplFixedArray {
 		// create query template
-		$query = "SELECT crimeId, crimeAddress, crimeDate, crimeLatitude, crimeLongitude, crimeType FROM crime WHERE haversine(:userLongitude, :userLatitude, crimeLongitude, crimeLatitude) < :distance";
+		$latchange = $distance/68.703;
+		$longchange = $distance/66.4;
+		$maxlat = $userLatitude + $latchange;
+		$minlat = $userLatitude - $latchange;
+		$maxlong = $userLongitude + $longchange;
+		$minlong = $userLongitude - $longchange;
+//		$query = "SELECT crimeId, crimeAddress, crimeDate, crimeLatitude, crimeLongitude, crimeType FROM crime WHERE haversine(:userLongitude, :userLatitude, crimeLongitude, crimeLatitude) < :distance";
+	$query = "SELECT crimeId, crimeAddress, crimeDate, crimeLatitude, crimeLongitude, crimeType FROM crime WHERE (crimeLongitude BETWEEN :minlong AND :maxlong) AND (crimeLatitude BETWEEN :minlat AND :maxlat)";
+
 		$statement = $pdo->prepare($query);
 		// bind the crime distance to the place holder in the template
-		$parameters = ["userLatitude" => $userLatitude, "userLongitude" => $userLongitude, "distance" => $distance];
+//		$parameters = ["userLatitude" => $userLatitude, "userLongitude" => $userLongitude, "distance" => $distance];
+		$parameters = ["minlong" => $minlong, "maxlong" => $maxlong, "minlat" => $minlat, "maxlat" => $maxlat];
 		$statement->execute($parameters);
 		// build an array of crimes
 		$crimes = new \SplFixedArray($statement->rowCount());
