@@ -100,7 +100,7 @@ export const Star = ({propertyId, userId}) => {
 
 	return (
 		<>
-			<Button variant="outline-primary" size="sm" className={`property-like-btn ${(isStarred !== null ? isStarred : "")}`}
+			<Button variant="outline-primary" size="sm" className={`property-star-btn ${(isStarred !== null ? isStarred : "")}`}
 					  onClick={clickStar} disabled={!jwt && true}>
 				<FontAwesomeIcon icon="star"/>&nbsp;
 			</Button>
