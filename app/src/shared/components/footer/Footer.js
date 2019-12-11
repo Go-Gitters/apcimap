@@ -20,10 +20,10 @@ library.add(faInfoCircle, faGithub, faEnvelope, faUserFriends);
 
 export const Footer = () => (
 	<>
-		<footer className="page-footer bg-dark fixed-bottom py-2">
+		<footer className="page-footer fixed-bottom bg-dark mt-1">
 			<Container className="container">
-				<div className="d-flex justify-content-center">
-					<Row id="icons">
+				<div className="d-flex justify-content-center pt-1">
+					<Row id="icons pb-0">
 						<Col>
 							<Link to='/about'>
 								<i><FontAwesomeIcon icon={faInfoCircle} size="2x" alt="APCIMap Project Information"/></i>
@@ -48,8 +48,8 @@ export const Footer = () => (
 						</Col>
 					</Row>
 				</div>
-				<Row>
-					<Col id="group-name">By Go-Gitters – CNM Ingenuity Deep Dive Bootcamp Group</Col>
+				<Row  className="px-0">
+					<Col id="group-name" className="px-0">By Go-Gitters – CNM Ingenuity Deep Dive Bootcamp Group</Col>
 				</Row>
 			</Container>
 		</footer>

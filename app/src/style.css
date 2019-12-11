@@ -4,7 +4,7 @@
 body {
 	/*margin: 0;*/
 	min-height: 400px;
-	margin-bottom: 100px;
+	margin-bottom: 200px;
 	clear: both;
 }
 
@@ -16,7 +16,6 @@ body {
 /*ABOUT APCIMAP STYLES*/
 #group-name {
 	text-align: center;
-	padding: 10px;
 	font-size: 75%;
 	color: azure;
 }

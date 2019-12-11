@@ -10,7 +10,7 @@ export const Home = () => {
 
 	return (
 		<>
-			<div className="container">
+			<div className="container pb-5">
 				<div className="row">
 					<div className="col-lg-8">
 						<div className="d-flex justify-content-center py-3">
