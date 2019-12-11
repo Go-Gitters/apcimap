@@ -14,3 +14,4 @@ docker-compose.yml
 /php/config/secrets/map.php
 /php/config/secrets
 php/Dockerfile
+/sql/grants.sql

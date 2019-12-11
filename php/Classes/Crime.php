@@ -19,7 +19,6 @@ class Crime implements \JsonSerializable {
 	/********************************************
 	 * Declare and document all state variables *
 	 ********************************************/
-	use ValidateUuid;
 	/**
 	 * This is the crime Id.
 	 * This is the primary key
@@ -335,7 +334,7 @@ class Crime implements \JsonSerializable {
 	 * **/
 	public static function getCrimeByDistance(\PDO $pdo, float $userLatitude, float $userLongitude, float $distance) : \SplFixedArray {
 		// create query template
-		$query = "SELECT crimeId, crimeAddress, crimeDate, crimeLatitude, crimeLongitude, crimeType FROM crime WHERE haversine(:userLatitude, :userLongitude, crimeLatitude, crimeLongitude) < :distance";
+		$query = "SELECT crimeId, crimeAddress, crimeDate, crimeLatitude, crimeLongitude, crimeType FROM crime WHERE haversine(:userLongitude, :userLatitude, crimeLongitude, crimeLatitude) < :distance";
 		$statement = $pdo->prepare($query);
 		// bind the crime distance to the place holder in the template
 		$parameters = ["userLatitude" => $userLatitude, "userLongitude" => $userLongitude, "distance" => $distance];

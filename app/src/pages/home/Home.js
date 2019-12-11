@@ -25,7 +25,7 @@ export const Home = () => {
 
 					<div className="col-lg-2">
 						<div className="p-3">
-							{/*<Legend/>*/}
+							<Legend/>
 						</div>
 					</div>
 
