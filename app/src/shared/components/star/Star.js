@@ -1,21 +1,16 @@
 import React, {useState, useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {httpConfig} from "../../utils/http-config";
-import {UseJwt} from "../../misc/JwtHelpers";
+import {UseJwt, UseJwtUserId} from "../../misc/JwtHelpers";
 import {handleSessionTimeout} from "../../misc/handle-session-timeout";
 import _ from "lodash";
-
-
-import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faStar} from "@fortawesome/free-solid-svg-icons";
 
-
-
-export const Star = ({propertyId, userId}) => {
+export const Star = ({propertyId}) => {
 	// grab the jwt for logged in users
 	const jwt = UseJwt();
+	const userId = UseJwtUserId();
 
 	/**
 	 * the isStarred state variable sets the button color to blue whether or not the logged in user has starred the property
@@ -29,11 +24,11 @@ export const Star = ({propertyId, userId}) => {
 	const stars = useSelector(state => (state.stars ? state.stars : []));
 
 	const effects = () => {
-		initializeStars(userId);
+		initializeStars(userId, propertyId);
 	};
 
 	// add starred properties to inputs - this informs React that stars are being updated from Redux - ensures proper component rendering
-	const inputs = [stars, propertyId, userId];
+	const inputs = [stars, userId, propertyId];
 	useEffect(effects, inputs);
 
 	/**
@@ -43,7 +38,7 @@ export const Star = ({propertyId, userId}) => {
 	 *
 	 * See: Lodash https://lodash.com
 	 */
-	const initializeStars = (userId) => {
+	const initializeStars = (userId, propertyId) => {
 		const userStars = stars.filter(star => star.starUserId === userId);
 		const starred = _.find(userStars, {'starPropertyId' : propertyId});
 		return (_.isEmpty(starred) === false) && setIsStarred("active");
@@ -52,6 +47,7 @@ export const Star = ({propertyId, userId}) => {
 	/**
 	 * This function filters over the stars properties from the store, creating a subset of stars for the userId
 	 */
+	console.log(propertyId);
 	const data = {
 		starPropertyId: propertyId,
 		starUserId: userId
@@ -63,10 +59,11 @@ export const Star = ({propertyId, userId}) => {
 
 	const submitStar = () => {
 		const headers = {'X-JWT-TOKEN': jwt};
-		httpConfig.property("apis/star/", data, {
-			headers: headers})
+		httpConfig.post("apis/star/", data, {
+			headers: headers
+		})
 			.then(reply => {
-				let {message, type} = reply;
+				console.log(reply);
 				if(reply.status === 200) {
 					toggleStar();
 				}
