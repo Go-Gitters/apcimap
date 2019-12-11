@@ -96,7 +96,7 @@ export const Map = () => {
 					<div><strong>Assessed Property Value: </strong>{propPopupInfo.propertyValue}</div>
 					<div>
 						<>
-							<i><Star/></i>
+							<i><Star propertyId={propPopupInfo.propertyId}/></i>
 						</>
 					</div>
 				</Popup>
