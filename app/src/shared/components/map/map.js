@@ -9,19 +9,6 @@ import {getPropertyByPropertyLocation} from "../../actions/get-property";
 
 export const Map = () => {
 
-
-	const crimes = useSelector(state => (state.crimes ? state.crimes : []));
-	const properties = useSelector(state => (state.properties ? state.properties : []));
-	const dispatch = useDispatch();
-	const effects = () => {
-		dispatch(getCrimeByCrimeLocation(35.1129685, -106.5670637, 1));
-		dispatch(getPropertyByPropertyLocation(35.1129685, -106.5670637, .1));
-	};
-
-	const inputs = [];
-
-	useEffect(effects, inputs);
-
 	const [mapboxViewport, setMapboxViewport] = useState({
 		width: "100%",
 		height: "80vh",
@@ -29,6 +16,19 @@ export const Map = () => {
 		longitude: -106.5670637,
 		zoom: 15
 	});
+
+	const crimes = useSelector(state => (state.crimes ? state.crimes : []));
+	const properties = useSelector(state => (state.properties ? state.properties : []));
+	const dispatch = useDispatch();
+	const effects = () => {
+		dispatch(getCrimeByCrimeLocation(mapboxViewport.latitude, mapboxViewport.longitude, 1));
+		dispatch(getPropertyByPropertyLocation(mapboxViewport.latitude, mapboxViewport.longitude, .1));
+	};
+
+	const inputs = [mapboxViewport];
+
+	useEffect(effects, inputs);
+
 
 	const[popupInfo, setPopupInfo] = useState(null);
 	const[propPopupInfo, setPropPopupInfo] = useState(null);
