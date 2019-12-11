@@ -1,21 +1,16 @@
 import React, {useState, useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {httpConfig} from "../../utils/http-config";
-import {UseJwt} from "../../misc/JwtHelpers";
+import {UseJwt, UseJwtUserId} from "../../misc/JwtHelpers";
 import {handleSessionTimeout} from "../../misc/handle-session-timeout";
 import _ from "lodash";
-
-
-import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faStar} from "@fortawesome/free-solid-svg-icons";
 
-
-
-export const Star = ({propertyId, userId}) => {
+export const Star = ({propertyId}) => {
 	// grab the jwt for logged in users
 	const jwt = UseJwt();
+	const userId = UseJwtUserId();
 
 	/**
 	 * the isStarred state variable sets the button color to blue whether or not the logged in user has starred the property
@@ -29,11 +24,11 @@ export const Star = ({propertyId, userId}) => {
 	const stars = useSelector(state => (state.stars ? state.stars : []));
 
 	const effects = () => {
-		initializeStars(userId);
+		initializeStars(userId, propertyId);
 	};
 
 	// add starred properties to inputs - this informs React that stars are being updated from Redux - ensures proper component rendering
-	const inputs = [stars, propertyId, userId];
+	const inputs = [stars, userId, propertyId];
 	useEffect(effects, inputs);
 
 	/**
@@ -43,12 +38,18 @@ export const Star = ({propertyId, userId}) => {
 	 *
 	 * See: Lodash https://lodash.com
 	 */
-	const initializeStars = (userId) => {
-		const userStars = stars.filter(star => star.starUserId === userId);
-		const starred = _.find(userStars, {'starPropertyId' : propertyId});
-		return (_.isEmpty(starred) === false) && setIsStarred("active");
-	};
+	// const initializeStars = (userId, propertyId) => {			// somewhat similar initialize to Octo Meow
+	// 	const userStars = stars.filter(star => star.starUserId === userId);
+	// 	const starred = _.find(userStars, {'starPropertyId' : propertyId});
+	// 	return (_.isEmpty(starred) === false) && setIsStarred("active");
+	// };
 
+	const initializeStars = (userId, propertyId, stars) => {  // change to match Veterans Resource
+		const userStars = _.filter(stars, {'starUserId':userId});
+		const propertyStars = _.find(userStars, {'starPropertyId' : propertyId});
+		console.log(propertyStars);
+		return (_.isEmpty(propertyStars) === false) && setIsStarred("active");
+	};
 	/**
 	 * This function filters over the stars properties from the store, creating a subset of stars for the userId
 	 */
@@ -63,10 +64,10 @@ export const Star = ({propertyId, userId}) => {
 
 	const submitStar = () => {
 		const headers = {'X-JWT-TOKEN': jwt};
-		httpConfig.property("apis/star/", data, {
-			headers: headers})
+		httpConfig.post("apis/star/", data, {
+			headers: headers
+		})
 			.then(reply => {
-				let {message, type} = reply;
 				if(reply.status === 200) {
 					toggleStar();
 				}
@@ -79,13 +80,16 @@ export const Star = ({propertyId, userId}) => {
 
 	const deleteStar = () => {
 		const headers = {'X-JWT-TOKEN': jwt};
-		httpConfig.delete("apis/star/", {
+
+		httpConfig.delete(`apis/star/?starPropertyId=${data.starPropertyId}`, {
+
 			headers, data})
 			.then(reply => {
-				let {message, type} = reply;
 				if(reply.status === 200) {
 					toggleStar();
 				}
+
+
 				// if there's an issue with a $_SESSION mismatch with xsrf or jwt, alert user and do a sign out
 				if(reply.status === 401) {
 					handleSessionTimeout();
@@ -95,7 +99,7 @@ export const Star = ({propertyId, userId}) => {
 
 	// fire this function onclick
 	const clickStar = () => {
-		(isStarred === "active") ? deleteStar() : submitStar();
+		isStarred === "active" ? deleteStar() : submitStar();
 	};
 
 	return (
@@ -107,28 +111,3 @@ export const Star = ({propertyId, userId}) => {
 		</>
 	)
 };
-
-// Option 2
-
-// class Stars extends React.Component {
-// 	constructor(props) {
-// 		super(props);
-// 		this.state = {
-// 			stars: this.props.stars,
-// 		};
-// 	}
-// 	handleStar = () => {
-// 		this.setState(prevState => ({
-// 			stars: prevState.stars,
-// 		}));
-// 	}
-// 	render() {
-// 		return (
-// 			<div>
-// 				<button className="star-button" onClick={this.handleStar}>
-// 					Star
-// 				</button>
-// 			</div>
-// 		);
-// 	}
-// }

@@ -44,7 +44,7 @@ export const Header = (props) => {
 			</>
 		)
 	};
-
+	
 	const signOut = () => {
 		httpConfig.get("/../apis/sign-out/")
 			.then(reply => {
@@ -67,7 +67,6 @@ export const Header = (props) => {
 			<Nav className="mr-auto">
 
 				{(jwt !== null && welcome()) || displayLogin()}
-
 
 
 			</Nav>
