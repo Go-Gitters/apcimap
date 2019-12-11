@@ -13,19 +13,6 @@ import {Star} from "../star/Star";
 
 export const Map = () => {
 
-
-	const crimes = useSelector(state => (state.crimes ? state.crimes : []));
-	const properties = useSelector(state => (state.properties ? state.properties : []));
-	const dispatch = useDispatch();
-	const effects = () => {
-		dispatch(getCrimeByCrimeLocation(35.1129685, -106.5670637, 1));
-		dispatch(getPropertyByPropertyLocation(35.1129685, -106.5670637, .1))
-	};
-
-	const inputs = [];
-
-	useEffect(effects, inputs);
-
 	const [mapboxViewport, setMapboxViewport] = useState({
 		width: "100%",
 		height: "80vh",
@@ -34,24 +21,42 @@ export const Map = () => {
 		zoom: 15
 	});
 
+	const crimes = useSelector(state => (state.crimes ? state.crimes : []));
+	const properties = useSelector(state => (state.properties ? state.properties : []));
+	const dispatch = useDispatch();
+	const effects = () => {
+		dispatch(getCrimeByCrimeLocation(mapboxViewport.latitude, mapboxViewport.longitude, 1));
+		dispatch(getPropertyByPropertyLocation(mapboxViewport.latitude, mapboxViewport.longitude, .1));
+	};
+
+	const inputs = [mapboxViewport];
+
+	useEffect(effects, inputs);
+
+
 	const[popupInfo, setPopupInfo] = useState(null);
 	const[propPopupInfo, setPropPopupInfo] = useState(null);
 
 
 	function renderCrimeMarker(crime) {
-		return (
-			<Marker longitude={crime.crimeLongitude} latitude={crime.crimeLatitude}>
-				<FontAwesomeIcon icon={faMapMarker} size="2x" className="text-danger" onClick={() => setPopupInfo(crime)}/>
-			</Marker>
-		);
+		if(mapboxViewport.zoom > 12) {
+			return (
+				<Marker longitude={crime.crimeLongitude} latitude={crime.crimeLatitude}>
+					<FontAwesomeIcon icon={faMapMarker} size="2x" className="text-danger"
+										  onClick={() => setPopupInfo(crime)}/>
+				</Marker>
+			);
+		}
 	}
 
 	function renderPropertyMarker(property) {
-		return (
-			<Marker longitude={property.propertyLongitude} latitude={property.propertyLatitude}>
-				<FontAwesomeIcon icon={faDotCircle}  onClick={() => setPropPopupInfo(property)}/>
-			</Marker>
-		);
+		if(mapboxViewport.zoom > 14) {
+			return (
+				<Marker longitude={property.propertyLongitude} latitude={property.propertyLatitude}>
+					<FontAwesomeIcon icon={faDotCircle} onClick={() => setPropPopupInfo(property)}/>
+				</Marker>
+			);
+		}
 	}
 
 	function renderPopup() {
@@ -89,21 +94,11 @@ export const Map = () => {
 				>
 					<div><strong>Property Address: </strong>{propPopupInfo.propertyStreetAddress}</div>
 					<div><strong>Assessed Property Value: </strong>{propPopupInfo.propertyValue}</div>
-
-	{/* conditional render like button only if logged in */}
-	{/*				<Like userId={userId} propertyId={post.propertyId}/>*/}
 					<div>
 						<>
-							{/*<Star onClick={faStar} variant="outline-secondary">*/}
-							{/*</Star>*/}
 							<i><Star/></i>
-						{/*<FontAwesomeIcon icon={faStar}  onClick={() => FontAwesomeIcon icon={faStar}}/>*/}
-					{/*<i class="far fa-star" "outline-dark">*/}
-					{/*	<FontAwesomeIcon icon={faStar}/>*/}
-					{/*</i>*/}
 						</>
 					</div>
-					{/*<div><strong>Crime Date: </strong>{popupInfo.type}</div>*/}
 				</Popup>
 
 			)

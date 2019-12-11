@@ -33,7 +33,7 @@ export const Legend = () => {
 					<div className="col-2" id="color-box-bracket-2">
 					</div>
 					<div className="col">
-						> $35,100 - $89,696
+						$35,101 - $89,696
 					</div>
 				</div>
 			</div>
@@ -43,7 +43,7 @@ export const Legend = () => {
 					<div className="col-2" id="color-box-bracket-3">
 					</div>
 					<div className="col">
-						> $89,696 - $114,076
+						$89,697 - $114,076
 					</div>
 				</div>
 			</div>
@@ -53,7 +53,7 @@ export const Legend = () => {
 					<div className="col-2" id="color-box-bracket-4">
 					</div>
 					<div className="col">
-						> $114,076 - $134,200
+						$114,077 - $134,200
 					</div>
 				</div>
 			</div>
@@ -63,7 +63,7 @@ export const Legend = () => {
 					<div className="col-2" id="color-box-bracket-5">
 					</div>
 					<div className="col">
-						> $134,200 - $153,742
+						$134,201 - $153,742
 					</div>
 				</div>
 			</div>
@@ -73,7 +73,7 @@ export const Legend = () => {
 					<div className="col-2" id="color-box-bracket-6">
 					</div>
 					<div className="col">
-						> $153,742 - $175,159
+						$153,743 - $175,159
 					</div>
 				</div>
 			</div>
@@ -83,7 +83,7 @@ export const Legend = () => {
 					<div className="col-2" id="color-box-bracket-7">
 					</div>
 					<div className="col">
-						> $175,159 - $201,500
+						$175,160 - $201,500
 					</div>
 				</div>
 			</div>
@@ -93,7 +93,7 @@ export const Legend = () => {
 					<div className="col-2" id="color-box-bracket-8">
 					</div>
 					<div className="col">
-						> $201,500 - $242,700
+						$201,501 - $242,700
 					</div>
 				</div>
 			</div>
@@ -103,7 +103,7 @@ export const Legend = () => {
 					<div className="col-2" id="color-box-bracket-9">
 					</div>
 					<div className="col">
-						> $242,700 - $334,319
+						$242,701 - $334,319
 					</div>
 				</div>
 			</div>
@@ -113,7 +113,7 @@ export const Legend = () => {
 					<div className="col-2" id="color-box-bracket-10">
 					</div>
 					<div className="col">
-						> $334,319
+						$334,320 and up
 					</div>
 				</div>
 			</div>
