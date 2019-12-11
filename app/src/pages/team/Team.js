@@ -15,7 +15,7 @@ export const Team = () => {
 					<Row>
 						<Col md>
 							<h1 className="team">Our Team</h1>
-							<Card bg="info" className="border-0 rounded-0 text-white text-shadow-dark">
+							<Card bg="secondary" className="border-0 rounded-0 text-white text-shadow-dark">
 								<Card.Body>
 									<h3>Team Background</h3>
 									<p>Go Gitters is a capstone group created from the Fullstack Web Development bootcamp at CNM
