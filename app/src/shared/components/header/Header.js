@@ -57,6 +57,7 @@ export const Header = (props) => {
 	// 	Sign Out
 	// </button>;
 
+	// redirects users to navbar without sign up and sign in function and replaes with "welcome"
 	return(
 		<Navbar bg="primary" variant="dark">
 			<LinkContainer exact to="/" >

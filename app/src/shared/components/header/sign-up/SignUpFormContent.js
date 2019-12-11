@@ -2,6 +2,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {FormDebugger} from "../../FormDebugger";
 import React from "react";
 
+//exports the content of form into the actual form and modal for user interaction
 export const SignUpFormContent = (props) => {
 	const {
 		status,
@@ -47,6 +48,7 @@ export const SignUpFormContent = (props) => {
 
 					}
 				</div>
+				{/*div class that inputs and validates password*/}
 				{/*controlId must match what is defined by the initialValues object*/}
 				<div className="form-group">
 					<label htmlFor="userPassword">Password</label>
@@ -66,6 +68,7 @@ export const SignUpFormContent = (props) => {
 							onBlur={handleBlur}
 						/>
 					</div>
+					{/*errors if the password is not valid*/}
 					{errors.userPassword && touched.userPassword && (
 						<div className="alert alert-danger">{errors.userPassword}</div>
 					)}
@@ -134,7 +137,7 @@ export const SignUpFormContent = (props) => {
 					</button>
 				</div>
 
-
+{/*form debugger allows us to check for issues in sign up and sign in modals - commented out for actual deployment*/}
 				{/*<FormDebugger {...props} />*/}
 			</form>
 

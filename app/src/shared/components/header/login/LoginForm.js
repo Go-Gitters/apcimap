@@ -10,6 +10,7 @@ const login = {
 	userPassword: ""
 };
 
+//earl-grey api provides new cookie for user upon login
 export const LoginForm = () => {
 	useEffect(() => {httpConfig.get("/apis/earl-grey/")}, []);
 	const validator = Yup.object().shape({

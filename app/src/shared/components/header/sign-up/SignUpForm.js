@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import {Formik} from "formik";
 import {SignUpFormContent} from "./SignUpFormContent";
 
-
+//information needed from user in order to sign up
 export const SignUpForm = () => {
 	const signUp = {
 		userEmail: "",
@@ -13,7 +13,7 @@ export const SignUpForm = () => {
 		userUsername: "",
 	};
 
-
+//validator ensures that the user email and username are valid, and that the password meets minimum security standards
 	const validator = Yup.object().shape({
 		userEmail: Yup.string()
 			.email("email must be a valid email")
@@ -29,6 +29,7 @@ export const SignUpForm = () => {
 			.min(3,"username must be at least three characters"),
 	});
 
+	//submits information inputed by user
 	const submitSignUp = (values, {resetForm, setStatus,}) => {
 		httpConfig.post("/apis/sign-up/", values)
 			.then(reply => {
@@ -44,6 +45,7 @@ export const SignUpForm = () => {
 
 	return (
 
+		// form validator
 		<Formik
 			initialValues={signUp}
 			onSubmit={submitSignUp}
