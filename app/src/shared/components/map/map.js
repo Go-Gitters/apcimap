@@ -20,7 +20,7 @@ export const Map = () => {
 		longitude: -106.5670637,
 		zoom: 15
 	});
-
+	const stars = useSelector(state => (state.stars ? state.stars : []));
 	const crimes = useSelector(state => (state.crimes ? state.crimes : []));
 	const properties = useSelector(state => (state.properties ? state.properties : []));
 	const dispatch = useDispatch();
