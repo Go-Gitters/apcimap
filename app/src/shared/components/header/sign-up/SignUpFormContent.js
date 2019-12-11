@@ -135,7 +135,7 @@ export const SignUpFormContent = (props) => {
 				</div>
 
 
-				<FormDebugger {...props} />
+				{/*<FormDebugger {...props} />*/}
 			</form>
 
 			{

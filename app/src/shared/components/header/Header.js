@@ -63,9 +63,9 @@ export const Header = (props) => {
 
 				{(jwt !== null && welcome() ) || displayLogin()}
 
-				<button className="button" onClick={signOut}>
-					Sign Out
-				</button>
+				{/*<button className="button" onClick={signOut}>*/}
+				{/*	Sign Out*/}
+				{/*</button>*/}
 
 			</Nav>
 
