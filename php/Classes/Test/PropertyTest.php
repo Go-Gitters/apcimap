@@ -295,7 +295,7 @@ class PropertyTest extends ApciMapTest {
 		$userActivationToken = bin2hex(random_bytes(16));
 		$userPassword = "u9V45k";
 		$userUsername = "lindsey";
-		$userHash= password_hash($userPassword, PASSWORD_ARGON2I, ["time_cost" => 384]);
+		$userHash= password_hash($userPassword, PASSWORD_ARGON2I, ["time_cost" => 10]);
 		$user = new User($userId, $userActivationToken, "lindsey@ilovecats.com", $userHash, $userUsername);
 		$user->insert($this->getPDO());
 

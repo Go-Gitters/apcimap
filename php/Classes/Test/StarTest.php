@@ -62,7 +62,7 @@ class StarTest extends ApciMapTest {
 
 		// create a salt and hash for the mocked user
 		$password = "password123";
-		$this->VALID_USERHASH = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
+		$this->VALID_USERHASH = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 10]);
 		$this->VALID_USERACTIVATIONTOKEN = bin2hex(random_bytes(16));
 
 		// create and insert the mocked user
