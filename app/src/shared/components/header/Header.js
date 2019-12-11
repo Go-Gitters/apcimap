@@ -12,6 +12,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {httpConfig} from "../../utils/http-config";
 import {Button} from "react-bootstrap";
 
+//exports header into home page
 export const Header = (props) => {
 	const [token, setToken] = useState(null);
 	const username = UseJwtUsername();
