@@ -38,16 +38,20 @@ export const Star = ({propertyId}) => {
 	 *
 	 * See: Lodash https://lodash.com
 	 */
-	const initializeStars = (userId, propertyId) => {
-		const userStars = stars.filter(star => star.starUserId === userId);
-		const starred = _.find(userStars, {'starPropertyId' : propertyId});
-		return (_.isEmpty(starred) === false) && setIsStarred("active");
-	};
+	// const initializeStars = (userId, propertyId) => {			// somewhat similar initialize to Octo Meow
+	// 	const userStars = stars.filter(star => star.starUserId === userId);
+	// 	const starred = _.find(userStars, {'starPropertyId' : propertyId});
+	// 	return (_.isEmpty(starred) === false) && setIsStarred("active");
+	// };
 
+	const initializeStars = (userId, propertyId, stars) => {  // change to match Veterans Resource
+		const userStars = _.filter(stars, {'starUserId':userId});
+		const propertyStars = _.find(userStars, {'starPropertyId' : propertyId});
+		return (_.isEmpty(propertyStars) === false) && setIsStarred("active");
+	};
 	/**
 	 * This function filters over the stars properties from the store, creating a subset of stars for the userId
 	 */
-	console.log(propertyId);
 	const data = {
 		starPropertyId: propertyId,
 		starUserId: userId
@@ -63,7 +67,6 @@ export const Star = ({propertyId}) => {
 			headers: headers
 		})
 			.then(reply => {
-				console.log(reply);
 				if(reply.status === 200) {
 					toggleStar();
 				}
@@ -76,10 +79,11 @@ export const Star = ({propertyId}) => {
 
 	const deleteStar = () => {
 		const headers = {'X-JWT-TOKEN': jwt};
+
 		httpConfig.delete("apis/star/", {
+
 			headers, data})
 			.then(reply => {
-				let {message, type} = reply;
 				if(reply.status === 200) {
 					toggleStar();
 				}
@@ -104,28 +108,3 @@ export const Star = ({propertyId}) => {
 		</>
 	)
 };
-
-// Option 2
-
-// class Stars extends React.Component {
-// 	constructor(props) {
-// 		super(props);
-// 		this.state = {
-// 			stars: this.props.stars,
-// 		};
-// 	}
-// 	handleStar = () => {
-// 		this.setState(prevState => ({
-// 			stars: prevState.stars,
-// 		}));
-// 	}
-// 	render() {
-// 		return (
-// 			<div>
-// 				<button className="star-button" onClick={this.handleStar}>
-// 					Star
-// 				</button>
-// 			</div>
-// 		);
-// 	}
-// }
