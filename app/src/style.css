@@ -34,6 +34,14 @@ body {
 	text-decoration: underline;
 }
 
+/*TEAM*/
+.team {
+	color: blueviolet;
+	font-weight: bold;
+	text-align: center;
+}
+
+
 /*LEGEND*/
 #legend-name {
 	font-weight: bold;
