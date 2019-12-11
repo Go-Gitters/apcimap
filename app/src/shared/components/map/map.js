@@ -18,15 +18,39 @@ export const Map = () => {
 		height: "80vh",
 		latitude: 35.1129685,
 		longitude: -106.5670637,
-		zoom: 15
+		zoom: 18.01
 	});
 
 	const crimes = useSelector(state => (state.crimes ? state.crimes : []));
 	const properties = useSelector(state => (state.properties ? state.properties : []));
 	const dispatch = useDispatch();
+	let distance = 1;
 	const effects = () => {
-		dispatch(getCrimeByCrimeLocation(mapboxViewport.latitude, mapboxViewport.longitude, 2));
-		dispatch(getPropertyByPropertyLocation(mapboxViewport.latitude, mapboxViewport.longitude, .2));
+		if(mapboxViewport.zoom > 18) {
+			distance = .08
+		} else if(mapboxViewport.zoom > 17) {
+			distance = .15
+		} else if(mapboxViewport.zoom > 16) {
+			distance = .25
+		} else if(mapboxViewport.zoom > 15) {
+			distance = .5
+		} else if(mapboxViewport.zoom > 14) {
+			distance = 1
+		} else if(mapboxViewport.zoom > 13.5) {
+			distance = 1.5
+		}else {
+			distance = 2
+		}
+
+
+
+
+		if (mapboxViewport.zoom >= 13) {
+			dispatch(getCrimeByCrimeLocation(mapboxViewport.latitude, mapboxViewport.longitude, distance));
+		}
+		if (mapboxViewport.zoom >= 16) {
+			dispatch(getPropertyByPropertyLocation(mapboxViewport.latitude, mapboxViewport.longitude, distance));
+		}
 	};
 
 	const inputs = [mapboxViewport];
@@ -39,7 +63,7 @@ export const Map = () => {
 
 
 	function renderCrimeMarker(crime) {
-		if(mapboxViewport.zoom > 13) {
+		if(mapboxViewport.zoom >= 13) {
 			return (
 				<Marker longitude={crime.crimeLongitude} latitude={crime.crimeLatitude}>
 					<FontAwesomeIcon icon={faMapMarker}  className="text-danger"
@@ -50,7 +74,7 @@ export const Map = () => {
 	}
 
 	function renderPropertyMarker(property) {
-		if(mapboxViewport.zoom > 16) {
+		if(mapboxViewport.zoom >= 16) {
 			return (
 				<Marker longitude={property.propertyLongitude} latitude={property.propertyLatitude}>
 					<FontAwesomeIcon icon={faHome} className="text-dark" onClick={() => setPropPopupInfo(property)}/>
@@ -61,22 +85,22 @@ export const Map = () => {
 
 	function renderPopup() {
 		if(popupInfo){
-		return (
+			return (
 
-			<Popup
-				tipSize={5}
-				anchor="top"
-				longitude={popupInfo.crimeLongitude}
-				latitude={popupInfo.crimeLatitude}
-				closeOnClick={false}
-				onClose={() => setPopupInfo(null)}
-			>
-				<div><strong>Report Type: </strong>{popupInfo.crimeType}</div>
-				<div><strong>Report Address: </strong>{popupInfo.crimeAddress}</div>
-				{/*<div><strong>Crime Date: </strong>{popupInfo.type}</div>*/}
-			</Popup>
+				<Popup
+					tipSize={5}
+					anchor="top"
+					longitude={popupInfo.crimeLongitude}
+					latitude={popupInfo.crimeLatitude}
+					closeOnClick={false}
+					onClose={() => setPopupInfo(null)}
+				>
+					<div><strong>Report Type: </strong>{popupInfo.crimeType}</div>
+					<div><strong>Report Address: </strong>{popupInfo.crimeAddress}</div>
+					{/*<div><strong>Crime Date: </strong>{popupInfo.type}</div>*/}
+				</Popup>
 
-		)
+			)
 		}
 	}
 
@@ -114,7 +138,8 @@ export const Map = () => {
 				mapStyle={'mapbox://styles/kylabendt/ck3ni0wwo4fxi1cpv0qchtsml'}
 				{...mapboxViewport}
 				onViewportChange={(viewport) => {
-					setMapboxViewport((viewport))
+					setMapboxViewport((viewport));
+					console.log(mapboxViewport.zoom);
 				}}
 			>
 				{crimes.map((crime) => renderCrimeMarker(crime))}
