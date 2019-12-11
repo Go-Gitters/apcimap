@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import MapGL, {Marker, Source, Layer, Popup} from 'react-map-gl';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faDotCircle, faMapMarker} from "@fortawesome/free-solid-svg-icons";
+import {faHome, faMapMarker} from "@fortawesome/free-solid-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
 import {getCrimeByCrimeLocation} from "../../actions/get-crime";
 import {getPropertyByPropertyLocation} from "../../actions/get-property";
@@ -21,8 +21,8 @@ export const Map = () => {
 	const properties = useSelector(state => (state.properties ? state.properties : []));
 	const dispatch = useDispatch();
 	const effects = () => {
-		dispatch(getCrimeByCrimeLocation(mapboxViewport.latitude, mapboxViewport.longitude, 1));
-		dispatch(getPropertyByPropertyLocation(mapboxViewport.latitude, mapboxViewport.longitude, .1));
+		dispatch(getCrimeByCrimeLocation(mapboxViewport.latitude, mapboxViewport.longitude, 2));
+		dispatch(getPropertyByPropertyLocation(mapboxViewport.latitude, mapboxViewport.longitude, .2));
 	};
 
 	const inputs = [mapboxViewport];
@@ -35,10 +35,10 @@ export const Map = () => {
 
 
 	function renderCrimeMarker(crime) {
-		if(mapboxViewport.zoom > 12) {
+		if(mapboxViewport.zoom > 13) {
 			return (
 				<Marker longitude={crime.crimeLongitude} latitude={crime.crimeLatitude}>
-					<FontAwesomeIcon icon={faMapMarker} size="2x" className="text-danger"
+					<FontAwesomeIcon icon={faMapMarker}  className="text-danger"
 										  onClick={() => setPopupInfo(crime)}/>
 				</Marker>
 			);
@@ -46,10 +46,10 @@ export const Map = () => {
 	}
 
 	function renderPropertyMarker(property) {
-		if(mapboxViewport.zoom > 14) {
+		if(mapboxViewport.zoom > 16) {
 			return (
 				<Marker longitude={property.propertyLongitude} latitude={property.propertyLatitude}>
-					<FontAwesomeIcon icon={faDotCircle} onClick={() => setPropPopupInfo(property)}/>
+					<FontAwesomeIcon icon={faHome} className="text-dark" onClick={() => setPropPopupInfo(property)}/>
 				</Marker>
 			);
 		}
@@ -69,7 +69,7 @@ export const Map = () => {
 			>
 				<div><strong>Report Type: </strong>{popupInfo.crimeType}</div>
 				<div><strong>Report Address: </strong>{popupInfo.crimeAddress}</div>
-				<div><strong>Crime Date: </strong>{popupInfo.type}</div>
+				{/*<div><strong>Crime Date: </strong>{popupInfo.type}</div>*/}
 			</Popup>
 
 		)
