@@ -5,6 +5,10 @@ import {faHome, faMapMarker} from "@fortawesome/free-solid-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
 import {getCrimeByCrimeLocation} from "../../actions/get-crime";
 import {getPropertyByPropertyLocation} from "../../actions/get-property";
+import Button from "react-bootstrap/Button";
+import {faGithub} from "@fortawesome/free-brands-svg-icons";
+import Col from "react-bootstrap/Col";
+import {Star} from "../star/Star";
 
 
 export const Map = () => {
@@ -90,6 +94,11 @@ export const Map = () => {
 				>
 					<div><strong>Property Address: </strong>{propPopupInfo.propertyStreetAddress}</div>
 					<div><strong>Assessed Property Value: </strong>{propPopupInfo.propertyValue}</div>
+					<div>
+						<>
+							<i><Star/></i>
+						</>
+					</div>
 				</Popup>
 
 			)
@@ -116,4 +125,4 @@ export const Map = () => {
 			</MapGL>
 		</>
 	);
-}
+};
