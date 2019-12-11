@@ -69,7 +69,7 @@ export const Map = () => {
 			>
 				<div><strong>Report Type: </strong>{popupInfo.crimeType}</div>
 				<div><strong>Report Address: </strong>{popupInfo.crimeAddress}</div>
-				{/*<div><strong>Crime Date: </strong>{popupInfo.type}</div>*/}
+				<div><strong>Crime Date: </strong>{popupInfo.type}</div>
 			</Popup>
 
 		)

@@ -4,7 +4,7 @@ import React from "react";
 
 export const SignUpFormContent = (props) => {
 	const {
-		submitStatus,
+		status,
 		values,
 		errors,
 		touched,
@@ -79,7 +79,6 @@ export const SignUpFormContent = (props) => {
 							</div>
 						</div>
 						<input
-
 							className="form-control"
 							type="password"
 							id="userPasswordConfirm"
@@ -136,13 +135,11 @@ export const SignUpFormContent = (props) => {
 				</div>
 
 
-				<FormDebugger {...props} />
+				{/*<FormDebugger {...props} />*/}
 			</form>
-			{console.log(
-				submitStatus
-			)}
+
 			{
-				submitStatus && (<div className={submitStatus.type}>{submitStatus.message}</div>)
+				status && (<div className={status.type}>{status.message}</div>)
 			}
 		</>
 
