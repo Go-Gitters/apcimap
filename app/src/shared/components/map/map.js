@@ -12,7 +12,7 @@ import {Star} from "../star/Star";
 
 
 export const Map = () => {
-
+	//Set initial view port
 	const [mapboxViewport, setMapboxViewport] = useState({
 		width: "100%",
 		height: "80vh",
@@ -25,7 +25,9 @@ export const Map = () => {
 	const properties = useSelector(state => (state.properties ? state.properties : []));
 	const dispatch = useDispatch();
 	let distance = 1;
+	//effects will run when viewport changes - pulls new data
 	const effects = () => {
+		//change distance to send to query depending on zoom level
 		if(mapboxViewport.zoom > 18) {
 			distance = .08
 		} else if(mapboxViewport.zoom > 17) {
@@ -41,10 +43,7 @@ export const Map = () => {
 		}else {
 			distance = 2
 		}
-
-
-
-
+	//get new data is zoomed in enough to actually be showing
 		if (mapboxViewport.zoom >= 13) {
 			dispatch(getCrimeByCrimeLocation(mapboxViewport.latitude, mapboxViewport.longitude, distance));
 		}
@@ -52,15 +51,14 @@ export const Map = () => {
 			dispatch(getPropertyByPropertyLocation(mapboxViewport.latitude, mapboxViewport.longitude, distance));
 		}
 	};
-
+	//this is for useEffect
 	const inputs = [mapboxViewport];
-
+	//actually call useEffect
 	useEffect(effects, inputs);
 
 
 	const[popupInfo, setPopupInfo] = useState(null);
 	const[propPopupInfo, setPropPopupInfo] = useState(null);
-
 
 	function renderCrimeMarker(crime) {
 		if(mapboxViewport.zoom >= 13) {
@@ -83,6 +81,7 @@ export const Map = () => {
 		}
 	}
 
+	//this is for the crime popups
 	function renderPopup() {
 		if(popupInfo){
 			return (
@@ -104,6 +103,7 @@ export const Map = () => {
 		}
 	}
 
+	//this is for the property popups
 	function renderPropPopup() {
 		if(propPopupInfo){
 			return (
@@ -139,7 +139,6 @@ export const Map = () => {
 				{...mapboxViewport}
 				onViewportChange={(viewport) => {
 					setMapboxViewport((viewport));
-					console.log(mapboxViewport.zoom);
 				}}
 			>
 				{crimes.map((crime) => renderCrimeMarker(crime))}
