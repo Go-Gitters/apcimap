@@ -13,7 +13,7 @@ export const Home = () => {
 			<div className="container">
 				<div className="row">
 					<div className="col-lg-8">
-						<div className="d-flex justify-content-center py-3">
+						<div className="d-flex justify-content-center p-3">
 							<Map/>
 						</div>
 					</div>
@@ -22,6 +22,13 @@ export const Home = () => {
 							<Legend/>
 						</div>
 					</div>
+
+					<div className="col-lg-2">
+						<div className="p-3">
+							<Legend/>
+						</div>
+					</div>
+
 				</div>
 			</div>
 		</>
