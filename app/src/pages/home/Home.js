@@ -14,7 +14,7 @@ export const Home = () => {
 				<div className="row">
 					<div className="col-lg-8">
 						<div className="d-flex justify-content-center p-3">
-							<Map/>
+							{/*<Map/>*/}
 						</div>
 					</div>
 					<div className="col-lg-4">
@@ -25,7 +25,7 @@ export const Home = () => {
 
 					<div className="col-lg-2">
 						<div className="p-3">
-							{/*<Legend/>*/}
+							<Legend/>
 						</div>
 					</div>
 
