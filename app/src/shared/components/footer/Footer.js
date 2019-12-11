@@ -36,7 +36,7 @@ export const Footer = () => (
 							</a>
 						</Col>
 						<Col>
-							<a href="mailto:apcimap@gmail.com"
+							<a href="mailto:kylabendt.com"
 							title="APCIMap's email">
 								<i><FontAwesomeIcon icon={faEnvelope} size="2x"/></i>
 							</a>
