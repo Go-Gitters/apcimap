@@ -47,6 +47,7 @@ export const Star = ({propertyId}) => {
 	const initializeStars = (userId, propertyId, stars) => {  // change to match Veterans Resource
 		const userStars = _.filter(stars, {'starUserId':userId});
 		const propertyStars = _.find(userStars, {'starPropertyId' : propertyId});
+		console.log(propertyStars);
 		return (_.isEmpty(propertyStars) === false) && setIsStarred("active");
 	};
 	/**
@@ -80,13 +81,15 @@ export const Star = ({propertyId}) => {
 	const deleteStar = () => {
 		const headers = {'X-JWT-TOKEN': jwt};
 
-		httpConfig.delete("apis/star/", {
+		httpConfig.delete(`apis/star/?starPropertyId=${data.starPropertyId}`, {
 
 			headers, data})
 			.then(reply => {
 				if(reply.status === 200) {
 					toggleStar();
 				}
+
+
 				// if there's an issue with a $_SESSION mismatch with xsrf or jwt, alert user and do a sign out
 				if(reply.status === 401) {
 					handleSessionTimeout();
@@ -96,7 +99,7 @@ export const Star = ({propertyId}) => {
 
 	// fire this function onclick
 	const clickStar = () => {
-		(isStarred === "active") ? deleteStar() : submitStar();
+		isStarred === "active" ? deleteStar() : submitStar();
 	};
 
 	return (
