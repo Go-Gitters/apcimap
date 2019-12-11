@@ -34,7 +34,7 @@ export const Star = ({propertyId, userId}) => {
 
 	// add starred properties to inputs - this informs React that stars are being updated from Redux - ensures proper component rendering
 	const inputs = [stars, propertyId, userId];
-	useEffects(effects, inputs);
+	useEffect(effects, inputs);
 
 	/**
 	 * This function filters over the starred properties from the store, and sets the isStarred state variable to "active" if the logged-in user has already starred the property
@@ -100,11 +100,35 @@ export const Star = ({propertyId, userId}) => {
 
 	return (
 		<>
-			<Button variant="outline-primary" size="sm"
-					  className={`post-like-btn ${(isStarProperty !== null ? isStarProperty : "")}`}
+			<Button variant="outline-primary" size="sm" className={`property-like-btn ${(isStarred !== null ? isStarred : "")}`}
 					  onClick={clickStar} disabled={!jwt && true}>
 				<FontAwesomeIcon icon="star"/>&nbsp;
 			</Button>
 		</>
 	)
 };
+
+// Option 2
+
+// class Stars extends React.Component {
+// 	constructor(props) {
+// 		super(props);
+// 		this.state = {
+// 			stars: this.props.stars,
+// 		};
+// 	}
+// 	handleStar = () => {
+// 		this.setState(prevState => ({
+// 			stars: prevState.stars,
+// 		}));
+// 	}
+// 	render() {
+// 		return (
+// 			<div>
+// 				<button className="star-button" onClick={this.handleStar}>
+// 					Star
+// 				</button>
+// 			</div>
+// 		);
+// 	}
+// }

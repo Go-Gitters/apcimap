@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom'
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './style.css';
+import {faStar} from "@fortawesome/free-solid-svg-icons";
 import {BrowserRouter} from "react-router-dom";
 import {Route, Switch} from "react-router";
 import {FourOhFour} from "./pages/four-oh-four/FourOhFour";
 import {Home} from "./pages/home/Home";
 import {Legend} from "./shared/components/legend/legend";
-import reducers from "./shared/reducers/reducers"
+import reducers from "./shared/reducers/reducers";
 
 import ModalFooter from 'react-bootstrap/ModalFooter';
 
@@ -20,8 +21,9 @@ import {applyMiddleware, createStore} from "redux";
 import thunk from "redux-thunk";
 import {Provider} from "react-redux";
 import './style.css';
+import {library} from "@fortawesome/fontawesome-svg-core";
 
-
+library.add(faStar);
 const store = createStore(reducers, applyMiddleware(thunk));
 
 const Routing = (store) => (
