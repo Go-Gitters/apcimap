@@ -28,8 +28,7 @@ export const About = () => {
 									<h5 className="dataset-name">Crime Incident Dataset</h5>
 									<p>Crime incident reports data comes from the City of Albuquerque's police reports from calls
 										received by APD (Albuquerque Police Department). This dataset is a rolling 180 days of
-										incidents. More information can be found by visiting the city's APD incidents site:
-										opendata.cabq.gov/dataset/apd-incidents.</p>
+										incidents. More information can be found by visiting the city's APD <a href="opendata.cabq.gov/dataset/apd-incidents" className="link">incidents site</a>.</p>
 								</Card.Body>
 							</Card>
 						</Col>
