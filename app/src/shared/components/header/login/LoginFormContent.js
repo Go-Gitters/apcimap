@@ -85,7 +85,7 @@ export const LoginFormContent = (props) => {
 
 				<FormDebugger {...props} />
 			</form>
-			{status && (<div className={status.type}>{status.message}</div>)}
-		</>
+	{status && (<div className={status.type}>{status.message}</div>)}
+</>
 	)
 };

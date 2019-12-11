@@ -79,7 +79,6 @@ export const SignUpFormContent = (props) => {
 							</div>
 						</div>
 						<input
-
 							className="form-control"
 							type="password"
 							id="userPasswordConfirm"
