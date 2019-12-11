@@ -49,7 +49,7 @@ try {
 		if ($requestObject->userPassword !== $requestObject->userPasswordConfirm) {
 			throw(new \InvalidArgumentException("Passwords do not match"));
 		}
-		$hash = password_hash($requestObject->userPassword, PASSWORD_ARGON2I, ["time_cost" => 384]);
+		$hash = password_hash($requestObject->userPassword, PASSWORD_ARGON2I, ["time_cost" => 10]);
 		$userActivationToken = bin2hex(random_bytes(16));
 		//create the user object and prepare to insert into the database
 		$user = new User(generateUuidV4(), $userActivationToken, $requestObject->userEmail, $hash, $requestObject->userUsername);

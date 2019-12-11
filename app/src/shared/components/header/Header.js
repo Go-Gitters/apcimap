@@ -41,18 +41,21 @@ export const Header = (props) => {
 		)
 	};
 
-	const signOut = () => {
-		httpConfig.get("/apis/sign-out/")
-			.then(reply => {
-				let {message, type} = reply;
-				if(reply.status === 200) {
-					window.localStorage.removeItem("jwt-token");
-					setTimeout(() => {
-						window.location = "/";
-					}, 1500);
-				}
-			});
-	};
+	// const signOut = () => {
+	// 	httpConfig.get("/apis/sign-out/")
+	// 		.then(reply => {
+	// 			let {message, type} = reply;
+	// 			if(reply.status === 200) {
+	// 				window.localStorage.removeItem("jwt-token");
+	// 				setTimeout(() => {
+	// 					window.location = "/";
+	// 				}, 1500);
+	// 			}
+	// 		});
+	// };
+	// <button className="signOut" onClick={signOut()}>
+	// 	Sign Out
+	// </button>;
 
 	return(
 		<Navbar bg="primary" variant="dark">
@@ -60,12 +63,7 @@ export const Header = (props) => {
 				<Navbar.Brand id={"navbar.brand"}>APCIMAP</Navbar.Brand>
 			</LinkContainer>
 			<Nav className="mr-auto">
-
-				{(jwt !== null && welcome() ) || displayLogin()}
-
-				{/*<button className="button" onClick={signOut}>*/}
-				{/*	Sign Out*/}
-				{/*</button>*/}
+				{(jwt !== null && welcome()) || displayLogin()}
 
 			</Nav>
 
