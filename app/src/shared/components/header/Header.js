@@ -36,23 +36,28 @@ export const Header = (props) => {
 	const welcome = () => {
 		return (
 			<>
-				Welcome!
+
+				<button type="button" className="btn btn-primary id=buttonOne" id = "buttonOne" onClick={signOut}>
+					Sign Out
+				</button>
+
 			</>
 		)
 	};
 
 	const signOut = () => {
-		httpConfig.get("/apis/sign-out/")
+		httpConfig.get("/../apis/sign-out/")
 			.then(reply => {
 				let {message, type} = reply;
 				if(reply.status === 200) {
 					window.localStorage.removeItem("jwt-token");
 					setTimeout(() => {
-						window.location = "/";
+						window.location.reload();
 					}, 1500);
 				}
 			});
 	};
+
 
 	return(
 		<Navbar bg="primary" variant="dark">
@@ -61,11 +66,9 @@ export const Header = (props) => {
 			</LinkContainer>
 			<Nav className="mr-auto">
 
-				{(jwt !== null && welcome() ) || displayLogin()}
+				{(jwt !== null && welcome()) || displayLogin()}
 
-				{/*<button className="button" onClick={signOut}>*/}
-				{/*	Sign Out*/}
-				{/*</button>*/}
+
 
 			</Nav>
 
